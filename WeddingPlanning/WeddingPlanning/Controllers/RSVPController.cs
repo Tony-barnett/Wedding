@@ -25,7 +25,8 @@ namespace WeddingPlanning.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddChildren()
         {
-
+            // TODO: add a GuestManager and GuestStore, then plumb them in here.
+            return View();
         }
 
         //GET: Index
