@@ -4,5 +4,5 @@ packages/
 .vs/
 obj/
 bin/
-.user
+*.user
 *-ignore
