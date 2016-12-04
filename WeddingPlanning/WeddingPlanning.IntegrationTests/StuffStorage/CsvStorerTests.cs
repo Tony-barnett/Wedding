@@ -177,7 +177,7 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
         }
 
         [Test]
-        public void TestReadPersonFromCsv_PersonNotInCsv_ReturnsNUll()
+        public void TestReadPersonFromCsv_PersonNotInCsv_ReturnsNull()
         {
             var csvStorer = new WeddingPlanning.StuffStorage.CSVStorer();
 
