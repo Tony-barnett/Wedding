@@ -181,6 +181,9 @@
     <Compile Include="Models\RSVPModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="StuffStorage\CSVStorer.cs" />
+    <Compile Include="StuffStorage\IGuestStorageProvider.cs" />
+    <Compile Include="StuffStorage\IStorageProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
