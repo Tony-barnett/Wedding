@@ -16,9 +16,9 @@ namespace WeddingPlanning.GuestStore
             _GuestStore = guestStore ?? new GuestStore();
         }
 
-        public async Task AddGuest(GuestViewModel guest, int? storerId = null)
+        public async Task<int> AddGuest(GuestViewModel guest, int? storerId = null)
         {
-            _GuestStore.AddGuest(guest, storerId);
+            return _GuestStore.AddGuest(guest, storerId);
         }
 
         public async Task<IEnumerable<GuestViewModel>> GetGuests()
