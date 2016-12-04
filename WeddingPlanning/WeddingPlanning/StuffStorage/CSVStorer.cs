@@ -41,11 +41,6 @@ namespace WeddingPlanning.StuffStorage
             return $"\"{guest.Id}\",\"{guest.FirstName.Replace("\"", "\"\"")}\",\"{guest.Surname.Replace("\"", "\"\"")}\",\"{guest.IsComing}\",false,false,\"{guest.AddedBy}\"";
         }
 
-        private GuestViewModel DeSerializeGuestModel(string row)
-        {
-            return new GuestViewModel();
-        }
-
         private int GetNextId()
         {
             if (!File.Exists(_Location)) {
