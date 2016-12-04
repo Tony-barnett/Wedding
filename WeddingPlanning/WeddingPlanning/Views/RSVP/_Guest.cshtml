@@ -1,7 +1,7 @@
 ﻿@model WeddingPlanning.Models.GuestViewModel
 
 
-    @{ using (Html.BeginForm("Rsvp", "Rsvp", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+    @{ using (Html.BeginForm("AddGuest", "Rsvp", new { ReturnUrl = "Rsvp/Rsvp" }, FormMethod.Post, new { role = "form" }))
         {
             <h4>PLease fill out the following details to RSVP.</h4>
             @Html.AntiForgeryToken()
