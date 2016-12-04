@@ -4,11 +4,13 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using WeddingPlanning.GuestStore;
 
 namespace WeddingPlanning.Models
 {
-    public class GuestViewModel
+    public class GuestViewModel : IGuest
     {
+        public int? Id { get; set; }
 
         [Required]
         public bool IsComing { get; set; }
@@ -23,15 +25,28 @@ namespace WeddingPlanning.Models
 
         [Display(Name = "Allergies")]
         public string Allergies { get; set; }
+
+        public int? AddedBy { get; set; }
     }
 
-    public class ChildrenViewModel
+    public class ChildrenViewModel: IChild
     {
-        public IEnumerable<SelectListItem> DropDownItems { get; set; }
-        [Display(Name = "Young Children")]
-        public int Babies { get; set; }
+        public int? Id { get; set; }
+    
+        [Display(Name = "Under 12?")]
+        public bool IsBaby { get; set; }
 
-        [Display(Name = "Children")]
-        public int Children { get; set; }
+        [Display(Name = "Allergies")]
+        public string Allergies { get; set; }
+
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Surname")]
+        public string Surname { get; set; }
+
+        public int? AddedBy { get; set; }
     }
 }
