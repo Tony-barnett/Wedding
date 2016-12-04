@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeddingPlanning", "WeddingPlanning\WeddingPlanning.csproj", "{A78B4A62-8C13-4FD9-8478-3FC50C0650D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Csv", "Csv\Csv.csproj", "{9867EFDD-6CF7-4642-8C43-CFC28980F088}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
