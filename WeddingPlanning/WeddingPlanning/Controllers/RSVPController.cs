@@ -20,8 +20,7 @@ namespace WeddingPlanning.Controllers
         // GET: RSVP
         public ActionResult RSVP()
         {
-            var storerId = ViewData["StorerId"];
-
+            var storerId = TempData["StorerId"];
             ViewData["ChildrenViewModel"] = new ChildrenViewModel { AddedBy= (int?)storerId };
             ViewData["GuestViewModel"] = new GuestViewModel { IsComing = true, AddedBy= (int?)storerId };
 
@@ -34,8 +33,8 @@ namespace WeddingPlanning.Controllers
         public async Task<ActionResult> AddGuest(GuestViewModel guest, int? storerId = null)
         {
             storerId = await _GuestManager.AddGuest(guest, storerId);
-            ViewData["StorerId"] = storerId;
-            return Redirect("/RSVP/RSVP");
+            TempData["StorerId"] = storerId;
+            return RedirectToAction("/RSVP");
         }
 
         [HttpPost]
