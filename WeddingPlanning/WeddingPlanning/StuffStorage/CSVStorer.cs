@@ -1,13 +1,10 @@
-﻿using System;
+﻿using Csv;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Web;
-using WeddingPlanning.Models;
-using Microsoft.VisualBasic;
 using System.Text.RegularExpressions;
-using Csv;
+using WeddingPlanning.Models;
 
 namespace WeddingPlanning.StuffStorage
 {
@@ -19,10 +16,12 @@ namespace WeddingPlanning.StuffStorage
     {
         private class StoredGuest : GuestViewModel
         {
-            bool IsChild { get; set; }
-            bool IsYoungChild { get; set; }
+            private bool IsChild { get; set; }
+            private bool IsYoungChild { get; set; }
         }
+
         internal string _Location { get; set; }
+
         /// <summary>
         /// Of the form:
         /// Id,firstName,Surname,Allergies,Coming,Child,Young,AddedBy
@@ -30,20 +29,26 @@ namespace WeddingPlanning.StuffStorage
         internal CsvWriter _GuestWriter { get; set; }
 
         internal CsvReader _GuestReader { get; set; }
+
         public CSVStorer()
         {
             _Location = ConfigurationManager.AppSettings["CsvFileLocation"] + "\\Guest.csv";
-            //_GuestWriter = 
+            //_GuestWriter =
         }
 
         private string SerializeGuestModel(GuestViewModel guest)
         {
-            return $"\"{guest.Id}\",\"{guest.FirstName.Replace("\"", "\"\"")}\",\"{guest.Surname.Replace("\"", "\"\"")}\",\"{guest.IsComing}\",false,false,\"{guest.AddedBy}\"";
+            var row = $"\"{guest.Id}\",\"{guest.FirstName.Replace("\"", "\"\"")}\",\"{guest.Surname.Replace("\"", "\"\"")}\",\"{guest.Allergies.Replace("\"", "\"\"")}\",{guest.IsComing},False,False";
+            if (guest.AddedBy != null) {
+                row += $",\"{guest.AddedBy}\"";
+            }
+            return row;
         }
 
         private int GetNextId()
         {
-            if (!File.Exists(_Location)) {
+            if (!File.Exists(_Location))
+            {
                 return 1;
             }
 
@@ -106,7 +111,7 @@ namespace WeddingPlanning.StuffStorage
         }
 
         /// <summary>
-        /// Get all the guests insterted by a specific person. I guess we store the id of the first person who does the inserting 
+        /// Get all the guests insterted by a specific person. I guess we store the id of the first person who does the inserting
         /// in a given session and call that the inserter?
         /// </summary>
         /// <param name="inserter"></param>
@@ -181,7 +186,7 @@ namespace WeddingPlanning.StuffStorage
                 Surname = records[2],
                 Allergies = records[3],
                 IsComing = bool.Parse(records[4]),
-                AddedBy = records.Count >= 8 ? int.Parse(records[7]): (int?)null
+                AddedBy = records.Count >= 8 ? int.Parse(records[7]) : (int?)null
             };
         }
     }
