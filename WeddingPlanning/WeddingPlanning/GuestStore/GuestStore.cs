@@ -9,7 +9,7 @@ namespace WeddingPlanning.GuestStore
 {
     public interface IGuestStore
     {
-        IEnumerable<GuestViewModel> GetGuests();
+        IEnumerable<GuestViewModel> GetGuests(int? inserterId = null);
 
         IEnumerable<ChildrenViewModel> GetChildren();
 
@@ -27,9 +27,9 @@ namespace WeddingPlanning.GuestStore
         {
             _StorageProvider = storageProvider ?? new CSVStorer();
         }
-        public IEnumerable<GuestViewModel> GetGuests()
+        public IEnumerable<GuestViewModel> GetGuests(int? inserterId = null)
         {
-            return new List<GuestViewModel>();
+            return _StorageProvider.GetGuests(inserterId);
         }
 
         public IEnumerable<ChildrenViewModel> GetChildren()

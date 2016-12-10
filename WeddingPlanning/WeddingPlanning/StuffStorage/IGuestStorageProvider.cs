@@ -13,13 +13,13 @@ namespace WeddingPlanning.StuffStorage
 
         GuestViewModel GetGuest(string firstName, string surname);
 
-        IEnumerable<GuestViewModel> GetGuests(int inserterId);
+        IEnumerable<GuestViewModel> GetGuests(int? inserterId = null);
 
         void StoreChild(ChildrenViewModel child, int storedBy);
 
         ChildrenViewModel GetChild(string firstName, string surname);
 
-        IEnumerable<ChildrenViewModel> GetChildren(int insertId);
+        IEnumerable<ChildrenViewModel> GetChildren(int? insertId = null);
 
         void RemoveGuest(GuestViewModel guest);
 

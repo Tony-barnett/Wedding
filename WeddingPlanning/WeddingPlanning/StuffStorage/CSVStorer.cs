@@ -111,7 +111,7 @@ namespace WeddingPlanning.StuffStorage
         /// </summary>
         /// <param name="inserter"></param>
         /// <returns></returns>
-        public IEnumerable<GuestViewModel> GetGuests(int inserterId)
+        public IEnumerable<GuestViewModel> GetGuests(int? inserterId = null)
         {
             throw new NotImplementedException();
         }
@@ -126,7 +126,7 @@ namespace WeddingPlanning.StuffStorage
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ChildrenViewModel> GetChildren(int inserterId)
+        public IEnumerable<ChildrenViewModel> GetChildren(int? inserterId = null)
         {
             throw new NotImplementedException();
         }
@@ -152,8 +152,8 @@ namespace WeddingPlanning.StuffStorage
         }
     }
 
-    internal static class GuestViewModelParser{
-
+    internal static class GuestViewModelParser
+    {
         public static GuestViewModel ToGuestViewModel(this List<string> records)
         {
             return new GuestViewModel
