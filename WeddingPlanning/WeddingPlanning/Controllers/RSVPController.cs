@@ -20,8 +20,8 @@ namespace WeddingPlanning.Controllers
         // GET: RSVP
         public ActionResult RSVP()
         {
-            var storerId = TempData["StorerId"];
-            ViewData["ChildrenViewModel"] = new ChildrenViewModel { AddedBy= (int?)storerId };
+            var storerId = GetStorerIdFromCookie();
+            ViewData["ChildrenViewModel"] = new ChildrenViewModel { AddedBy= storerId };
             ViewData["GuestViewModel"] = new GuestViewModel { IsComing = true, AddedBy= (int?)storerId };
             var adults = _GuestManager.GetGuests(storedBy: storerId != null? int.Parse(storerId.ToString()): (int?)null);
             ViewBag.ReturnUrl = "/RSVP/AddGuest";
@@ -33,16 +33,25 @@ namespace WeddingPlanning.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddGuest(GuestViewModel guest, int? storerId = null)
         {
+            if(storerId == null)
+            {
+                storerId = GetStorerIdFromCookie();
+            }
             storerId = await _GuestManager.AddGuest(guest, storerId);
             TempData["StorerId"] = storerId;
+            Response.SetCookie(new HttpCookie("storer", storerId.Value.ToString()));
             return RedirectToAction("/RSVP");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddChildren(ChildrenViewModel child, int storerId)
+        public async Task<ActionResult> AddChildren(ChildrenViewModel child, int? storerId)
         {
-            await _GuestManager.AddChild(child, storerId);
+            if(storerId == null)
+            {
+                storerId = GetStorerIdFromCookie();
+            }
+            await _GuestManager.AddChild(child, storerId.Value);
             return Redirect("/RSVP/RSVP");
         }
 
@@ -56,6 +65,16 @@ namespace WeddingPlanning.Controllers
         {
             ViewBag.ReturnUrl = "#";
             return View(new GuestViewModel { IsComing = false });
+        }
+
+        private int? GetStorerIdFromCookie()
+        {
+            var storer = Request.Cookies.Get("storer")?.Value;
+            if (storer == null)
+            {
+                return null;
+            }
+            return int.Parse(storer);
         }
     }
 }
