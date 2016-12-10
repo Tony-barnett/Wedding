@@ -1,0 +1,48 @@
+﻿@model WeddingPlanning.Models.Guests
+<div>
+    <table class="table table-hover">
+        <thead class="thead-inverse">
+            <tr>
+                <th>First Name</th>
+                <th>Surname</th>
+                <th>Allergies</th>
+                <th>Under 12</th>
+                <th>Under 5</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var guest in Model.AllGuests)
+        {
+            <tr>
+                <td scope="row">
+                    @guest.FirstName
+                </td>
+                <td>
+                    @guest.Surname
+                </td>
+                <td>
+                    @guest.Allergies
+                </td>
+                <td>
+                    @if (guest.GetType() == typeof(WeddingPlanning.GuestStore.IChild))
+                    {
+                        if (!((WeddingPlanning.GuestStore.IChild)guest).IsBaby)
+                        {
+                            <span>1</span>
+                        }
+                    }
+                </td>
+                <td>
+                    @if (guest.GetType() == typeof(WeddingPlanning.GuestStore.IChild))
+                    {
+                        if (((WeddingPlanning.GuestStore.IChild)guest).IsBaby)
+                        {
+                            <span>1</span>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

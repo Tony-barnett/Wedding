@@ -23,8 +23,9 @@ namespace WeddingPlanning.Controllers
             var storerId = TempData["StorerId"];
             ViewData["ChildrenViewModel"] = new ChildrenViewModel { AddedBy= (int?)storerId };
             ViewData["GuestViewModel"] = new GuestViewModel { IsComing = true, AddedBy= (int?)storerId };
-
+            var adults = _GuestManager.GetGuests(storedBy: storerId != null? int.Parse(storerId.ToString()): (int?)null);
             ViewBag.ReturnUrl = "/RSVP/AddGuest";
+            ViewData["Guests"] = new Guests { AllGuests = adults.Result };
             return View();
         }
 

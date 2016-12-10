@@ -249,6 +249,7 @@
     <Content Include="Views\RSVP\CannotCome.cshtml" />
     <Content Include="Views\RSVP\_Children.cshtml" />
     <Content Include="Views\RSVP\_Guest.cshtml" />
+    <Content Include="Views\RSVP\_AddedGuests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

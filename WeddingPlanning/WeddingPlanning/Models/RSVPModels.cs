@@ -1,13 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
+using System.Linq;
 using WeddingPlanning.GuestStore;
 
 namespace WeddingPlanning.Models
 {
+    public class Guests
+    {
+        public IEnumerable<IPerson> AllGuests { get; set; }
+
+        public IEnumerable<IPerson> Adults { get { return AllGuests.Where(g => g.GetType() == typeof(IGuest)); } }
+
+        public IEnumerable<IPerson> Children { get { return AllGuests.Where(g => g.GetType() == typeof(IChild)); } }
+    }
+
     public class GuestViewModel : IGuest
     {
         public int? Id { get; set; }
