@@ -22,8 +22,8 @@ namespace WeddingPlanning.Controllers
         {
             var storerId = GetStorerIdFromCookie();
             ViewData["ChildrenViewModel"] = new ChildrenViewModel { AddedBy= storerId };
-            ViewData["GuestViewModel"] = new GuestViewModel { IsComing = true, AddedBy= (int?)storerId };
-            var adults = _GuestManager.GetGuests(storedBy: storerId != null? int.Parse(storerId.ToString()): (int?)null);
+            ViewData["GuestViewModel"] = new GuestViewModel { IsComing = true, AddedBy= (Guid?)storerId };
+            var adults = _GuestManager.GetGuests(storedBy: storerId != null? Guid.Parse(storerId.ToString()): (Guid?)null);
             ViewBag.ReturnUrl = "/RSVP/AddGuest";
             ViewData["Guests"] = new Guests { AllGuests = adults.Result };
             return View();
@@ -31,7 +31,7 @@ namespace WeddingPlanning.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddGuest(GuestViewModel guest, int? storerId = null)
+        public async Task<ActionResult> AddGuest(GuestViewModel guest, Guid? storerId = null)
         {
             if(storerId == null)
             {
@@ -45,7 +45,7 @@ namespace WeddingPlanning.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddChildren(ChildrenViewModel child, int? storerId)
+        public async Task<ActionResult> AddChildren(ChildrenViewModel child, Guid? storerId)
         {
             if(storerId == null)
             {
@@ -67,14 +67,14 @@ namespace WeddingPlanning.Controllers
             return View(new GuestViewModel { IsComing = false });
         }
 
-        private int? GetStorerIdFromCookie()
+        private Guid? GetStorerIdFromCookie()
         {
             var storer = Request.Cookies.Get("storer")?.Value;
             if (storer == null)
             {
                 return null;
             }
-            return int.Parse(storer);
+            return Guid.Parse(storer);
         }
     }
 }

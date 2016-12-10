@@ -9,17 +9,17 @@ namespace WeddingPlanning.StuffStorage
 {
     public interface IGuestStorageProvider
     {
-        int StoreGuest(GuestViewModel guest, int? storedBy);
+        Guid StoreGuest(GuestViewModel guest, Guid? storedBy);
 
         GuestViewModel GetGuest(string firstName, string surname);
 
-        IEnumerable<GuestViewModel> GetGuests(int? inserterId = null);
+        IEnumerable<GuestViewModel> GetGuests(Guid? inserterId = null);
 
-        void StoreChild(ChildrenViewModel child, int storedBy);
+        void StoreChild(ChildrenViewModel child, Guid storedBy);
 
         ChildrenViewModel GetChild(string firstName, string surname);
 
-        IEnumerable<ChildrenViewModel> GetChildren(int? insertId = null);
+        IEnumerable<ChildrenViewModel> GetChildren(Guid? insertId = null);
 
         void RemoveGuest(GuestViewModel guest);
 

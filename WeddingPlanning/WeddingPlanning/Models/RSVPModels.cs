@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using WeddingPlanning.GuestStore;
@@ -16,7 +17,7 @@ namespace WeddingPlanning.Models
 
     public class GuestViewModel : IGuest
     {
-        public int? Id { get; set; }
+        public Guid? Id { get; set; }
 
         [Required]
         public bool IsComing { get; set; }
@@ -32,12 +33,12 @@ namespace WeddingPlanning.Models
         [Display(Name = "Allergies")]
         public string Allergies { get; set; }
 
-        public int? AddedBy { get; set; }
+        public Guid? AddedBy { get; set; }
     }
 
     public class ChildrenViewModel: IChild
     {
-        public int? Id { get; set; }
+        public Guid? Id { get; set; }
     
         [Display(Name = "Under 12?")]
         public bool IsBaby { get; set; }
@@ -53,6 +54,6 @@ namespace WeddingPlanning.Models
         [Display(Name = "Surname")]
         public string Surname { get; set; }
 
-        public int? AddedBy { get; set; }
+        public Guid? AddedBy { get; set; }
     }
 }

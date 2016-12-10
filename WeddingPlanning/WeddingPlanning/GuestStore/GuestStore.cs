@@ -9,13 +9,13 @@ namespace WeddingPlanning.GuestStore
 {
     public interface IGuestStore
     {
-        IEnumerable<GuestViewModel> GetGuests(int? inserterId = null);
+        IEnumerable<GuestViewModel> GetGuests(Guid? inserterId = null);
 
         IEnumerable<ChildrenViewModel> GetChildren();
 
-        int AddGuest(GuestViewModel guest, int? StorerId = null);
+        Guid AddGuest(GuestViewModel guest, Guid? StorerId = null);
 
-        void AddChild(ChildrenViewModel child, int StorerId);
+        void AddChild(ChildrenViewModel child, Guid StorerId);
 
     }
 
@@ -27,7 +27,7 @@ namespace WeddingPlanning.GuestStore
         {
             _StorageProvider = storageProvider ?? new CSVStorer();
         }
-        public IEnumerable<GuestViewModel> GetGuests(int? inserterId = null)
+        public IEnumerable<GuestViewModel> GetGuests(Guid? inserterId = null)
         {
             return _StorageProvider.GetGuests(inserterId);
         }
@@ -37,12 +37,12 @@ namespace WeddingPlanning.GuestStore
             return new List<ChildrenViewModel>();
         }
 
-        public int AddGuest(GuestViewModel guest, int? storerId = null)
+        public Guid AddGuest(GuestViewModel guest, Guid? storerId = null)
         {
             return _StorageProvider.StoreGuest(guest, storerId);
         }
 
-        public void AddChild(ChildrenViewModel child, int storerId)
+        public void AddChild(ChildrenViewModel child, Guid storerId)
         {
             _StorageProvider.StoreChild(child, storerId);
         }

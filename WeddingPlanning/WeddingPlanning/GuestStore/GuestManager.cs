@@ -16,22 +16,22 @@ namespace WeddingPlanning.GuestStore
             _GuestStore = guestStore ?? new GuestStore();
         }
 
-        public async Task<int> AddGuest(GuestViewModel guest, int? storerId = null)
+        public async Task<Guid> AddGuest(GuestViewModel guest, Guid? storerId = null)
         {
             return _GuestStore.AddGuest(guest, storerId);
         }
 
-        public async Task<IEnumerable<GuestViewModel>> GetGuests(int? storedBy = null)
+        public async Task<IEnumerable<GuestViewModel>> GetGuests(Guid? storedBy = null)
         {
             return _GuestStore.GetGuests(storedBy);
         }
 
-        public async Task AddChild(ChildrenViewModel child, int storerId)
+        public async Task AddChild(ChildrenViewModel child, Guid storerId)
         {
             _GuestStore.AddChild(child, storerId);
         }
 
-        public async Task<IEnumerable<ChildrenViewModel>> GetChildren(int? storedBy = null)
+        public async Task<IEnumerable<ChildrenViewModel>> GetChildren(Guid? storedBy = null)
         {
             return _GuestStore.GetChildren().Where(x=> storedBy == null || x.AddedBy == storedBy.Value);
         }

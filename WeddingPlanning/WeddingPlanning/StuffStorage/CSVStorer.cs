@@ -45,28 +45,9 @@ namespace WeddingPlanning.StuffStorage
             return row;
         }
 
-        private int GetNextId()
+        private Guid GetNextId()
         {
-            if (!File.Exists(_Location))
-            {
-                return 1;
-            }
-
-            using (_GuestReader = new CsvReader(_Location))
-            {
-                var nextId = 0;
-                while (!_GuestReader.EndOfStream)
-                {
-                    var line = _GuestReader.ReadLine();
-                    var id = int.Parse(Regex.Split(line, "\",\"")[0].Substring(1));
-                    if (id > nextId)
-                    {
-                        nextId = id;
-                    }
-                }
-
-                return ++nextId;
-            }
+            return Guid.NewGuid();
         }
 
         /// <summary>
@@ -75,7 +56,7 @@ namespace WeddingPlanning.StuffStorage
         /// <param name="guest"></param>
         /// <param name="storedBy"></param>
         /// <returns>The id of the guest who stored this guest.</returns>
-        public int StoreGuest(GuestViewModel guest, int? storedBy = null)
+        public Guid StoreGuest(GuestViewModel guest, Guid? storedBy = null)
         {
             if (guest.Id == null)
             {
@@ -116,7 +97,7 @@ namespace WeddingPlanning.StuffStorage
         /// </summary>
         /// <param name="inserter"></param>
         /// <returns></returns>
-        public IEnumerable<GuestViewModel> GetGuests(int? inserterId = null)
+        public IEnumerable<GuestViewModel> GetGuests(Guid? inserterId = null)
         {
             if (!File.Exists(_Location)) // We assume that the file only exists if there's something in it...
             {
@@ -127,8 +108,8 @@ namespace WeddingPlanning.StuffStorage
                 while (!_GuestReader.EndOfStream)
                 {
                     var records = _GuestReader.GetLine();
-                    var addedById = records.Count > 7? int.Parse(records[7]) : (int?) null;
-                    var id = int.Parse(records[0]);
+                    var addedById = records.Count > 7? Guid.Parse(records[7]) : (Guid?) null;
+                    var id = Guid.Parse(records[0]);
                     var isAdult = !(bool.Parse(records[5]) && bool.Parse(records[6]));
 
                     if (records.Count >= 7 && isAdult && (inserterId == null || addedById == inserterId || id == inserterId))
@@ -139,7 +120,7 @@ namespace WeddingPlanning.StuffStorage
             }
         }
 
-        public void StoreChild(ChildrenViewModel child, int StoredBy)
+        public void StoreChild(ChildrenViewModel child, Guid StoredBy)
         {
             throw new NotImplementedException();
         }
@@ -149,7 +130,7 @@ namespace WeddingPlanning.StuffStorage
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ChildrenViewModel> GetChildren(int? inserterId = null)
+        public IEnumerable<ChildrenViewModel> GetChildren(Guid? inserterId = null)
         {
             throw new NotImplementedException();
         }
@@ -181,12 +162,12 @@ namespace WeddingPlanning.StuffStorage
         {
             return new GuestViewModel
             {
-                Id = int.Parse(records[0]),
+                Id = Guid.Parse(records[0]),
                 FirstName = records[1],
                 Surname = records[2],
                 Allergies = records[3],
                 IsComing = bool.Parse(records[4]),
-                AddedBy = records.Count >= 8 ? int.Parse(records[7]) : (int?)null
+                AddedBy = records.Count >= 8 ? Guid.Parse(records[7]) : (Guid?)null
             };
         }
     }

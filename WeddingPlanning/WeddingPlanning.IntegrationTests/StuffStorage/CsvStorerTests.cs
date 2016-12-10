@@ -23,7 +23,7 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
         [Test]
         public void TestWritePersonToCsv_WithId_PersonAddedToCsv()
         {
-            var id = 1;
+            var id = Guid.NewGuid();
             var guestViewModel = new WeddingPlanning.Models.GuestViewModel
             {
                 Id = id,
@@ -48,9 +48,10 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
         [Test]
         public void TestWritePersonToCsv_TwoPeopleWithId_PeopleAddedToCsv()
         {
+            var initialGuestId = Guid.NewGuid();
             var guestViewModel = new WeddingPlanning.Models.GuestViewModel
             {
-                Id = 1,
+                Id = initialGuestId,
                 FirstName = "foo",
                 Surname = "dillyDoo",
                 IsComing = true,
@@ -59,12 +60,12 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
 
             var guestViewModel2 = new WeddingPlanning.Models.GuestViewModel
             {
-                Id = 2,
+                Id = Guid.NewGuid(),
                 FirstName = "bar",
                 Surname = "baram",
                 IsComing = true,
                 Allergies = "none, guv",
-                AddedBy = 1
+                AddedBy = initialGuestId
             };
 
             var csvStorer = new WeddingPlanning.StuffStorage.CSVStorer();
@@ -147,20 +148,21 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
 
             var firstName = "foo";
             var surname = "bar";
-            var id = 2;
+            var id = Guid.NewGuid();
+            var csvStorer = new WeddingPlanning.StuffStorage.CSVStorer();
+            var storerId = csvStorer.StoreGuest(guestViewModel);
+
             var guestViewModel2 = new WeddingPlanning.Models.GuestViewModel
             {
                 Id = id,
                 FirstName = firstName,
                 Surname = surname,
                 IsComing = true,
-                AddedBy = 1,
+                AddedBy = storerId,
                 Allergies = "Some"
             };
 
-            var csvStorer = new WeddingPlanning.StuffStorage.CSVStorer();
 
-            csvStorer.StoreGuest(guestViewModel);
             csvStorer.StoreGuest(guestViewModel2);
 
             var foundUser = csvStorer.GetGuest(firstName, surname);

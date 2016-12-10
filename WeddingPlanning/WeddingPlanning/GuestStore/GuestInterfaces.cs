@@ -18,8 +18,8 @@ namespace WeddingPlanning.GuestStore
 
     public interface IPerson
     {
-        int? AddedBy { get; set; }
-        int? Id { get; set; }
+        Guid? AddedBy { get; set; }
+        Guid? Id { get; set; }
         string Allergies { get; set; }
         string FirstName { get; set; }
         string Surname { get; set; }
