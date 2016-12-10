@@ -113,7 +113,25 @@ namespace WeddingPlanning.StuffStorage
         /// <returns></returns>
         public IEnumerable<GuestViewModel> GetGuests(int? inserterId = null)
         {
-            throw new NotImplementedException();
+            if (!File.Exists(_Location)) // We assume that the file only exists if there's something in it...
+            {
+                yield break;
+            }
+            using (_GuestReader = new CsvReader(_Location))
+            {
+                while (!_GuestReader.EndOfStream)
+                {
+                    var records = _GuestReader.GetLine();
+                    var addedById = records.Count > 7? int.Parse(records[7]) : (int?) null;
+                    var id = int.Parse(records[0]);
+                    var isAdult = !(bool.Parse(records[5]) && bool.Parse(records[6]));
+
+                    if (records.Count >= 7 && isAdult && (inserterId == null || addedById == inserterId || id == inserterId))
+                    {
+                        yield return records.ToGuestViewModel();
+                    }
+                }
+            }
         }
 
         public void StoreChild(ChildrenViewModel child, int StoredBy)
