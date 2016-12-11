@@ -41,7 +41,7 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
             {
                 var file = reader.ReadToEnd();
 
-                Assert.AreEqual($"\"{id}\"", file.Substring(0, 3));
+                Assert.AreEqual($"\"{id}\"", file.Substring(0, file.IndexOf(",")));
             }
         }
 
@@ -49,6 +49,7 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
         public void TestWritePersonToCsv_TwoPeopleWithId_PeopleAddedToCsv()
         {
             var initialGuestId = Guid.NewGuid();
+            var secondGuestId = Guid.NewGuid();
             var guestViewModel = new WeddingPlanning.Models.GuestViewModel
             {
                 Id = initialGuestId,
@@ -60,7 +61,7 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
 
             var guestViewModel2 = new WeddingPlanning.Models.GuestViewModel
             {
-                Id = Guid.NewGuid(),
+                Id = secondGuestId,
                 FirstName = "bar",
                 Surname = "baram",
                 IsComing = true,
@@ -70,18 +71,18 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
 
             var csvStorer = new WeddingPlanning.StuffStorage.CSVStorer();
 
-            var id = csvStorer.StoreGuest(guestViewModel);
+            csvStorer.StoreGuest(guestViewModel);
             csvStorer.StoreGuest(guestViewModel2);
 
-            Assert.AreEqual(1, id);
+            Assert.AreEqual(initialGuestId, guestViewModel.Id);
 
             using (StreamReader reader = new StreamReader(csvStorer._Location))
             {
                 var file = reader.ReadToEnd();
 
                 var peopleInFile = file.Replace("\r", "").Split('\n');
-                Assert.AreEqual($"\"{1}\"", peopleInFile[0].Substring(0, 3));
-                Assert.AreEqual($"\"{2}\"", peopleInFile[1].Substring(0, 3));
+                Assert.AreEqual($"\"{initialGuestId}\"", peopleInFile[0].Substring(0, peopleInFile[0].IndexOf(",")));
+                Assert.AreEqual($"\"{secondGuestId}\"", peopleInFile[1].Substring(0, peopleInFile[1].IndexOf(",")));
             }
         }
 
@@ -98,16 +99,14 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
 
             var csvStorer = new WeddingPlanning.StuffStorage.CSVStorer();
 
-            var id = csvStorer.StoreGuest(guestViewModel);
-
-            Assert.AreEqual(1, id);
+            csvStorer.StoreGuest(guestViewModel);
 
             using (StreamReader reader = new StreamReader(csvStorer._Location))
             {
                 var file = reader.ReadToEnd();
 
                 var peopleInFile = file.Replace("\r", "").Split('\n');
-                Assert.AreEqual($"\"{1}\"", peopleInFile[0].Substring(0, 3));
+                Assert.AreEqual($"\"{guestViewModel.Id}\"", peopleInFile[0].Substring(0, peopleInFile[0].IndexOf(",")));
             }
         }
 
@@ -126,11 +125,11 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
 
             var csvStorer = new WeddingPlanning.StuffStorage.CSVStorer();
 
-            var id = csvStorer.StoreGuest(guestViewModel);
+            csvStorer.StoreGuest(guestViewModel);
 
             var foundUser = csvStorer.GetGuest(firstName, surname);
 
-            Assert.AreEqual(id, foundUser.Id);
+            Assert.AreEqual(guestViewModel.Id, foundUser.Id);
 
         }
 
@@ -150,7 +149,7 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
             var surname = "bar";
             var id = Guid.NewGuid();
             var csvStorer = new WeddingPlanning.StuffStorage.CSVStorer();
-            var storerId = csvStorer.StoreGuest(guestViewModel);
+            csvStorer.StoreGuest(guestViewModel);
 
             var guestViewModel2 = new WeddingPlanning.Models.GuestViewModel
             {
@@ -158,7 +157,7 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
                 FirstName = firstName,
                 Surname = surname,
                 IsComing = true,
-                AddedBy = storerId,
+                AddedBy = guestViewModel.AddedBy,
                 Allergies = "Some"
             };
 
