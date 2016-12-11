@@ -9,7 +9,7 @@ namespace WeddingPlanning.StuffStorage
 {
     public interface IGuestStorageProvider
     {
-        Guid StoreGuest(GuestViewModel guest, Guid? storedBy);
+        void StoreGuest(GuestViewModel guest, Guid? storedBy);
 
         GuestViewModel GetGuest(string firstName, string surname);
 

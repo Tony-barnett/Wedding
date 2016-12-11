@@ -13,7 +13,7 @@ namespace WeddingPlanning.GuestStore
 
         IEnumerable<ChildrenViewModel> GetChildren(Guid? inserterId = null);
 
-        Guid AddGuest(GuestViewModel guest, Guid? StorerId = null);
+        void AddGuest(GuestViewModel guest, Guid? StorerId = null);
 
         void AddChild(ChildrenViewModel child, Guid StorerId);
 
@@ -37,9 +37,9 @@ namespace WeddingPlanning.GuestStore
             return _StorageProvider.GetChildren(inserterId);
         }
 
-        public Guid AddGuest(GuestViewModel guest, Guid? storerId = null)
+        public void AddGuest(GuestViewModel guest, Guid? storerId = null)
         {
-            return _StorageProvider.StoreGuest(guest, storerId);
+            _StorageProvider.StoreGuest(guest, storerId);
         }
 
         public void AddChild(ChildrenViewModel child, Guid storerId)

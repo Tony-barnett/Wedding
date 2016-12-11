@@ -44,8 +44,8 @@ namespace WeddingPlanning.Controllers
             {
                 storerId = GetStorerIdFromCookie();
             }
-            storerId = await _GuestManager.AddGuest(guest, storerId);
-            TempData["StorerId"] = storerId;
+            await _GuestManager.AddGuest(guest, storerId);
+            TempData["StorerId"] = guest.AddedBy;
             Response.SetCookie(new HttpCookie("storer", storerId.Value.ToString()));
             return RedirectToAction("/RSVP");
         }

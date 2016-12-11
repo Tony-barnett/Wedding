@@ -60,7 +60,7 @@ namespace WeddingPlanning.StuffStorage
         /// <param name="guest"></param>
         /// <param name="storedBy"></param>
         /// <returns>The id of the guest who stored this guest.</returns>
-        public Guid StoreGuest(GuestViewModel guest, Guid? storedBy = null)
+        public void StoreGuest(GuestViewModel guest, Guid? storedBy = null)
         {
             if (guest.Id == null)
             {
@@ -71,7 +71,6 @@ namespace WeddingPlanning.StuffStorage
             {
                 _GuestWriter.WriteLine(row);
             }
-            return storedBy ?? guest.Id.Value;
         }
 
         public GuestViewModel GetGuest(string firstName, string surname)
@@ -124,7 +123,7 @@ namespace WeddingPlanning.StuffStorage
             }
         }
 
-        public Guid StoreChild(ChildrenViewModel child, Guid? storedBy)
+        public void StoreChild(ChildrenViewModel child, Guid storedBy)
         {
             if (child.Id == null)
             {
@@ -135,7 +134,6 @@ namespace WeddingPlanning.StuffStorage
             {
                 _GuestWriter.WriteLine(row);
             }
-            return storedBy ?? child.Id.Value;
         }
 
         public ChildrenViewModel GetChild(string firstName, string surname)
