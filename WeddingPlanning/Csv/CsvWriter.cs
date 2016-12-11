@@ -20,11 +20,13 @@ namespace Csv
             this.Dispose();
         }
 
-        public string ParseRecord(string record)
+        public static string ParseRecord(string record)
         {
+            if (record == null)
+            { return null; }
             if (record.Contains('"'))
             {
-                record.Replace("\"", "\"\"");
+                record = record.Replace("\"", "\"\"");
                 record = "\"" + record + "\"";
             }
 
@@ -36,7 +38,7 @@ namespace Csv
             return record;
         }
 
-        public string ParseLine(List<string> line)
+        public static string ParseLine(List<string> line)
         {
             for(int i = 0; i < line.Count; i++)
             {
