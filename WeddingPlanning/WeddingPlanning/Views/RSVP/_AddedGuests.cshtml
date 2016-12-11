@@ -11,7 +11,7 @@
             </tr>
         </thead>
         <tbody>
-        @foreach (var guest in Model.AllGuests)
+        @foreach (var guest in Model.Adults)
         {
             <tr>
                 <td scope="row">
@@ -24,25 +24,37 @@
                     @guest.Allergies
                 </td>
                 <td>
-                    @if (guest.GetType() == typeof(WeddingPlanning.GuestStore.IChild))
-                    {
-                        if (!((WeddingPlanning.GuestStore.IChild)guest).IsBaby)
-                        {
-                            <span>1</span>
-                        }
-                    }
                 </td>
                 <td>
-                    @if (guest.GetType() == typeof(WeddingPlanning.GuestStore.IChild))
-                    {
-                        if (((WeddingPlanning.GuestStore.IChild)guest).IsBaby)
-                        {
-                            <span>1</span>
-                        }
-                    }
                 </td>
             </tr>
         }
+            @foreach (var child in Model.Children)
+            {
+                <tr>
+                    <td scope="row">
+                        @child.FirstName
+                    </td>
+                    <td>
+                        @child.Surname
+                    </td>
+                    <td>
+                        @child.Allergies
+                    </td>
+                    <td>
+                        @if(!(child as WeddingPlanning.GuestStore.IChild).IsBaby)
+                        {
+                            <span>1</span>
+                        }
+                    </td>
+                    <td>
+                        @if ((child as WeddingPlanning.GuestStore.IChild).IsBaby)
+                        {
+                            <span>1</span>
+                        }</td>
+                </tr>
+
+            }
         </tbody>
     </table>
 </div>
