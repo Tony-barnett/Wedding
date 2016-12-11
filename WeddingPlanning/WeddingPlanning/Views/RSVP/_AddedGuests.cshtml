@@ -10,6 +10,7 @@
                 <th>Allergies</th>
                 <th>Under 12</th>
                 <th>Under 5</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +29,11 @@
                 <td>
                 </td>
                 <td>
+                </td>
+                <td>
+                    @if (Model.Children.Count() == 0 || Model.Adults.Count() > 1) {
+                        <a href="/RSVP/RemoveGuest?GuestId=@guest.Id"><span class="fa fa-trash">Delete</span></a>
+                    }
                 </td>
             </tr>
         }

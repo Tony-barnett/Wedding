@@ -35,5 +35,20 @@ namespace WeddingPlanning.GuestStore
         {
             return _GuestStore.GetChildren(storedBy);
         }
+
+        public async Task RemoveGuest(IGuest guest)
+        {
+            _GuestStore.RemoveGuest(guest);
+        }
+
+        public async Task RemoveChild(IChild child)
+        {
+            _GuestStore.RemoveChild(child);
+        }
+
+        public async Task<IGuest> GetGuest(Guid guestId)
+        {
+            return _GuestStore.FindGuest(guestId);
+        }
     }
 }

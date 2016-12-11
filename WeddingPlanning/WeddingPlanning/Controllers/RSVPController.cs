@@ -74,6 +74,13 @@ namespace WeddingPlanning.Controllers
             return View(new GuestViewModel { IsComing = false });
         }
 
+        public async Task<ActionResult> RemoveGuest(Guid guestId)
+        {
+            var guest = await _GuestManager.GetGuest(guestId);
+            await _GuestManager.RemoveGuest(guest);
+            return Redirect("/RSVP/RSVP");
+        }
+
         private Guid? GetStorerIdFromCookie()
         {
             var storer = Request.Cookies.Get("storer")?.Value;

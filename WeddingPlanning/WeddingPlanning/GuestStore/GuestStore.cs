@@ -17,13 +17,18 @@ namespace WeddingPlanning.GuestStore
 
         void AddChild(IChild child, Guid StorerId);
 
+        void RemoveGuest(IGuest guest);
+
+        void RemoveChild(IChild child);
+
+        IGuest FindGuest(Guid guestId);
     }
 
     public class GuestStore: IGuestStore
     {
-        private IStorageProvider _StorageProvider;
+        private IGuestStorageProvider _StorageProvider;
 
-        public GuestStore(IStorageProvider storageProvider = null)
+        public GuestStore(IGuestStorageProvider storageProvider = null)
         {
             _StorageProvider = storageProvider ?? new CSVStorer();
         }
@@ -47,5 +52,19 @@ namespace WeddingPlanning.GuestStore
             _StorageProvider.StoreChild(child, storerId);
         }
 
+        public void RemoveGuest(IGuest guest)
+        {
+            _StorageProvider.RemoveGuest(guest);
+        }
+
+        public void RemoveChild(IChild child)
+        {
+            _StorageProvider.RemoveChild(child);
+        }
+
+        public IGuest FindGuest(Guid guestId)
+        {
+            return _StorageProvider.GetGuest(guestId);
+        }
     }
 }

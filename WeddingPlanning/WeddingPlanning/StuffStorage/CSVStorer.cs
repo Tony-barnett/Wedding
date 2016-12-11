@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using WeddingPlanning.GuestStore;
 using WeddingPlanning.Models;
@@ -42,7 +43,7 @@ namespace WeddingPlanning.StuffStorage
             var isChild = guest is IChild && !((IChild)guest).IsBaby;
             var isYoungChild = guest is IChild && ((IChild)guest).IsBaby;
 
-            var row = $"\"{guest.Id}\",\"{guest.FirstName.Replace("\"", "\"\"")}\",\"{guest.Surname.Replace("\"", "\"\"")}\",\"{guest.Allergies.Replace("\"", "\"\"")}\",{guest.IsComing},\"{isChild}\",\"{isYoungChild}\"";
+            var row = $"\"{guest.Id}\",\"{guest.FirstName.Replace("\"", "\"\"")}\",\"{guest.Surname.Replace("\"", "\"\"")}\",\"{guest.Allergies?.Replace("\"", "\"\"")}\",{guest.IsComing},\"{isChild}\",\"{isYoungChild}\"";
             if (guest.AddedBy != null) {
                 row += $",\"{guest.AddedBy}\"";
             }
@@ -171,7 +172,24 @@ namespace WeddingPlanning.StuffStorage
 
         public void RemoveGuest(IGuest guest)
         {
-            throw new NotImplementedException();
+            var records = new List<List<string>>();
+            using (_GuestReader = new CsvReader(_Location))
+            {
+                while (!_GuestReader.EndOfStream)
+                {
+                    records.Add(_GuestReader.GetLine());
+                }
+            }
+
+            records.Remove(records.First(x => x[0] == guest.Id.ToString()));
+
+            using (_GuestWriter = new CsvWriter(_Location, false))
+            {
+                foreach(var record in records)
+                {
+                    _GuestWriter.WriteLine(record);
+                }
+            }
         }
 
         public void RemoveChild(IChild child)
@@ -187,6 +205,23 @@ namespace WeddingPlanning.StuffStorage
         public void UpdateChild(IChild child)
         {
             throw new NotImplementedException();
+        }
+
+        public IGuest GetGuest(Guid guestId)
+        {
+            using (_GuestReader = new CsvReader(_Location))
+            {
+                while (!_GuestReader.EndOfStream)
+                {
+                    var line = _GuestReader.GetLine();
+                    if(guestId.ToString() == line[0])
+                    {
+                        return line.ToGuestViewModel();
+                    }
+                }
+            }
+
+            return null;
         }
     }
 
