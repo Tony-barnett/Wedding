@@ -40,6 +40,9 @@ namespace WeddingPlanning.Models
     {
         public Guid? Id { get; set; }
     
+        [Required]
+        public bool IsComing { get; set; }
+    
         [Display(Name = "Under 12?")]
         public bool IsBaby { get; set; }
 

@@ -8,7 +8,6 @@ namespace WeddingPlanning.GuestStore
 {
     public interface IGuest: IPerson
     {
-        bool IsComing { get; set; }
     }
 
     public interface IChild: IPerson
@@ -23,5 +22,6 @@ namespace WeddingPlanning.GuestStore
         string Allergies { get; set; }
         string FirstName { get; set; }
         string Surname { get; set; }
+        bool IsComing { get; set; }
     }
 }
