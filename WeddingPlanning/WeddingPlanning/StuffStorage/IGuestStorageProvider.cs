@@ -3,30 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WeddingPlanning.GuestStore;
 using WeddingPlanning.Models;
 
 namespace WeddingPlanning.StuffStorage
 {
     public interface IGuestStorageProvider
     {
-        void StoreGuest(GuestViewModel guest, Guid? storedBy);
+        void StoreGuest(IGuest guest, Guid? storedBy);
 
-        GuestViewModel GetGuest(string firstName, string surname);
+        IGuest GetGuest(string firstName, string surname);
 
-        IEnumerable<GuestViewModel> GetGuests(Guid? inserterId = null);
+        IEnumerable<IGuest> GetGuests(Guid? inserterId = null);
 
-        void StoreChild(ChildrenViewModel child, Guid storedBy);
+        void StoreChild(IChild child, Guid storedBy);
 
-        ChildrenViewModel GetChild(string firstName, string surname);
+        IChild GetChild(string firstName, string surname);
 
-        IEnumerable<ChildrenViewModel> GetChildren(Guid? insertId = null);
+        IEnumerable<IChild> GetChildren(Guid? insertId = null);
 
-        void RemoveGuest(GuestViewModel guest);
+        void RemoveGuest(IGuest guest);
 
-        void RemoveChild(ChildrenViewModel child);
+        void RemoveChild(IChild child);
 
-        void UpdateGuest(GuestViewModel guest);
+        void UpdateGuest(IGuest guest);
 
-        void UpdateChild(ChildrenViewModel child);
+        void UpdateChild(IChild child);
     }
 }

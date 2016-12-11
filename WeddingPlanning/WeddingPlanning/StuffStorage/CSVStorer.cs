@@ -60,7 +60,7 @@ namespace WeddingPlanning.StuffStorage
         /// <param name="guest"></param>
         /// <param name="storedBy"></param>
         /// <returns>The id of the guest who stored this guest.</returns>
-        public void StoreGuest(GuestViewModel guest, Guid? storedBy = null)
+        public void StoreGuest(IGuest guest, Guid? storedBy = null)
         {
             if (guest.Id == null)
             {
@@ -78,7 +78,7 @@ namespace WeddingPlanning.StuffStorage
             }
         }
 
-        public GuestViewModel GetGuest(string firstName, string surname)
+        public IGuest GetGuest(string firstName, string surname)
         {
             if (!File.Exists(_Location)) // We assume that the file only exists if there's something in it...
             {
@@ -105,7 +105,7 @@ namespace WeddingPlanning.StuffStorage
         /// </summary>
         /// <param name="inserter"></param>
         /// <returns></returns>
-        public IEnumerable<GuestViewModel> GetGuests(Guid? inserterId = null)
+        public IEnumerable<IGuest> GetGuests(Guid? inserterId = null)
         {
             if (!File.Exists(_Location)) // We assume that the file only exists if there's something in it...
             {
@@ -128,7 +128,7 @@ namespace WeddingPlanning.StuffStorage
             }
         }
 
-        public void StoreChild(ChildrenViewModel child, Guid storedBy)
+        public void StoreChild(IChild child, Guid storedBy)
         {
             if (child.Id == null)
             {
@@ -141,12 +141,12 @@ namespace WeddingPlanning.StuffStorage
             }
         }
 
-        public ChildrenViewModel GetChild(string firstName, string surname)
+        public IChild GetChild(string firstName, string surname)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ChildrenViewModel> GetChildren(Guid? inserterId = null)
+        public IEnumerable<IChild> GetChildren(Guid? inserterId = null)
         {
             if (!File.Exists(_Location)) // We assume that the file only exists if there's something in it...
             {
@@ -169,22 +169,22 @@ namespace WeddingPlanning.StuffStorage
             }
         }
 
-        public void RemoveGuest(GuestViewModel guest)
+        public void RemoveGuest(IGuest guest)
         {
             throw new NotImplementedException();
         }
 
-        public void RemoveChild(ChildrenViewModel child)
+        public void RemoveChild(IChild child)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateGuest(GuestViewModel guest)
+        public void UpdateGuest(IGuest guest)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateChild(ChildrenViewModel child)
+        public void UpdateChild(IChild child)
         {
             throw new NotImplementedException();
         }
@@ -192,7 +192,7 @@ namespace WeddingPlanning.StuffStorage
 
     internal static class GuestViewModelParser
     {
-        public static GuestViewModel ToGuestViewModel(this List<string> record)
+        public static IGuest ToGuestViewModel(this List<string> record)
         {
             return new GuestViewModel
             {
@@ -205,7 +205,7 @@ namespace WeddingPlanning.StuffStorage
             };
         }
 
-        public static ChildrenViewModel ToChildViewModel(this List<string> record)
+        public static IChild ToChildViewModel(this List<string> record)
         {
             return new ChildrenViewModel
             {

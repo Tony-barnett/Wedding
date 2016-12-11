@@ -9,13 +9,13 @@ namespace WeddingPlanning.GuestStore
 {
     public interface IGuestStore
     {
-        IEnumerable<GuestViewModel> GetGuests(Guid? inserterId = null);
+        IEnumerable<IGuest> GetGuests(Guid? inserterId = null);
 
-        IEnumerable<ChildrenViewModel> GetChildren(Guid? inserterId = null);
+        IEnumerable<IChild> GetChildren(Guid? inserterId = null);
 
-        void AddGuest(GuestViewModel guest, Guid? StorerId = null);
+        void AddGuest(IGuest guest, Guid? StorerId = null);
 
-        void AddChild(ChildrenViewModel child, Guid StorerId);
+        void AddChild(IChild child, Guid StorerId);
 
     }
 
@@ -27,22 +27,22 @@ namespace WeddingPlanning.GuestStore
         {
             _StorageProvider = storageProvider ?? new CSVStorer();
         }
-        public IEnumerable<GuestViewModel> GetGuests(Guid? inserterId = null)
+        public IEnumerable<IGuest> GetGuests(Guid? inserterId = null)
         {
             return _StorageProvider.GetGuests(inserterId);
         }
 
-        public IEnumerable<ChildrenViewModel> GetChildren(Guid? inserterId = null)
+        public IEnumerable<IChild> GetChildren(Guid? inserterId = null)
         {
             return _StorageProvider.GetChildren(inserterId);
         }
 
-        public void AddGuest(GuestViewModel guest, Guid? storerId = null)
+        public void AddGuest(IGuest guest, Guid? storerId = null)
         {
             _StorageProvider.StoreGuest(guest, storerId);
         }
 
-        public void AddChild(ChildrenViewModel child, Guid storerId)
+        public void AddChild(IChild child, Guid storerId)
         {
             _StorageProvider.StoreChild(child, storerId);
         }
