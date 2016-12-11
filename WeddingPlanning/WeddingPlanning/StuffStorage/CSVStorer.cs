@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
+using WeddingPlanning.GuestStore;
 using WeddingPlanning.Models;
 
 namespace WeddingPlanning.StuffStorage
@@ -36,9 +37,12 @@ namespace WeddingPlanning.StuffStorage
             //_GuestWriter =
         }
 
-        private string SerializeGuestModel(GuestViewModel guest)
+        private string SerializePerson(IPerson guest)
         {
-            var row = $"\"{guest.Id}\",\"{guest.FirstName.Replace("\"", "\"\"")}\",\"{guest.Surname.Replace("\"", "\"\"")}\",\"{guest.Allergies.Replace("\"", "\"\"")}\",{guest.IsComing},False,False";
+            var isChild = guest is IChild && !((IChild)guest).IsBaby;
+            var isYoungChild = guest is IChild && ((IChild)guest).IsBaby;
+
+            var row = $"\"{guest.Id}\",\"{guest.FirstName.Replace("\"", "\"\"")}\",\"{guest.Surname.Replace("\"", "\"\"")}\",\"{guest.Allergies.Replace("\"", "\"\"")}\",{guest.IsComing},\"{isChild}\",\"{isYoungChild}\"";
             if (guest.AddedBy != null) {
                 row += $",\"{guest.AddedBy}\"";
             }
@@ -62,7 +66,7 @@ namespace WeddingPlanning.StuffStorage
             {
                 guest.Id = GetNextId();
             }
-            var row = SerializeGuestModel(guest);
+            var row = SerializePerson(guest);
             using (_GuestWriter = new CsvWriter(_Location))
             {
                 _GuestWriter.WriteLine(row);
@@ -110,7 +114,7 @@ namespace WeddingPlanning.StuffStorage
                     var records = _GuestReader.GetLine();
                     var addedById = records.Count > 7? Guid.Parse(records[7]) : (Guid?) null;
                     var id = Guid.Parse(records[0]);
-                    var isAdult = !(bool.Parse(records[5]) && bool.Parse(records[6]));
+                    var isAdult = !bool.Parse(records[5]) && !bool.Parse(records[6]);
 
                     if (records.Count >= 7 && isAdult && (inserterId == null || addedById == inserterId || id == inserterId))
                     {
@@ -120,9 +124,18 @@ namespace WeddingPlanning.StuffStorage
             }
         }
 
-        public void StoreChild(ChildrenViewModel child, Guid StoredBy)
+        public Guid StoreChild(ChildrenViewModel child, Guid? storedBy)
         {
-            throw new NotImplementedException();
+            if (child.Id == null)
+            {
+                child.Id = GetNextId();
+            }
+            var row = SerializePerson(child);
+            using (_GuestWriter = new CsvWriter(_Location))
+            {
+                _GuestWriter.WriteLine(row);
+            }
+            return storedBy ?? child.Id.Value;
         }
 
         public ChildrenViewModel GetChild(string firstName, string surname)
@@ -132,7 +145,25 @@ namespace WeddingPlanning.StuffStorage
 
         public IEnumerable<ChildrenViewModel> GetChildren(Guid? inserterId = null)
         {
-            throw new NotImplementedException();
+            if (!File.Exists(_Location)) // We assume that the file only exists if there's something in it...
+            {
+                yield break;
+            }
+            using (_GuestReader = new CsvReader(_Location))
+            {
+                while (!_GuestReader.EndOfStream)
+                {
+                    var records = _GuestReader.GetLine();
+                    var addedById = records.Count > 7 ? Guid.Parse(records[7]) : (Guid?)null;
+                    var id = Guid.Parse(records[0]);
+                    var isChild = bool.Parse(records[5]) || bool.Parse(records[6]);
+
+                    if (records.Count >= 7 && isChild && (inserterId == null || addedById == inserterId || id == inserterId))
+                    {
+                        yield return records.ToChildViewModel();
+                    }
+                }
+            }
         }
 
         public void RemoveGuest(GuestViewModel guest)
@@ -158,16 +189,30 @@ namespace WeddingPlanning.StuffStorage
 
     internal static class GuestViewModelParser
     {
-        public static GuestViewModel ToGuestViewModel(this List<string> records)
+        public static GuestViewModel ToGuestViewModel(this List<string> record)
         {
             return new GuestViewModel
             {
-                Id = Guid.Parse(records[0]),
-                FirstName = records[1],
-                Surname = records[2],
-                Allergies = records[3],
-                IsComing = bool.Parse(records[4]),
-                AddedBy = records.Count >= 8 ? Guid.Parse(records[7]) : (Guid?)null
+                Id = Guid.Parse(record[0]),
+                FirstName = record[1],
+                Surname = record[2],
+                Allergies = record[3],
+                IsComing = bool.Parse(record[4]),
+                AddedBy = record.Count >= 8 ? Guid.Parse(record[7]) : (Guid?)null
+            };
+        }
+
+        public static ChildrenViewModel ToChildViewModel(this List<string> record)
+        {
+            return new ChildrenViewModel
+            {
+                Id = Guid.Parse(record[0]),
+                FirstName = record[1],
+                Surname = record[2],
+                Allergies = record[3],
+                IsComing = bool.Parse(record[4]),
+                IsBaby = bool.Parse(record[6]),
+                AddedBy = record.Count >= 8 ? Guid.Parse(record[7]) : (Guid?)null
             };
         }
     }

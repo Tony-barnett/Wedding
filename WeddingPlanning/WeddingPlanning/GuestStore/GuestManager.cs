@@ -33,7 +33,7 @@ namespace WeddingPlanning.GuestStore
 
         public async Task<IEnumerable<ChildrenViewModel>> GetChildren(Guid? storedBy = null)
         {
-            return _GuestStore.GetChildren().Where(x=> storedBy == null || x.AddedBy == storedBy.Value);
+            return _GuestStore.GetChildren(storedBy);
         }
     }
 }
