@@ -66,6 +66,11 @@ namespace WeddingPlanning.StuffStorage
             {
                 guest.Id = GetNextId();
             }
+            if(guest.AddedBy == null)
+            {
+                // We assume they stored themself
+                guest.AddedBy = guest.Id;
+            }
             var row = SerializePerson(guest);
             using (_GuestWriter = new CsvWriter(_Location))
             {
