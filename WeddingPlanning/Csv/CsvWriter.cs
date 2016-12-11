@@ -20,7 +20,7 @@ namespace Csv
             this.Dispose();
         }
 
-        public void ParseRecord(string record)
+        public string ParseRecord(string record)
         {
             if (record.Contains('"'))
             {
@@ -33,16 +33,23 @@ namespace Csv
                 record = "\"" + record + "\"";
             }
 
-            this.Write(record);
+            return record;
         }
 
-        public void ParseLine(List<string> line)
+        public string ParseLine(List<string> line)
         {
-            foreach (string record in line)
+            for(int i = 0; i < line.Count; i++)
             {
-                ParseRecord(record);
+                line[i] = ParseRecord(line[i]);
             }
-            this.Write(Environment.NewLine);
+            return string.Join(",", line);
+        }
+
+        public void WriteLine(List<string> line)
+        {
+            var parsedLine = ParseLine(line);
+
+            this.WriteLine(parsedLine);
         }
     }
 }
