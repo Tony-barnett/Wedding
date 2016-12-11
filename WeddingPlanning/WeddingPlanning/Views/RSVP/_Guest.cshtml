@@ -3,7 +3,7 @@
 
     @{ using (Html.BeginForm("AddGuest", "Rsvp", new { ReturnUrl = "Rsvp/Rsvp" }, FormMethod.Post, new { role = "form" }))
         {
-            <h4>PLease fill out the following details to RSVP.</h4>
+            <h4>Please fill out the following details to RSVP.</h4>
             @Html.AntiForgeryToken()
 
             <div class="form-group hidden">

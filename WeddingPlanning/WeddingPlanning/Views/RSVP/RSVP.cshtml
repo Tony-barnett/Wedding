@@ -3,6 +3,10 @@
     ViewBag.Title = "RSVP";
 }
 <h2>We're glad you can join us :)</h2>
-@{Html.RenderPartial("_Guest", ViewData["GuestViewModel"]);}
-@{Html.RenderPartial("_Children", ViewData["ChildrenViewModel"]);}
+<div>
+    @{Html.RenderPartial("_Guest", ViewData["GuestViewModel"]);}
+</div>
+<div>
+    @{Html.RenderPartial("_Children", ViewData["ChildrenViewModel"]);}
+</div>
 @{Html.RenderPartial("_AddedGuests", ViewData["Guests"]);}
