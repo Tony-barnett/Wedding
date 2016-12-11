@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeddingPlanning.Integration
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Csv", "Csv\Csv.csproj", "{9867EFDD-6CF7-4642-8C43-CFC28980F088}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Csv.UnitTests", "Csv.UnitTests\Csv.UnitTests.csproj", "{5AD8763C-E73F-4DC6-924C-BD83CFBF309D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9867EFDD-6CF7-4642-8C43-CFC28980F088}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9867EFDD-6CF7-4642-8C43-CFC28980F088}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9867EFDD-6CF7-4642-8C43-CFC28980F088}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AD8763C-E73F-4DC6-924C-BD83CFBF309D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AD8763C-E73F-4DC6-924C-BD83CFBF309D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AD8763C-E73F-4DC6-924C-BD83CFBF309D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AD8763C-E73F-4DC6-924C-BD83CFBF309D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
