@@ -3,13 +3,15 @@
     ViewBag.Title = "RSVP";
 }
 <h2>We're glad you can join us :)</h2>
-<div>
-    @{Html.RenderPartial("_Guest", ViewData["GuestViewModel"]);}
-</div>
-@if (Request.Cookies.AllKeys.Contains("storer"))
-{
+<div class="body-content">
     <div>
-        @{Html.RenderPartial("_Children", ViewData["ChildrenViewModel"]);}
+        @{Html.RenderPartial("_Guest", ViewData["GuestViewModel"]);}
     </div>
-}
-@{Html.RenderPartial("_AddedGuests", ViewData["Guests"]);}
+    @if (Request.Cookies.AllKeys.Contains("storer"))
+    {
+        <div>
+            @{Html.RenderPartial("_Children", ViewData["ChildrenViewModel"]);}
+        </div>
+                }
+    @{Html.RenderPartial("_AddedGuests", ViewData["Guests"]);}
+</div>
