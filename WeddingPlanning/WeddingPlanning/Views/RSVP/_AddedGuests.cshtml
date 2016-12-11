@@ -1,5 +1,7 @@
 ﻿@model WeddingPlanning.Models.Guests
 <div>
+    @if (Model.AllGuests.Count() > 0) {
+        <h3>Guests that you've already added</h3>
     <table class="table table-hover table-striped">
         <thead class="thead-inverse">
             <tr>
@@ -42,7 +44,7 @@
                         @child.Allergies
                     </td>
                     <td>
-                        @if(!(child as WeddingPlanning.GuestStore.IChild).IsBaby)
+                        @if (!(child as WeddingPlanning.GuestStore.IChild).IsBaby)
                         {
                             <span>1</span>
                         }
@@ -57,4 +59,5 @@
             }
         </tbody>
     </table>
+    }
 </div>
