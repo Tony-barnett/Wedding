@@ -21,11 +21,18 @@ namespace WeddingPlanning.Controllers
         public ActionResult RSVP()
         {
             var storerId = GetStorerIdFromCookie();
-            ViewData["ChildrenViewModel"] = new ChildrenViewModel { AddedBy= storerId };
-            ViewData["GuestViewModel"] = new GuestViewModel { IsComing = true, AddedBy= (Guid?)storerId };
-            var adults = _GuestManager.GetGuests(storedBy: storerId != null? Guid.Parse(storerId.ToString()): (Guid?)null);
+            ViewData["ChildrenViewModel"] = new ChildrenViewModel { IsComing = true, AddedBy = storerId };
+            ViewData["GuestViewModel"] = new GuestViewModel { IsComing = true, AddedBy = storerId };
+
+            var adults = _GuestManager.GetGuests(storedBy: storerId != null ? Guid.Parse(storerId.ToString()) : (Guid?)null).Result;
+            var children = _GuestManager.GetChildren(storedBy: storerId != null ? Guid.Parse(storerId.ToString()) : (Guid?)null).Result;
+            var people = new List<IPerson>();
+
+            people.AddRange(adults);
+            people.AddRange(children);
+            
             ViewBag.ReturnUrl = "/RSVP/AddGuest";
-            ViewData["Guests"] = new Guests { AllGuests = adults.Result };
+            ViewData["Guests"] = new Guests { AllGuests = people };
             return View();
         }
 

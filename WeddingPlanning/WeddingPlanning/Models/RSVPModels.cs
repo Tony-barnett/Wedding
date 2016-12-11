@@ -10,9 +10,9 @@ namespace WeddingPlanning.Models
     {
         public IEnumerable<IPerson> AllGuests { get; set; }
 
-        public IEnumerable<IPerson> Adults { get { return AllGuests.Where(g => g.GetType() == typeof(IGuest)); } }
+        public IEnumerable<IPerson> Adults { get { return AllGuests.Where(g => g is IGuest); } }
 
-        public IEnumerable<IPerson> Children { get { return AllGuests.Where(g => g.GetType() == typeof(IChild)); } }
+        public IEnumerable<IPerson> Children { get { return AllGuests.Where(g => g is IChild); } }
     }
 
     public class GuestViewModel : IGuest
@@ -39,7 +39,7 @@ namespace WeddingPlanning.Models
     public class ChildrenViewModel: IChild
     {
         public Guid? Id { get; set; }
-    
+
         [Required]
         public bool IsComing { get; set; }
     
