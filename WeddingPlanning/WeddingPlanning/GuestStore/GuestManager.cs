@@ -50,5 +50,10 @@ namespace WeddingPlanning.GuestStore
         {
             return _GuestStore.FindGuest(guestId);
         }
+
+        public async Task<IChild> GetChild(Guid id)
+        {
+            return _GuestStore.FindChild(id);
+        }
     }
 }

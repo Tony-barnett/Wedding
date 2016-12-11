@@ -170,19 +170,19 @@ namespace WeddingPlanning.StuffStorage
             }
         }
 
-        public void RemoveGuest(IGuest guest)
+        internal IEnumerable<List<string>> GetAllRecords()
         {
-            var records = new List<List<string>>();
             using (_GuestReader = new CsvReader(_Location))
             {
                 while (!_GuestReader.EndOfStream)
                 {
-                    records.Add(_GuestReader.GetLine());
+                    yield return _GuestReader.GetLine();
                 }
             }
+        }
 
-            records.Remove(records.First(x => x[0] == guest.Id.ToString()));
-
+        internal void WriteAllRecords(IEnumerable<List<string>> records)
+        {
             using (_GuestWriter = new CsvWriter(_Location, false))
             {
                 foreach(var record in records)
@@ -192,9 +192,22 @@ namespace WeddingPlanning.StuffStorage
             }
         }
 
+        public void RemoveGuest(IGuest guest)
+        {
+            var records = GetAllRecords().ToList();
+            
+            records.Remove(records.First(x => x[0] == guest.Id.ToString()));
+
+            WriteAllRecords(records);
+        }
+
         public void RemoveChild(IChild child)
         {
-            throw new NotImplementedException();
+            var records = GetAllRecords().ToList();
+
+            records.Remove(records.First(x => x[0] == child.Id.ToString()));
+
+            WriteAllRecords(records);
         }
 
         public void UpdateGuest(IGuest guest)
@@ -217,6 +230,23 @@ namespace WeddingPlanning.StuffStorage
                     if(guestId.ToString() == line[0])
                     {
                         return line.ToGuestViewModel();
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public IChild GetChild(Guid id)
+        {
+            using (_GuestReader = new CsvReader(_Location))
+            {
+                while (!_GuestReader.EndOfStream)
+                {
+                    var line = _GuestReader.GetLine();
+                    if(id.ToString() == line[0])
+                    {
+                        return line.ToChildViewModel();
                     }
                 }
             }

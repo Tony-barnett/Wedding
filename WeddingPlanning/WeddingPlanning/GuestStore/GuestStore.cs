@@ -21,7 +21,9 @@ namespace WeddingPlanning.GuestStore
 
         void RemoveChild(IChild child);
 
-        IGuest FindGuest(Guid guestId);
+        IGuest FindGuest(Guid id);
+
+        IChild FindChild(Guid id);
     }
 
     public class GuestStore: IGuestStore
@@ -62,9 +64,14 @@ namespace WeddingPlanning.GuestStore
             _StorageProvider.RemoveChild(child);
         }
 
-        public IGuest FindGuest(Guid guestId)
+        public IGuest FindGuest(Guid id)
         {
-            return _StorageProvider.GetGuest(guestId);
+            return _StorageProvider.GetGuest(id);
+        }
+
+        public IChild FindChild(Guid id)
+        {
+            return _StorageProvider.GetChild(id);
         }
     }
 }

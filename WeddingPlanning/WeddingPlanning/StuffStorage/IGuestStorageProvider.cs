@@ -14,13 +14,15 @@ namespace WeddingPlanning.StuffStorage
 
         IGuest GetGuest(string firstName, string surname);
 
-        IGuest GetGuest(Guid guestId);
+        IGuest GetGuest(Guid id);
 
         IEnumerable<IGuest> GetGuests(Guid? inserterId = null);
 
         void StoreChild(IChild child, Guid storedBy);
 
         IChild GetChild(string firstName, string surname);
+
+        IChild GetChild(Guid id);
 
         IEnumerable<IChild> GetChildren(Guid? insertId = null);
 
