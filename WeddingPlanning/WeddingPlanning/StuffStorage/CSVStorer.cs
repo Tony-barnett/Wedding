@@ -5,6 +5,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using WeddingPlanning.GuestStore;
 using WeddingPlanning.Models;
 
@@ -61,7 +62,7 @@ namespace WeddingPlanning.StuffStorage
         /// <param name="guest"></param>
         /// <param name="storedBy"></param>
         /// <returns>The id of the guest who stored this guest.</returns>
-        public void StoreGuest(IGuest guest, Guid? storedBy = null)
+        public async Task StoreGuest(IGuest guest, Guid? storedBy = null)
         {
             if (guest.Id == null)
             {
@@ -79,7 +80,7 @@ namespace WeddingPlanning.StuffStorage
             }
         }
 
-        public IGuest GetGuest(string firstName, string surname)
+        public async Task<IGuest> GetGuest(string firstName, string surname)
         {
             if (!File.Exists(_Location)) // We assume that the file only exists if there's something in it...
             {
@@ -93,7 +94,7 @@ namespace WeddingPlanning.StuffStorage
 
                     if (records.Count >= 7 && records[1].ToLower() == firstName.ToLower() && records[2].ToLower() == surname.ToLower())
                     {
-                        return records.ToGuestViewModel();
+                        return await records.ToGuestViewModel();
                     }
                 }
             }
@@ -123,13 +124,13 @@ namespace WeddingPlanning.StuffStorage
 
                     if (records.Count >= 7 && isAdult && (inserterId == null || addedById == inserterId || id == inserterId))
                     {
-                        yield return records.ToGuestViewModel();
+                        yield return records.ToGuestViewModel().Result;
                     }
                 }
             }
         }
 
-        public void StoreChild(IChild child, Guid storedBy)
+        public async Task StoreChild(IChild child, Guid storedBy)
         {
             if (child.Id == null)
             {
@@ -142,7 +143,7 @@ namespace WeddingPlanning.StuffStorage
             }
         }
 
-        public IChild GetChild(string firstName, string surname)
+        public async Task<IChild> GetChild(string firstName, string surname)
         {
             throw new NotImplementedException();
         }
@@ -164,7 +165,7 @@ namespace WeddingPlanning.StuffStorage
 
                     if (records.Count >= 7 && isChild && (inserterId == null || addedById == inserterId || id == inserterId))
                     {
-                        yield return records.ToChildViewModel();
+                        yield return records.ToChildViewModel().Result;
                     }
                 }
             }
@@ -192,7 +193,7 @@ namespace WeddingPlanning.StuffStorage
             }
         }
 
-        public void RemoveGuest(IGuest guest)
+        public async Task RemoveGuest(IGuest guest)
         {
             var records = GetAllRecords().ToList();
             
@@ -201,7 +202,7 @@ namespace WeddingPlanning.StuffStorage
             WriteAllRecords(records);
         }
 
-        public void RemoveChild(IChild child)
+        public async Task RemoveChild(IChild child)
         {
             var records = GetAllRecords().ToList();
 
@@ -210,17 +211,17 @@ namespace WeddingPlanning.StuffStorage
             WriteAllRecords(records);
         }
 
-        public void UpdateGuest(IGuest guest)
+        public async Task UpdateGuest(IGuest guest)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateChild(IChild child)
+        public async Task UpdateChild(IChild child)
         {
             throw new NotImplementedException();
         }
 
-        public IGuest GetGuest(Guid guestId)
+        public async Task<IGuest> GetGuest(Guid guestId)
         {
             using (_GuestReader = new CsvReader(_Location))
             {
@@ -229,7 +230,7 @@ namespace WeddingPlanning.StuffStorage
                     var line = _GuestReader.GetLine();
                     if(guestId.ToString() == line[0])
                     {
-                        return line.ToGuestViewModel();
+                        return await line.ToGuestViewModel();
                     }
                 }
             }
@@ -237,7 +238,7 @@ namespace WeddingPlanning.StuffStorage
             return null;
         }
 
-        public IChild GetChild(Guid id)
+        public async Task<IChild> GetChild(Guid id)
         {
             using (_GuestReader = new CsvReader(_Location))
             {
@@ -246,7 +247,7 @@ namespace WeddingPlanning.StuffStorage
                     var line = _GuestReader.GetLine();
                     if(id.ToString() == line[0])
                     {
-                        return line.ToChildViewModel();
+                        return await line.ToChildViewModel();
                     }
                 }
             }
@@ -257,7 +258,7 @@ namespace WeddingPlanning.StuffStorage
 
     internal static class GuestViewModelParser
     {
-        public static IGuest ToGuestViewModel(this List<string> record)
+        public static async Task<IGuest> ToGuestViewModel(this List<string> record)
         {
             return new GuestViewModel
             {
@@ -270,7 +271,7 @@ namespace WeddingPlanning.StuffStorage
             };
         }
 
-        public static IChild ToChildViewModel(this List<string> record)
+        public static async Task<IChild> ToChildViewModel(this List<string> record)
         {
             return new ChildrenViewModel
             {

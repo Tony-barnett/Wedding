@@ -10,28 +10,17 @@ namespace WeddingPlanning.StuffStorage
 {
     public interface IGuestStorageProvider
     {
-        void StoreGuest(IGuest guest, Guid? storedBy);
-
-        IGuest GetGuest(string firstName, string surname);
-
-        IGuest GetGuest(Guid id);
-
+        Task StoreGuest(IGuest guest, Guid? storedBy);
+        Task<IGuest> GetGuest(string firstName, string surname);
+        Task<IGuest> GetGuest(Guid id);
         IEnumerable<IGuest> GetGuests(Guid? inserterId = null);
-
-        void StoreChild(IChild child, Guid storedBy);
-
-        IChild GetChild(string firstName, string surname);
-
-        IChild GetChild(Guid id);
-
+        Task StoreChild(IChild child, Guid storedBy);
+        Task<IChild> GetChild(string firstName, string surname);
+        Task<IChild> GetChild(Guid id);
         IEnumerable<IChild> GetChildren(Guid? insertId = null);
-
-        void RemoveGuest(IGuest guest);
-
-        void RemoveChild(IChild child);
-
-        void UpdateGuest(IGuest guest);
-
-        void UpdateChild(IChild child);
+        Task RemoveGuest(IGuest guest);
+        Task RemoveChild(IChild child);
+        Task UpdateGuest(IGuest guest);
+        Task UpdateChild(IChild child);
     }
 }

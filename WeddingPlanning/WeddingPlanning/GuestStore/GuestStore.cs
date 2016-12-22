@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using WeddingPlanning.Models;
 using WeddingPlanning.StuffStorage;
@@ -8,22 +9,15 @@ using WeddingPlanning.StuffStorage;
 namespace WeddingPlanning.GuestStore
 {
     public interface IGuestStore
-    {
+    { 
         IEnumerable<IGuest> GetGuests(Guid? inserterId = null);
-
         IEnumerable<IChild> GetChildren(Guid? inserterId = null);
-
-        void AddGuest(IGuest guest, Guid? StorerId = null);
-
-        void AddChild(IChild child, Guid StorerId);
-
-        void RemoveGuest(IGuest guest);
-
-        void RemoveChild(IChild child);
-
-        IGuest FindGuest(Guid id);
-
-        IChild FindChild(Guid id);
+        Task AddGuest(IGuest guest, Guid? StorerId = null);
+        Task AddChild(IChild child, Guid StorerId);
+        Task RemoveGuest(IGuest guest);
+        Task RemoveChild(IChild child);
+        Task<IGuest> FindGuest(Guid id);
+        Task<IChild> FindChild(Guid id);
     }
 
     public class GuestStore: IGuestStore
@@ -44,32 +38,32 @@ namespace WeddingPlanning.GuestStore
             return _StorageProvider.GetChildren(inserterId);
         }
 
-        public void AddGuest(IGuest guest, Guid? storerId = null)
+        public Task AddGuest(IGuest guest, Guid? storerId = null)
         {
-            _StorageProvider.StoreGuest(guest, storerId);
+            return _StorageProvider.StoreGuest(guest, storerId);
         }
 
-        public void AddChild(IChild child, Guid storerId)
+        public Task AddChild(IChild child, Guid storerId)
         {
-            _StorageProvider.StoreChild(child, storerId);
+            return _StorageProvider.StoreChild(child, storerId);
         }
 
-        public void RemoveGuest(IGuest guest)
+        public Task RemoveGuest(IGuest guest)
         {
-            _StorageProvider.RemoveGuest(guest);
+            return _StorageProvider.RemoveGuest(guest);
         }
 
-        public void RemoveChild(IChild child)
+        public Task RemoveChild(IChild child)
         {
-            _StorageProvider.RemoveChild(child);
+            return _StorageProvider.RemoveChild(child);
         }
 
-        public IGuest FindGuest(Guid id)
+        public Task<IGuest> FindGuest(Guid id)
         {
             return _StorageProvider.GetGuest(id);
         }
 
-        public IChild FindChild(Guid id)
+        public Task<IChild> FindChild(Guid id)
         {
             return _StorageProvider.GetChild(id);
         }

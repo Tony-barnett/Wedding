@@ -18,14 +18,14 @@ namespace WeddingPlanning.Controllers
 
 
         // GET: RSVP
-        public ActionResult RSVP()
+        public async Task<ActionResult> RSVP()
         {
             var storerId = GetStorerIdFromCookie();
             ViewData["ChildrenViewModel"] = new ChildrenViewModel { IsComing = true, AddedBy = storerId };
             ViewData["GuestViewModel"] = new GuestViewModel { IsComing = true, AddedBy = storerId };
 
-            var adults = _GuestManager.GetGuests(storedBy: storerId != null ? Guid.Parse(storerId.ToString()) : (Guid?)null).Result;
-            var children = _GuestManager.GetChildren(storedBy: storerId != null ? Guid.Parse(storerId.ToString()) : (Guid?)null).Result;
+            var adults = _GuestManager.GetGuests(storedBy: storerId != null ? Guid.Parse(storerId.ToString()) : (Guid?)null);
+            var children = _GuestManager.GetChildren(storedBy: storerId != null ? Guid.Parse(storerId.ToString()) : (Guid?)null);
             var people = new List<IPerson>();
 
             people.AddRange(adults);

@@ -21,7 +21,7 @@ namespace WeddingPlanning.GuestStore
             _GuestStore.AddGuest(guest, storerId);
         }
 
-        public async Task<IEnumerable<IGuest>> GetGuests(Guid? storedBy = null)
+        public IEnumerable<IGuest> GetGuests(Guid? storedBy = null)
         {
             return _GuestStore.GetGuests(storedBy);
         }
@@ -31,7 +31,7 @@ namespace WeddingPlanning.GuestStore
             _GuestStore.AddChild(child, storerId);
         }
 
-        public async Task<IEnumerable<IChild>> GetChildren(Guid? storedBy = null)
+        public IEnumerable<IChild> GetChildren(Guid? storedBy = null)
         {
             return _GuestStore.GetChildren(storedBy);
         }
@@ -48,12 +48,12 @@ namespace WeddingPlanning.GuestStore
 
         public async Task<IGuest> GetGuest(Guid guestId)
         {
-            return _GuestStore.FindGuest(guestId);
+            return await _GuestStore.FindGuest(guestId);
         }
 
         public async Task<IChild> GetChild(Guid id)
         {
-            return _GuestStore.FindChild(id);
+            return await _GuestStore.FindChild(id);
         }
     }
 }

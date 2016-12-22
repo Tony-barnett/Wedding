@@ -6,6 +6,7 @@ using WeddingPlanning.StuffStorage;
 using WeddingPlanning.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace WeddingPlanning.UnitTests
 {
@@ -24,9 +25,10 @@ namespace WeddingPlanning.UnitTests
 
         private void AddGuestToFakeStorer(Mock<IStorageProvider> fakeStorer, Guid id, string firstName, string surname, bool isComing)
         {
+            var data = new List<GuestViewModel> { new GuestViewModel { Id = id, FirstName = firstName, Surname = surname, IsComing = isComing } };
             fakeStorer
                 .Setup(x => x.GetGuests(null))
-                .Returns<List<GuestViewModel>>(foo => new List<GuestViewModel>{ new GuestViewModel { Id = id, FirstName = firstName, Surname = surname, IsComing = isComing }});
+                .Returns<IEnumerable<GuestViewModel>>(foo => data );
         }
 
         [Test]

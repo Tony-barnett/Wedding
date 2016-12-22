@@ -127,7 +127,7 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
 
             csvStorer.StoreGuest(guestViewModel);
 
-            var foundUser = csvStorer.GetGuest(firstName, surname);
+            var foundUser = csvStorer.GetGuest(firstName, surname).Result;
 
             Assert.AreEqual(guestViewModel.Id, foundUser.Id);
 
@@ -164,7 +164,7 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
 
             csvStorer.StoreGuest(guestViewModel2);
 
-            var foundUser = csvStorer.GetGuest(firstName, surname);
+            var foundUser = csvStorer.GetGuest(firstName, surname).Result;
 
             Assert.AreEqual(id, foundUser.Id);
         }
@@ -174,7 +174,7 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
         {
             var csvStorer = new WeddingPlanning.StuffStorage.CSVStorer();
             var foundUser = csvStorer.GetGuest("no users exist", "so these don't matter");
-            Assert.IsNull(foundUser);
+            Assert.IsNull(foundUser.Result);
         }
 
         [Test]
@@ -193,7 +193,7 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
             };
 
             var foundUser = csvStorer.GetGuest("This is not the user", "You're looking for");
-            Assert.IsNull(foundUser);
+            Assert.IsNull(foundUser.Result);
         }
     }
 }
