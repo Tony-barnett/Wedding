@@ -32,7 +32,7 @@
                 </td>
                 <td>
                     @if (Model.Children.Count() == 0 || Model.Adults.Count() > 1) {
-                        <a href="/RSVP/RemoveGuest?GuestId=@guest.Id"><span class="fa fa-trash">Remove</span></a>
+                        <a href="/RSVP/RemoveGuest?GuestId=@guest.Id" class="btn btn-danger"><span class="fa fa-trash">Remove</span></a>
                     }
                 </td>
             </tr>
@@ -61,7 +61,7 @@
                             <span>1</span>
                         }</td>
                     <td>
-                        <a href="/RSVP/RemoveChild?id=@child.Id">Remove</a>
+                        <a href="/RSVP/RemoveChild?id=@child.Id" class="btn btn-danger">Remove</a>
                     </td>
                 </tr>
 
