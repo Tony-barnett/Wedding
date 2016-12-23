@@ -32,7 +32,7 @@ namespace WeddingPlanning.Controllers
             people.AddRange(children);
             
             ViewBag.ReturnUrl = "/RSVP/AddGuest";
-            ViewData["Guests"] = new Guests { AllGuests = people };
+            ViewData["Guests"] = new Guests { AllGuests = people, storerId = storerId };
             return View();
         }
 

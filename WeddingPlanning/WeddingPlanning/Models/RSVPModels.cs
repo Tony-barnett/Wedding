@@ -8,11 +8,13 @@ namespace WeddingPlanning.Models
 {
     public class Guests
     {
+        public Guid? storerId { get; set; }
+
         public IEnumerable<IPerson> AllGuests { get; set; }
 
-        public IEnumerable<IPerson> Adults { get { return AllGuests.Where(g => g is IGuest); } }
+        public IEnumerable<IPerson> Adults { get { return AllGuests.Where(g => g is IGuest && storerId.HasValue && g.AddedBy == storerId); } }
 
-        public IEnumerable<IPerson> Children { get { return AllGuests.Where(g => g is IChild); } }
+        public IEnumerable<IPerson> Children { get { return AllGuests.Where(g => g is IChild && storerId.HasValue && g.AddedBy == storerId); } }
     }
 
     public class GuestViewModel : IGuest
