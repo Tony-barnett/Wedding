@@ -12,6 +12,7 @@
         <div>
             @{Html.RenderPartial("_Children", ViewData["ChildrenViewModel"]);}
         </div>
-                }
-    @{Html.RenderPartial("_AddedGuests", ViewData["Guests"]);}
+        
+        Html.RenderPartial("_AddedGuests", ViewData["Guests"]);
+    }
 </div>
