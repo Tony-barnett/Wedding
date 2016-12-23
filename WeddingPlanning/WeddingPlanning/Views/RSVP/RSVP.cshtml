@@ -5,6 +5,7 @@
 <h2>We're glad you can join us :)</h2>
 <div class="body-content">
     <div>
+    <h4>Please fill out the following details to RSVP.</h4>
         @{Html.RenderPartial("_Guest", ViewData["GuestViewModel"]);}
     </div>
     @if (Request.Cookies.AllKeys.Contains("storer"))
