@@ -39,12 +39,12 @@ namespace WeddingPlanning.StuffStorage
             //_GuestWriter =
         }
 
-        private string SerializePerson(IGuest guest)
+        private List<string> SerializePerson(IGuest guest)
         {
-            var row = $"\"{guest.Id}\",\"{guest.FirstName.Replace("\"", "\"\"")}\",\"{guest.Surname.Replace("\"", "\"\"")}\",\"{guest.Allergies?.Replace("\"", "\"\"")}\",{guest.IsComing},\"{guest.AgeGroup}\"";
+            var row = new List<string> { $"{guest.Id}", $"{guest.FirstName}", $"{guest.Surname}", $"{guest.Allergies}", $"{guest.IsComing}", $"{guest.AgeGroup}" };
             if (guest.AddedBy != null)
             {
-                row += $",\"{guest.AddedBy}\"";
+                row.Add($"{guest.AddedBy}");
             }
             return row;
         }
