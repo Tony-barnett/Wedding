@@ -39,13 +39,11 @@ namespace WeddingPlanning.StuffStorage
             //_GuestWriter =
         }
 
-        private string SerializePerson(IPerson guest)
+        private string SerializePerson(IGuest guest)
         {
-            var isChild = guest is IChild && !((IChild)guest).IsBaby;
-            var isYoungChild = guest is IChild && ((IChild)guest).IsBaby;
-
-            var row = $"\"{guest.Id}\",\"{guest.FirstName.Replace("\"", "\"\"")}\",\"{guest.Surname.Replace("\"", "\"\"")}\",\"{guest.Allergies?.Replace("\"", "\"\"")}\",{guest.IsComing},\"{isChild}\",\"{isYoungChild}\"";
-            if (guest.AddedBy != null) {
+            var row = $"\"{guest.Id}\",\"{guest.FirstName.Replace("\"", "\"\"")}\",\"{guest.Surname.Replace("\"", "\"\"")}\",\"{guest.Allergies?.Replace("\"", "\"\"")}\",{guest.IsComing},\"{guest.AgeGroup}\"";
+            if (guest.AddedBy != null)
+            {
                 row += $",\"{guest.AddedBy}\"";
             }
             return row;
@@ -68,7 +66,7 @@ namespace WeddingPlanning.StuffStorage
             {
                 guest.Id = GetNextId();
             }
-            if(guest.AddedBy == null)
+            if (guest.AddedBy == null)
             {
                 // We assume they stored themself
                 guest.AddedBy = guest.Id;
@@ -118,58 +116,13 @@ namespace WeddingPlanning.StuffStorage
                 while (!_GuestReader.EndOfStream)
                 {
                     var records = _GuestReader.GetLine();
-                    var addedById = records.Count > 7? Guid.Parse(records[7]) : (Guid?) null;
-                    var id = Guid.Parse(records[0]);
-                    var isAdult = !bool.Parse(records[5]) && !bool.Parse(records[6]);
-
-                    if (records.Count >= 7 && isAdult && (inserterId == null || addedById == inserterId || id == inserterId))
-                    {
-                        yield return records.ToGuestViewModel().Result;
-                    }
-                }
-            }
-        }
-
-        public async Task StoreChild(IChild child, Guid storedBy)
-        {
-            if (child.Id == null)
-            {
-                child.Id = GetNextId();
-            }
-            var row = SerializePerson(child);
-            using (_GuestWriter = new CsvWriter(_Location))
-            {
-                _GuestWriter.WriteLine(row);
-            }
-        }
-
-        public async Task<IChild> GetChild(string firstName, string surname)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IChild> GetChildren(Guid? inserterId = null)
-        {
-            if (!File.Exists(_Location)) // We assume that the file only exists if there's something in it...
-            {
-                yield break;
-            }
-            using (_GuestReader = new CsvReader(_Location))
-            {
-                while (!_GuestReader.EndOfStream)
-                {
-                    var records = _GuestReader.GetLine();
                     var addedById = records.Count > 7 ? Guid.Parse(records[7]) : (Guid?)null;
                     var id = Guid.Parse(records[0]);
-                    var isChild = bool.Parse(records[5]) || bool.Parse(records[6]);
-
-                    if (records.Count >= 7 && isChild && (inserterId == null || addedById == inserterId || id == inserterId))
-                    {
-                        yield return records.ToChildViewModel().Result;
-                    }
+                    yield return records.ToGuestViewModel().Result;
                 }
             }
         }
+
 
         internal IEnumerable<List<string>> GetAllRecords()
         {
@@ -186,7 +139,7 @@ namespace WeddingPlanning.StuffStorage
         {
             using (_GuestWriter = new CsvWriter(_Location, false))
             {
-                foreach(var record in records)
+                foreach (var record in records)
                 {
                     _GuestWriter.WriteLine(record);
                 }
@@ -196,27 +149,13 @@ namespace WeddingPlanning.StuffStorage
         public async Task RemoveGuest(IGuest guest)
         {
             var records = GetAllRecords().ToList();
-            
+
             records.Remove(records.First(x => x[0] == guest.Id.ToString()));
 
             WriteAllRecords(records);
         }
 
-        public async Task RemoveChild(IChild child)
-        {
-            var records = GetAllRecords().ToList();
-
-            records.Remove(records.First(x => x[0] == child.Id.ToString()));
-
-            WriteAllRecords(records);
-        }
-
         public async Task UpdateGuest(IGuest guest)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task UpdateChild(IChild child)
         {
             throw new NotImplementedException();
         }
@@ -228,26 +167,9 @@ namespace WeddingPlanning.StuffStorage
                 while (!_GuestReader.EndOfStream)
                 {
                     var line = _GuestReader.GetLine();
-                    if(guestId.ToString() == line[0])
+                    if (guestId.ToString() == line[0])
                     {
                         return await line.ToGuestViewModel();
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        public async Task<IChild> GetChild(Guid id)
-        {
-            using (_GuestReader = new CsvReader(_Location))
-            {
-                while (!_GuestReader.EndOfStream)
-                {
-                    var line = _GuestReader.GetLine();
-                    if(id.ToString() == line[0])
-                    {
-                        return await line.ToChildViewModel();
                     }
                 }
             }
@@ -267,21 +189,8 @@ namespace WeddingPlanning.StuffStorage
                 Surname = record[2],
                 Allergies = record[3],
                 IsComing = bool.Parse(record[4]),
-                AddedBy = record.Count >= 8 ? Guid.Parse(record[7]) : (Guid?)null
-            };
-        }
-
-        public static async Task<IChild> ToChildViewModel(this List<string> record)
-        {
-            return new ChildrenViewModel
-            {
-                Id = Guid.Parse(record[0]),
-                FirstName = record[1],
-                Surname = record[2],
-                Allergies = record[3],
-                IsComing = bool.Parse(record[4]),
-                IsBaby = bool.Parse(record[6]),
-                AddedBy = record.Count >= 8 ? Guid.Parse(record[7]) : (Guid?)null
+                _AgeGroup = (AgeGroup)Enum.Parse(typeof(AgeGroup), record[5]),
+                AddedBy = record.Count >= 7 ? Guid.Parse(record[6]) : (Guid?)null
             };
         }
     }

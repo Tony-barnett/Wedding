@@ -1,6 +1,6 @@
 ﻿@model WeddingPlanning.Models.GuestViewModel
 
-
+<h4>A title</h4>
     @{ using (Html.BeginForm("AddGuest", "Rsvp", new { ReturnUrl = "Rsvp/Rsvp" }, FormMethod.Post, new { role = "form" }))
         {
             @Html.AntiForgeryToken()
@@ -31,6 +31,23 @@
                     @Html.ValidationMessageFor(m => m.Allergies, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.IsChild, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.CheckBoxFor(m => m.IsChild, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.IsChild, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.IsBaby, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.CheckBoxFor(m => m.IsBaby, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.IsBaby, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">

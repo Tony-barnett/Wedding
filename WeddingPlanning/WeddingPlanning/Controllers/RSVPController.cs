@@ -16,21 +16,14 @@ namespace WeddingPlanning.Controllers
             _GuestManager = new GuestManager();
         }
 
-
         // GET: RSVP
         public async Task<ActionResult> RSVP()
         {
             var storerId = GetStorerIdFromCookie();
-            ViewData["ChildrenViewModel"] = new ChildrenViewModel { IsComing = true, AddedBy = storerId };
             ViewData["GuestViewModel"] = new GuestViewModel { IsComing = true, AddedBy = storerId };
 
-            var adults = _GuestManager.GetGuests(storedBy: storerId != null ? Guid.Parse(storerId.ToString()) : (Guid?)null);
-            var children = _GuestManager.GetChildren(storedBy: storerId != null ? Guid.Parse(storerId.ToString()) : (Guid?)null);
-            var people = new List<IPerson>();
+            var people = _GuestManager.GetGuests(storedBy: storerId != null ? Guid.Parse(storerId.ToString()) : (Guid?)null);
 
-            people.AddRange(adults);
-            people.AddRange(children);
-            
             ViewBag.ReturnUrl = "/RSVP/AddGuest";
             ViewData["Guests"] = new Guests { AllGuests = people, storerId = storerId };
             return View();
@@ -50,18 +43,6 @@ namespace WeddingPlanning.Controllers
             return RedirectToAction("/RSVP");
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddChildren(ChildrenViewModel child, Guid? storerId)
-        {
-            if(storerId == null)
-            {
-                storerId = GetStorerIdFromCookie();
-            }
-            await _GuestManager.AddChild(child, storerId.Value);
-            return Redirect("/RSVP/RSVP");
-        }
-
         //GET: Index
         public ActionResult Index()
         {
@@ -78,13 +59,6 @@ namespace WeddingPlanning.Controllers
         {
             var guest = await _GuestManager.GetGuest(id);
             await _GuestManager.RemoveGuest(guest);
-            return Redirect("/RSVP/RSVP");
-        }
-
-        public async Task<ActionResult> RemoveChild(Guid id)
-        {
-            var child = await _GuestManager.GetChild(id);
-            await _GuestManager.RemoveChild(child);
             return Redirect("/RSVP/RSVP");
         }
 

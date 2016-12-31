@@ -14,13 +14,7 @@ namespace WeddingPlanning.StuffStorage
         Task<IGuest> GetGuest(string firstName, string surname);
         Task<IGuest> GetGuest(Guid id);
         IEnumerable<IGuest> GetGuests(Guid? inserterId = null);
-        Task StoreChild(IChild child, Guid storedBy);
-        Task<IChild> GetChild(string firstName, string surname);
-        Task<IChild> GetChild(Guid id);
-        IEnumerable<IChild> GetChildren(Guid? insertId = null);
         Task RemoveGuest(IGuest guest);
-        Task RemoveChild(IChild child);
         Task UpdateGuest(IGuest guest);
-        Task UpdateChild(IChild child);
     }
 }

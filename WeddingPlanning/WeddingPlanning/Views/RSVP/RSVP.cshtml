@@ -16,14 +16,7 @@
         </div>
     </div>
     @if (Request.Cookies.AllKeys.Contains("storer"))
-            {
-        <div class="row">
-            <div class="col-sm-6">
-
-                @{Html.RenderPartial("_Children", ViewData["ChildrenViewModel"]);}
-            </div>
-        </div>
-
-                        Html.RenderPartial("_AddedGuests", ViewData["Guests"]);
-                    }
+    {
+        Html.RenderPartial("_AddedGuests", ViewData["Guests"]);
+    }
 </div>

@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-        @foreach (var guest in Model.Adults)
+        @foreach (var guest in Model.AllGuests)
         {
             <tr>
                 <td scope="row">
@@ -27,45 +27,22 @@
                     @guest.Allergies
                 </td>
                 <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                    @if (Model.Children.Count() == 0 || Model.Adults.Count() > 1) {
-                        <a href="/RSVP/RemoveGuest?id=@guest.Id" class="btn btn-danger"><span class="fa fa-trash">Remove</span></a>
+                    @if (guest.AgeGroup == WeddingPlanning.Models.AgeGroup.Child)
+                    {
+                        <span class="glyphicon glyphicon-ok"></span>
                     }
+                </td>
+                <td>
+                    @if (guest.AgeGroup == WeddingPlanning.Models.AgeGroup.Baby)
+                    {
+                        <span class="glyphicon glyphicon-ok"></span>
+                    }
+                </td>
+                <td>
+                    <a href="/RSVP/RemoveGuest?id=@guest.Id" class="btn btn-danger"><span class="fa fa-trash">Remove</span></a>
                 </td>
             </tr>
         }
-            @foreach (var child in Model.Children)
-            {
-                <tr>
-                    <td scope="row">
-                        @child.FirstName
-                    </td>
-                    <td>
-                        @child.Surname
-                    </td>
-                    <td>
-                        @child.Allergies
-                    </td>
-                    <td>
-                        @if (!(child as WeddingPlanning.GuestStore.IChild).IsBaby)
-                        {
-                            <span>1</span>
-                        }
-                    </td>
-                    <td>
-                        @if ((child as WeddingPlanning.GuestStore.IChild).IsBaby)
-                        {
-                            <span>1</span>
-                        }</td>
-                    <td>
-                        <a href="/RSVP/RemoveChild?id=@child.Id" class="btn btn-danger">Remove</a>
-                    </td>
-                </tr>
-
-            }
         </tbody>
     </table>
     }

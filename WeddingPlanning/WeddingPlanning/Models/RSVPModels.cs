@@ -10,11 +10,9 @@ namespace WeddingPlanning.Models
     {
         public Guid? storerId { get; set; }
 
-        public IEnumerable<IPerson> AllGuests { get; set; }
+        public IEnumerable<IGuest> AllGuests { get; set; }
 
-        public IEnumerable<IPerson> Adults { get { return AllGuests.Where(g => g is IGuest && storerId.HasValue && g.AddedBy == storerId); } }
-
-        public IEnumerable<IPerson> Children { get { return AllGuests.Where(g => g is IChild && storerId.HasValue && g.AddedBy == storerId); } }
+        public IEnumerable<IGuest> Adults { get { return AllGuests.Where(g => g is IGuest && storerId.HasValue && g.AddedBy == storerId); } }
     }
 
     public class GuestViewModel : IGuest
@@ -36,29 +34,50 @@ namespace WeddingPlanning.Models
         public string Allergies { get; set; }
 
         public Guid? AddedBy { get; set; }
-    }
 
-    public class ChildrenViewModel: IChild
-    {
-        public Guid? Id { get; set; }
+        [Display(Name = "Under 12")]
+        public bool IsChild { get; set; }
 
-        [Required]
-        public bool IsComing { get; set; }
-    
-        [Display(Name = "Under 12?")]
+        [Display(Name = "Under 5")]
         public bool IsBaby { get; set; }
 
-        [Display(Name = "Allergies")]
-        public string Allergies { get; set; }
+        internal AgeGroup? _AgeGroup;
 
-        [Required]
-        [Display(Name = "First Name")]
-        public string FirstName { get; set; }
+        public AgeGroup AgeGroup
+        {
+            get
+            {
+                if (!_AgeGroup.HasValue)
+                {
+                    if (IsBaby)
+                    {
+                        _AgeGroup = AgeGroup.Baby;
+                    }
 
-        [Required]
-        [Display(Name = "Surname")]
-        public string Surname { get; set; }
+                    else if (IsChild)
+                    {
+                        _AgeGroup = AgeGroup.Child;
+                    }
+                    else
+                    {
+                        _AgeGroup = AgeGroup.Adult;
+                    }
+                }
+                return _AgeGroup.Value;
+            }
+        }
+    }
 
-        public Guid? AddedBy { get; set; }
+    public enum AgeGroup
+    {
+        Adult,
+        /// <summary>
+        /// Under 12
+        /// </summary>
+        Child,
+        /// <summary>
+        /// Under 5 or under 3
+        /// </summary>
+        Baby
     }
 }
