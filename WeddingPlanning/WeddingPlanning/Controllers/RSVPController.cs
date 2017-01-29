@@ -43,6 +43,16 @@ namespace WeddingPlanning.Controllers
             return RedirectToAction("/RSVP");
         }
 
+        public async Task<ActionResult> EditGuest(Guid? guestId)
+        {
+            if (!guestId.HasValue)
+            {
+                return null;
+            }
+            var guest = await _GuestManager.GetGuest(guestId.Value);
+            return PartialView("_Guest", guest as GuestViewModel);
+        }
+
         //GET: Index
         public ActionResult Index()
         {
