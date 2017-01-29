@@ -51,19 +51,12 @@
         </tbody>
     </table>
     <script>
-                        //$('#editGuestButton').click(function (e) {
-                        //    e.preventDefault();
-                        //    $('#editGuest').load();
-                        //});
                         $(".editGuest").each(function (_, e) {
                             $(e).on('click', function () {
                                 populateForm(e.id);
                             });
                         })
 
-                        //var isH = function (h) {
-                        //    return 
-                        //}
 
                         var populateForm = function (button) {
                             $.ajax({
@@ -73,12 +66,10 @@
                                 },
                                 success: function (d, y, z) {
                                     var data = $(d);
-                                    var header = $(data[0]).text(); //data.find(function (h) { return $(h).is('h4') })[0];
-
+                                    var header = $(data[0]).text(); 
                                     $('.modal-title').text(header);
 
                                     $('#modal-content').html(data[2]);
-                                    //$('#modal-content').html(data);
                                 },
                                 error: function(x, y, z){
                                     console.log("whoops");
@@ -87,38 +78,6 @@
                         }
 
     </script>
-    <!--
-    <style>
-        .btn {
-            background-color: #002366;
-            border-color: #002366;
-            color: white;
-        }
-        .btn:hover{
-            background-color: turquoise;
-            border-color: turquoise;
-            color:black;
-        }
-        .modal-body > form {
-            display: inline-block;
-        }
-        .modal {
-            background-color: #fff;
-            top: 25%;
-            left: 25%;
-            right: 25%;
-            bottom: inherit;
-            overflow-y: auto;
-            border-radius: 10px;
-        }
-        .modal-header{
-            border-bottom: 0;
-        }
-        .modal-footer{
-            border-top: 0;
-        }
-    </style>
-        -->
     }
 </div>
 <div class="modal fade" id="editGuest" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -134,7 +93,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <!--<button type="button" class="btn btn-primary">Save changes</button>-->
             </div>
         </div>
     </div>
