@@ -36,46 +36,38 @@ namespace WeddingPlanning.Models
         public Guid? AddedBy { get; set; }
 
         [Display(Name = "Under 12")]
-        public bool IsChild
-        {
-            get { return AgeGroup == AgeGroup.Child; }
-            set
-            {
-                if (AgeGroup == AgeGroup.Baby)
-                {
-                    return;
-                }
-
-                if (value)
-                {
-                    AgeGroup = AgeGroup.Child;
-                }
-                else if (!value)
-                {
-                    AgeGroup = AgeGroup.Adult;
-                }
-            }
-        }
+        public bool IsChild { get; set; }
 
         [Display(Name = "Under 5")]
-        public bool IsBaby { get { return AgeGroup == AgeGroup.Baby; }
-            set
-            {
-                if (value)
-                {
-                    AgeGroup = AgeGroup.Baby;
-                }
-                else if (!value)
-                {
-                    AgeGroup = IsChild ? AgeGroup.Child : AgeGroup.Adult;
-                }
-            } }
-
-        //internal AgeGroup? _AgeGroup;
+        public bool IsBaby { get; set; }
 
         public AgeGroup AgeGroup
         {
-            get; set;
+            get
+            {
+                if (IsBaby)
+                {
+                    return AgeGroup.Baby;
+                }
+                else if (IsChild)
+                {
+                    return AgeGroup.Child;
+                }
+
+                return AgeGroup.Adult;
+            }
+            set
+            {
+                switch (value)
+                {
+                    case AgeGroup.Baby:
+                        IsBaby = true;
+                        break;
+                    case AgeGroup.Child:
+                        IsChild = true;
+                        break;
+                }
+            }
         }
     }
 
