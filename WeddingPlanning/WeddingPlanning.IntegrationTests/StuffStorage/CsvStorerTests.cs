@@ -41,7 +41,7 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
             {
                 var file = reader.ReadToEnd();
 
-                Assert.AreEqual($"\"{id}\"", file.Substring(0, file.IndexOf(",")));
+                Assert.AreEqual($"{id}", file.Substring(0, file.IndexOf(",")).Replace("\"", ""));
             }
         }
 
@@ -81,8 +81,8 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
                 var file = reader.ReadToEnd();
 
                 var peopleInFile = file.Replace("\r", "").Split('\n');
-                Assert.AreEqual($"\"{initialGuestId}\"", peopleInFile[0].Substring(0, peopleInFile[0].IndexOf(",")));
-                Assert.AreEqual($"\"{secondGuestId}\"", peopleInFile[1].Substring(0, peopleInFile[1].IndexOf(",")));
+                Assert.AreEqual($"{initialGuestId}", peopleInFile[0].Substring(0, peopleInFile[0].IndexOf(",")).Replace("\"", ""));
+                Assert.AreEqual($"{secondGuestId}", peopleInFile[1].Substring(0, peopleInFile[1].IndexOf(",")).Replace("\"", ""));
             }
         }
 
@@ -106,7 +106,7 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
                 var file = reader.ReadToEnd();
 
                 var peopleInFile = file.Replace("\r", "").Split('\n');
-                Assert.AreEqual($"\"{guestViewModel.Id}\"", peopleInFile[0].Substring(0, peopleInFile[0].IndexOf(",")));
+                Assert.AreEqual($"{guestViewModel.Id}", peopleInFile[0].Substring(0, peopleInFile[0].IndexOf(",")).Replace("\"", ""));
             }
         }
 
@@ -195,5 +195,33 @@ namespace WeddingPlanning.IntegrationTests.StuffStorage
             var foundUser = csvStorer.GetGuest("This is not the user", "You're looking for");
             Assert.IsNull(foundUser.Result);
         }
+
+        //[Test]
+        //public void TestDeleteGuestFromCsv_GuestIsOnlyPersonInCsv_EmptiesCsvFile()
+        //{
+        //    var firstName = "foo";
+        //    var surname = "bar";
+        //    var guestViewModel = new WeddingPlanning.Models.GuestViewModel
+        //    {
+        //        FirstName = firstName,
+        //        Surname = surname,
+        //        IsComing = true,
+        //        Allergies = "Some"
+        //    };
+
+        //    var csvStorer = new WeddingPlanning.StuffStorage.CSVStorer();
+
+        //    var id = csvStorer.StoreGuest(guestViewModel);
+
+        //    csvStorer.RemoveGuest(guestViewModel);
+
+
+        //    using (StreamReader reader = new StreamReader(csvStorer._Location))
+        //    {
+        //        var file = reader.ReadToEnd();
+
+        //        Assert.That(file.Trim().Length == 0);
+        //    }
+        //}
     }
 }
