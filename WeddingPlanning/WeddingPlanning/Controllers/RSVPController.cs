@@ -56,6 +56,17 @@ namespace WeddingPlanning.Controllers
         //GET: Index
         public ActionResult Index()
         {
+            if (Request.Cookies.AllKeys.Contains("isComing"))
+            {
+                var value = Request.Cookies["isComing"].Value;
+                value = value.Substring(0, value.IndexOf(','));
+                switch (value.ToLower()){
+                    case "true":
+                        return RedirectToAction("RSVP");
+                    case "false":
+                        return RedirectToAction("CannotCome");
+                }
+            }
             return View();
         }
 

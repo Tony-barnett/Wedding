@@ -7,5 +7,16 @@
     <link href="@Url.Content("~/Content/RSVP.css")" rel="stylesheet" type="text/css" />
     }
 
-<a class="btn btn-success" href="/RSVP/RSVP" >I'd love to come!</a>
-<a class="btn btn-danger" href="/RSVP/CannotCome">I can't make it :(</a>
+<a id="canCome" class="btn btn-success" href="/RSVP/RSVP" >I'd love to come! :)</a>
+<a id="cannotCome" class="btn btn-danger" href="/RSVP/CannotCome">I can't make it :(</a>
+
+<script>
+    $('a').click(function (event) {
+        if (event.currentTarget.id.toLowerCase() == "cancome"){
+            document.cookie = "isComing=true, path=/";
+        }
+        else if (event.currentTarget.id.toLocaleLowerCase() == "cannotcome") {
+            document.cookie = "isComing=false, path=/";
+        }
+    });
+</script>
