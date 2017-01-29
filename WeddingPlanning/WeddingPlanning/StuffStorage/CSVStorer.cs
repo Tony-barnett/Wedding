@@ -157,7 +157,21 @@ namespace WeddingPlanning.StuffStorage
 
         public async Task UpdateGuest(IGuest guest)
         {
-            throw new NotImplementedException();
+            var records = GetAllRecords().ToList();
+            var outputRecords = new List<List<string>>();
+
+            foreach(var record in records)
+            {
+                var row = record;
+                var storedGuest = await record.ToGuestViewModel();
+                if(storedGuest.Id == guest.Id)
+                {
+                    row = SerializePerson(guest);
+                }
+                outputRecords.Add(row);
+            }
+
+            WriteAllRecords(outputRecords);
         }
 
         public async Task<IGuest> GetGuest(Guid guestId)
