@@ -18,7 +18,7 @@ namespace WeddingPlanning.GuestStore
 
         public async Task AddGuest(IGuest guest, Guid? storerId = null)
         {
-            _GuestStore.AddGuest(guest, storerId);
+            await _GuestStore.AddGuest(guest, storerId);
         }
 
         public IEnumerable<IGuest> GetGuests(Guid? storedBy = null)
@@ -28,7 +28,7 @@ namespace WeddingPlanning.GuestStore
         
         public async Task RemoveGuest(IGuest guest)
         {
-            _GuestStore.RemoveGuest(guest);
+            await _GuestStore.RemoveGuest(guest);
         }
 
         public async Task<IGuest> GetGuest(Guid guestId)
