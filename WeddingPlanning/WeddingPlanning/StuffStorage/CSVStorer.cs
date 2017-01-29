@@ -66,6 +66,12 @@ namespace WeddingPlanning.StuffStorage
             {
                 guest.Id = GetNextId();
             }
+            else
+            {
+                // If they already have an Id then they already exist so this is an update.
+                await UpdateGuest(guest);
+                return;
+            }
             if (guest.AddedBy == null)
             {
                 // We assume they stored themself
