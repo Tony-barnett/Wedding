@@ -12,11 +12,6 @@
     color: white;
     border-color: royalblue;
 }
-.btn:hover{
-    background-color: turquoise;
-    color: black;
-    border-color: turquoise;
-}
 .modal-body  input[type=submit] {
     top: 100px;
 }
