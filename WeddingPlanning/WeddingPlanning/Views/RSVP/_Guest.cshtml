@@ -1,7 +1,7 @@
 ﻿@model WeddingPlanning.Models.GuestViewModel
 
 <h4>A title</h4>
-    @{ using (Html.BeginForm("AddGuest", "Rsvp", new { ReturnUrl = "Rsvp/Rsvp" }, FormMethod.Post, new { role = "form" }))
+    @{ using (Html.BeginForm("AddGuest", "Rsvp", new { ReturnUrl = "Rsvp/Rsvp" }, FormMethod.Post, new { role = "form", @style = "overflow: hidden" }))
         {
             @Html.AntiForgeryToken()
 
