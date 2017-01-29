@@ -30,41 +30,31 @@ namespace WeddingPlanning.Models
         [Display(Name = "Surname")]
         public string Surname { get; set; }
 
-        [Display(Name = "Allergies")]
+        [Display(Name = "Dietary Requirements")]
         public string Allergies { get; set; }
 
         public Guid? AddedBy { get; set; }
 
         [Display(Name = "Under 12")]
-        public bool IsChild { get; set; }
+        public bool IsChild { get { return AgeGroup == AgeGroup.Child; } set {
+                if (AgeGroup != AgeGroup.Baby) {
+                    AgeGroup = AgeGroup.Child;
+                }
+            } }
 
         [Display(Name = "Under 5")]
-        public bool IsBaby { get; set; }
+        public bool IsBaby { get { return AgeGroup == AgeGroup.Baby; }
+            set
+            {
+                AgeGroup = AgeGroup.Baby;
+            }
+        }
 
-        internal AgeGroup? _AgeGroup;
+        //internal AgeGroup? _AgeGroup;
 
         public AgeGroup AgeGroup
         {
-            get
-            {
-                if (!_AgeGroup.HasValue)
-                {
-                    if (IsBaby)
-                    {
-                        _AgeGroup = AgeGroup.Baby;
-                    }
-
-                    else if (IsChild)
-                    {
-                        _AgeGroup = AgeGroup.Child;
-                    }
-                    else
-                    {
-                        _AgeGroup = AgeGroup.Adult;
-                    }
-                }
-                return _AgeGroup.Value;
-            }
+            get; set;
         }
     }
 

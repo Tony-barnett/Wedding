@@ -189,7 +189,7 @@ namespace WeddingPlanning.StuffStorage
                 Surname = record[2],
                 Allergies = record[3],
                 IsComing = bool.Parse(record[4]),
-                _AgeGroup = (AgeGroup)Enum.Parse(typeof(AgeGroup), record[5]),
+                AgeGroup = (AgeGroup)Enum.Parse(typeof(AgeGroup), record[5]),
                 AddedBy = record.Count >= 7 ? Guid.Parse(record[6]) : (Guid?)null
             };
         }
