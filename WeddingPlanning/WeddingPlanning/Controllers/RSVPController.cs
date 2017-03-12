@@ -19,7 +19,7 @@ namespace WeddingPlanning.Controllers
         // GET: RSVP
         public async Task<ActionResult> RSVP()
         {
-            var storerId = GetStorerIdFromCookie();
+            var storerId = GuestStore.Helpers.GetStorerIdFromCookie(Request);
             ViewData["GuestViewModel"] = new GuestViewModel { IsComing = true, AddedBy = storerId };
 
             var people = _GuestManager.GetGuests(storedBy: storerId != null ? Guid.Parse(storerId.ToString()) : (Guid?)null);
@@ -35,7 +35,7 @@ namespace WeddingPlanning.Controllers
         {
             if(storerId == null)
             {
-                storerId = GetStorerIdFromCookie();
+                storerId = GuestStore.Helpers.GetStorerIdFromCookie(Request);
             }
             await _GuestManager.AddGuest(guest, storerId);
             TempData["StorerId"] = guest.AddedBy;
@@ -81,16 +81,6 @@ namespace WeddingPlanning.Controllers
             var guest = await _GuestManager.GetGuest(id);
             await _GuestManager.RemoveGuest(guest);
             return Redirect("/RSVP/RSVP");
-        }
-
-        private Guid? GetStorerIdFromCookie()
-        {
-            var storer = Request.Cookies.Get("storer")?.Value;
-            if (storer == null)
-            {
-                return null;
-            }
-            return Guid.Parse(storer);
         }
     }
 }
