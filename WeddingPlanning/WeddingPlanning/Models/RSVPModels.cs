@@ -69,6 +69,8 @@ namespace WeddingPlanning.Models
                 }
             }
         }
+
+        public GuestType GuestType { get; set; }
     }
 
     public enum AgeGroup

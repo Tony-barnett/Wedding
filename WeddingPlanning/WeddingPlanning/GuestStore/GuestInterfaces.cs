@@ -16,5 +16,6 @@ namespace WeddingPlanning.GuestStore
         string Surname { get; set; }
         bool IsComing { get; set; }
         AgeGroup AgeGroup { get; }
+        GuestType GuestType { get; set; }
     }
 }

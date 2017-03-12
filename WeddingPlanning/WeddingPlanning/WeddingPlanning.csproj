@@ -181,10 +181,12 @@
     <Compile Include="GuestStore\GuestInterfaces.cs" />
     <Compile Include="GuestStore\GuestManager.cs" />
     <Compile Include="GuestStore\GuestStore.cs" />
+    <Compile Include="GuestStore\Helpers.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\RSVPModels.cs" />
+    <Compile Include="Models\GuestModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="StuffStorage\CSVStorer.cs" />
