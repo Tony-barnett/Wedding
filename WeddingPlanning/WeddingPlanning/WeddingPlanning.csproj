@@ -182,6 +182,7 @@
     <Compile Include="GuestStore\GuestManager.cs" />
     <Compile Include="GuestStore\GuestStore.cs" />
     <Compile Include="GuestStore\Helpers.cs" />
+    <Compile Include="Middleware\PasswordMiddleware.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -191,6 +192,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="StuffStorage\CSVStorer.cs" />
     <Compile Include="StuffStorage\IGuestStorageProvider.cs" />
+    <Compile Include="StuffStorage\IPasswordMapperRepository.cs" />
     <Compile Include="StuffStorage\IStorageProvider.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +258,7 @@
     <Content Include="Views\RSVP\CannotCome.cshtml" />
     <Content Include="Views\RSVP\_Guest.cshtml" />
     <Content Include="Views\RSVP\_AddedGuests.cshtml" />
+    <Content Include="Views\Home\EnterPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

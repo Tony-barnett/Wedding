@@ -23,7 +23,11 @@ namespace WeddingPlanning.StuffStorage
             private bool IsYoungChild { get; set; }
         }
 
-        internal string _Location { get; set; }
+        internal string _Location { get; }
+        internal string _GuestLocation { get { return $"{_Location}\\{_GuestFileName}"; } }
+        internal string _GuestFileName { get; }
+        internal string _PasswordMapperLocation { get { return $"{_Location}\\{_PasswordMapperFileName}"; } }
+        internal string _PasswordMapperFileName { get; }
 
         /// <summary>
         /// Of the form:
@@ -35,7 +39,10 @@ namespace WeddingPlanning.StuffStorage
 
         public CSVStorer()
         {
-            _Location = ConfigurationManager.AppSettings["CsvFileLocation"] + "\\Guest.csv";
+            _Location = ConfigurationManager.AppSettings["CsvFileLocation"];
+            _GuestFileName = "Guest.csv";
+            _PasswordMapperFileName = "passwordMapper.csv";
+
             //_GuestWriter =
         }
 
@@ -78,7 +85,7 @@ namespace WeddingPlanning.StuffStorage
                 guest.AddedBy = guest.Id;
             }
             var row = SerializePerson(guest);
-            using (_GuestWriter = new CsvWriter(_Location))
+            using (_GuestWriter = new CsvWriter(_GuestLocation))
             {
                 _GuestWriter.WriteLine(row);
             }
@@ -86,11 +93,11 @@ namespace WeddingPlanning.StuffStorage
 
         public async Task<IGuest> GetGuest(string firstName, string surname)
         {
-            if (!File.Exists(_Location)) // We assume that the file only exists if there's something in it...
+            if (!File.Exists(_GuestLocation)) // We assume that the file only exists if there's something in it...
             {
                 return null;
             }
-            using (_GuestReader = new CsvReader(_Location))
+            using (_GuestReader = new CsvReader(_GuestLocation))
             {
                 while (!_GuestReader.EndOfStream)
                 {
@@ -113,11 +120,11 @@ namespace WeddingPlanning.StuffStorage
         /// <returns></returns>
         public IEnumerable<IGuest> GetGuests(Guid? inserterId = null)
         {
-            if (!File.Exists(_Location)) // We assume that the file only exists if there's something in it...
+            if (!File.Exists(_GuestLocation)) // We assume that the file only exists if there's something in it...
             {
                 yield break;
             }
-            using (_GuestReader = new CsvReader(_Location))
+            using (_GuestReader = new CsvReader(_GuestLocation))
             {
                 while (!_GuestReader.EndOfStream)
                 {
@@ -132,7 +139,7 @@ namespace WeddingPlanning.StuffStorage
 
         internal IEnumerable<List<string>> GetAllRecords()
         {
-            using (_GuestReader = new CsvReader(_Location))
+            using (_GuestReader = new CsvReader(_GuestLocation))
             {
                 while (!_GuestReader.EndOfStream)
                 {
@@ -143,7 +150,7 @@ namespace WeddingPlanning.StuffStorage
 
         internal void WriteAllRecords(IEnumerable<List<string>> records)
         {
-            using (_GuestWriter = new CsvWriter(_Location, false))
+            using (_GuestWriter = new CsvWriter(_GuestLocation, false))
             {
                 foreach (var record in records)
                 {
@@ -182,7 +189,7 @@ namespace WeddingPlanning.StuffStorage
 
         public async Task<IGuest> GetGuest(Guid guestId)
         {
-            using (_GuestReader = new CsvReader(_Location))
+            using (_GuestReader = new CsvReader(_GuestLocation))
             {
                 while (!_GuestReader.EndOfStream)
                 {
@@ -195,6 +202,38 @@ namespace WeddingPlanning.StuffStorage
             }
 
             return null;
+        }
+
+        public void AddPasswordMap(Guid id, GuestType guestType)
+        {
+            using (var cw = new CsvWriter(_PasswordMapperLocation, true))
+            {
+                cw.WriteLine(new List<string> { id.ToString(), guestType.ToString() });
+            }
+        }
+
+        public GuestType GetGuestTypeFromId(Guid id)
+        {
+            using (var cr = new CsvReader(_PasswordMapperLocation))
+            {
+                var line = new List<string>();
+
+                while (line != null)
+                {
+                    line = cr.GetLine();
+
+                    Guid fileId;
+                    if (Guid.TryParse(line[0], out fileId) && id == fileId) {
+                        return (GuestType)Enum.Parse(typeof(GuestType), line[1], true);
+                    }
+                }
+            }
+            return GuestType.None;
+        }
+
+        public void ChangePasswordMap(Guid id, GuestType guestType)
+        {
+            throw new NotImplementedException();
         }
     }
 
