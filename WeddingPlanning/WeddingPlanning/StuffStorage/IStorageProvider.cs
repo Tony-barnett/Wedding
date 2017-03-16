@@ -7,7 +7,7 @@ using WeddingPlanning.Models;
 
 namespace WeddingPlanning.StuffStorage
 {
-    public interface IStorageProvider: IGuestStorageProvider
+    public interface IStorageProvider: IGuestStorageProvider, IPasswordMapperRepository
     {
     }
 }
