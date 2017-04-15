@@ -8,3 +8,7 @@ bin/
 *-ignore
 images/
 Views/
+bootstrap/
+jquery-validation*/
+favicon.ico
+jquery/
