@@ -10,7 +10,7 @@ namespace WeddingWebsite.GuestStore
     {
         public static Guid? GetStorerIdFromCookie(HttpContext request)
         {
-            var storer = request.Request.Cookies["storer"];
+            var storer = request.User.Claims.SingleOrDefault( x => string.Compare(x.Type, "GuestId", true) == 0).Value;
             if (storer == null)
             {
                 return null;

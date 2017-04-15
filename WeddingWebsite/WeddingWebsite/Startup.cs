@@ -57,6 +57,11 @@ namespace WeddingWebsite
                     policy => policy.RequireClaim("GuestType", "Evening", "Day")
             ));
 
+            services.AddAuthorization(options =>
+                options.AddPolicy("IsLoggedIn",
+                policy => policy.RequireClaim("GuestId")
+            ));
+
             InjectDependencies(services);
 
             services.AddMvc();

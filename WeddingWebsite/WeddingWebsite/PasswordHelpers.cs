@@ -64,6 +64,8 @@ namespace WeddingWebsite
         public async Task WriteGuestTypeCookieAsync(GuestType guestType, IList<Claim> claims, HttpContext httpContext)
         {
             claims.Add(new Claim("GuestType", guestType.ToString()));
+            claims.Add(new Claim("GuestId", Guid.NewGuid().ToString()));
+
 
             var id = new ClaimsIdentity(claims, "local");
             await httpContext.Authentication.SignInAsync("NomNomNom", new ClaimsPrincipal(id));

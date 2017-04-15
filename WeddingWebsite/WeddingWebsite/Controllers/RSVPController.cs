@@ -27,7 +27,7 @@ namespace WeddingWebsite.Controllers
             IEnumerable<IGuest> people = new List<IGuest>();
             if(storerId != null)
             {
-                people = _GuestManager.GetGuestsStoredBy(storedBy: Guid.Parse(storerId.ToString()));
+                people = _GuestManager.GetGuestsStoredBy(storedBy: storerId.Value);
             }
 
             ViewBag.ReturnUrl = "/RSVP/AddGuest";
