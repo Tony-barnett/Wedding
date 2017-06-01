@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace WeddingPlanning.Models
+namespace WeddingWebsite.Models
 {
     public enum GuestType
     {
-        None,
-        Day,
-        Evening
+        None = 0,
+        Day = 1,
+        Evening = 2
     }
 
-    internal class GuestModel
+    public class GuestModel
     {
         Guid GuestId { get; set; }
         GuestType GuestType { get; set; }

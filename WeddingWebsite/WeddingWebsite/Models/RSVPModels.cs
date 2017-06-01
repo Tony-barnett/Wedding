@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using WeddingPlanning.Models;
 using WeddingWebsite.GuestStore;
 
 namespace WeddingWebsite.Models
@@ -11,9 +10,9 @@ namespace WeddingWebsite.Models
     {
         public Guid? storerId { get; set; }
 
-        public IEnumerable<IGuest> AllGuests { get; set; }
+        public IEnumerable<GuestViewModel> AllGuests { get; set; }
 
-        public IEnumerable<IGuest> Adults { get { return AllGuests.Where(g => g is IGuest && storerId.HasValue && g.AddedBy == storerId); } }
+        public IEnumerable<GuestViewModel> Adults { get { return AllGuests.Where(g => storerId.HasValue && g.AddedBy == storerId); } }
     }
 
     public class GuestViewModel : IGuest

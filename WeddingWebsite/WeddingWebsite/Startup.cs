@@ -63,6 +63,8 @@ namespace WeddingWebsite
             ));
 
             InjectDependencies(services);
+            var x = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<DB.DbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
         }
@@ -83,7 +85,7 @@ namespace WeddingWebsite
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            
+
 
             app.UseStaticFiles();
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
@@ -108,10 +110,11 @@ namespace WeddingWebsite
         private void InjectDependencies(IServiceCollection services)
         {
 
-            services.AddTransient<IConfigurationBuilder, ConfigurationBuilder>();
-            services.AddTransient<IGuestRepository, GuestRepostory>();
-            services.AddTransient<IGuestManager, GuestManager>();
-            services.AddTransient<IConfiguration, WeddingWebsite.Configuration>();
+            services.AddTransient<IConfigurationBuilder, ConfigurationBuilder>()
+                .AddTransient<DB.DbContext>()
+                .AddTransient<IGuestRepository, GuestRepostory>()
+                .AddTransient<IGuestManager, GuestManager>()
+                .AddTransient<IConfiguration, Configuration>();
 
         }
     }

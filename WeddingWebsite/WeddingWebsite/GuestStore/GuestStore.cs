@@ -8,6 +8,8 @@ using WeddingWebsite;
 namespace WeddingWebsite.GuestStore
 {
     using Storage;
+    using WeddingWebsite.DB;
+
     //public interface IGuestStore
     //{ 
     //    IEnumerable<IGuest> GetGuests(Guid? inserterId = null);
@@ -15,45 +17,52 @@ namespace WeddingWebsite.GuestStore
     //    Task RemoveGuest(IGuest guest);
     //    Task<IGuest> FindGuest(Guid id);
     //}
-    public interface IGuestRepository: IRepostitoryAsync<Guid, IGuest>
+    public interface IGuestRepository: IRepostitoryAsync<Guid, GuestViewModel>
     {
-        IEnumerable<IGuest> GetStoredBy(Guid storer);
+        IEnumerable<GuestViewModel> GetStoredBy(Guid storer);
     }
 
     public class GuestRepostory: IGuestRepository
     {
-        public GuestRepostory()
+        private DbContext _DbContext;
+
+        public GuestRepostory(DbContext dbContext)
         {
+            _DbContext = dbContext;
         }
 
-        public async Task CreateAsync(IGuest entity)
+        public async Task CreateAsync(GuestViewModel entity)
+        {
+            await _DbContext.Guest.AddAsync(entity);
+            await _DbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(GuestViewModel entity)
+        {
+            _DbContext.Guest.Remove(entity);
+            await _DbContext.SaveChangesAsync();
+        }
+
+        public async Task<GuestViewModel> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public async Task DeleteAsync(IGuest entity)
+        public async Task<GuestViewModel> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
-        public async Task<IGuest> GetAllAsync()
+        public IEnumerable<GuestViewModel> GetStoredBy(Guid storer)
         {
-            throw new NotImplementedException();
+            return _DbContext.Guest
+                .Where(x => x.AddedBy == storer);
         }
 
-        public async Task<IGuest> GetAsync(Guid id)
+        public async Task UpdateAsync(GuestViewModel entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IGuest> GetStoredBy(Guid storer)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task UpdateAsync(IGuest entity)
-        {
-            throw new NotImplementedException();
+            _DbContext.Guest.Attach(entity);
+            await _DbContext.SaveChangesAsync();
         }
     }
 }

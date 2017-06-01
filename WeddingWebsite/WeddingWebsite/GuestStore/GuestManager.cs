@@ -8,36 +8,37 @@ namespace WeddingWebsite.GuestStore
 {
     public interface IGuestManager
     {
-        Task AddGuest(IGuest guest);
-        IEnumerable<IGuest> GetGuestsStoredBy(Guid storedBy);
-        Task RemoveGuest(IGuest guest);
-        Task<IGuest> GetGuest(Guid guestId);
+        Task AddGuest(GuestViewModel guest);
+        IEnumerable<GuestViewModel> GetGuestsStoredBy(Guid storedBy);
+        Task RemoveGuest(GuestViewModel guest);
+        Task<GuestViewModel> GetGuest(Guid guestId);
     }
 
-    public class GuestManager: IGuestManager
+    public class GuestManager : IGuestManager
     {
         private IGuestRepository _GuestStore {get;set;}
 
         public GuestManager(IGuestRepository guestStore)
         {
+            _GuestStore = guestStore;
         }
 
-        public async Task AddGuest(IGuest guest)
+        public async Task AddGuest(GuestViewModel guest)
         {
             await _GuestStore.CreateAsync(guest);
         }
 
-        public IEnumerable<IGuest> GetGuestsStoredBy(Guid storedBy)
+        public IEnumerable<GuestViewModel> GetGuestsStoredBy(Guid storedBy)
         {
             return _GuestStore.GetStoredBy(storedBy);
         }
         
-        public async Task RemoveGuest(IGuest guest)
+        public async Task RemoveGuest(GuestViewModel guest)
         {
             await _GuestStore.DeleteAsync(guest);
         }
 
-        public async Task<IGuest> GetGuest(Guid guestId)
+        public async Task<GuestViewModel> GetGuest(Guid guestId)
         {
             return await _GuestStore.GetAsync(guestId);
         }

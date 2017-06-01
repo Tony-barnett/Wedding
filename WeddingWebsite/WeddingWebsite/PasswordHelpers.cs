@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using WeddingWebsite.Models;
-using WeddingPlanning.Models;
 
 namespace WeddingWebsite
 {

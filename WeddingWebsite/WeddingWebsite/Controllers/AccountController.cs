@@ -12,7 +12,6 @@ using Microsoft.Extensions.Options;
 using WeddingWebsite.Models;
 using WeddingWebsite.Models.AccountViewModels;
 using WeddingWebsite.Services;
-using WeddingPlanning.Models;
 
 namespace WeddingWebsite.Controllers
 {

@@ -24,7 +24,7 @@ namespace WeddingWebsite.Controllers
         {
             var storerId = GuestStore.Helpers.GetStorerIdFromCookie(Request.HttpContext);
             ViewData["GuestViewModel"] = new GuestViewModel { IsComing = true, AddedBy = storerId };
-            IEnumerable<IGuest> people = new List<IGuest>();
+            IEnumerable<GuestViewModel> people = new List<GuestViewModel>();
             if(storerId != null)
             {
                 people = _GuestManager.GetGuestsStoredBy(storedBy: storerId.Value);
@@ -45,7 +45,6 @@ namespace WeddingWebsite.Controllers
             }
             guest.AddedBy = storerId;
             await _GuestManager.AddGuest(guest);
-            TempData["StorerId"] = guest.AddedBy;
             Response.Cookies.Append("storer", guest.AddedBy.ToString());
             return RedirectToAction("/RSVP");
         }
