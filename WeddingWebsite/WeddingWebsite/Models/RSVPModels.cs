@@ -35,10 +35,13 @@ namespace WeddingWebsite.Models
 
         public Guid? AddedBy { get; set; }
 
-        [Display(Name = "Under 12")]
+        [Display(Name = "Under 18")]
         public bool IsChild { get; set; }
 
-        [Display(Name = "Under 5")]
+        [Display(Name = "Under 10")]
+        public bool IsYoungChild { get; set; }
+
+        [Display(Name = "Under 3")]
         public bool IsBaby { get; set; }
 
         public AgeGroup AgeGroup
@@ -49,24 +52,16 @@ namespace WeddingWebsite.Models
                 {
                     return AgeGroup.Baby;
                 }
+                else if (IsYoungChild)
+                {
+                    return AgeGroup.YoungChild;
+                }
                 else if (IsChild)
                 {
                     return AgeGroup.Child;
                 }
 
                 return AgeGroup.Adult;
-            }
-            set
-            {
-                switch (value)
-                {
-                    case AgeGroup.Baby:
-                        IsBaby = true;
-                        break;
-                    case AgeGroup.Child:
-                        IsChild = true;
-                        break;
-                }
             }
         }
 
@@ -77,11 +72,15 @@ namespace WeddingWebsite.Models
     {
         Adult,
         /// <summary>
-        /// Under 12
+        /// Under 18
         /// </summary>
         Child,
         /// <summary>
-        /// Under 5 or under 3
+        /// Under 10
+        /// </summary>
+        YoungChild,
+        /// <summary>
+        /// Under 3
         /// </summary>
         Baby
     }
