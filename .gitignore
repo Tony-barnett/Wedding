@@ -17,15 +17,12 @@ Migrations/
 Properties/
 bundleConfig.json
 # compiled output
-/dist
-/tmp
-/out-tsc
-
-# dependencies
-/node_modules
+dist/
+tmp/
+out-tsc/
 
 # IDEs and editors
-/.idea
+.idea/
 .project
 .classpath
 .c9/
