@@ -50,7 +50,7 @@ namespace WeddingWebsite.GuestStore
 
         public async Task<GuestViewModel> GetAsync(Guid id)
         {
-            return null;
+            return _DbContext.Guest.SingleOrDefault(x => x.Id == id);
         }
 
         public IEnumerable<GuestViewModel> GetStoredBy(Guid storer)
