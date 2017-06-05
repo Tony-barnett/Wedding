@@ -25,7 +25,7 @@ namespace WeddingWebsite.Controllers
             var storerId = GuestStore.Helpers.GetStorerIdFromCookie(Request.HttpContext);
             ViewData["GuestViewModel"] = new GuestViewModel { IsComing = true, AddedBy = storerId };
             IEnumerable<GuestViewModel> people = new List<GuestViewModel>();
-            if(storerId != null)
+            if (storerId != null)
             {
                 people = _GuestManager.GetGuestsStoredBy(storedBy: storerId.Value);
             }
@@ -35,18 +35,74 @@ namespace WeddingWebsite.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddGuest(GuestViewModel guest, Guid? storerId = null)
+        // GET: RSVP
+        public async Task<ActionResult> RSVP2()
         {
-            if(storerId == null)
+            return View();
+        }
+
+        public async Task<JsonResult> GetStoredGuests()
+        {
+            var guests = new List<GuestViewModel>();
+
+
+            if (User.Claims.Any(x => x.Type == "GuestId"))
             {
-                storerId = Helpers.GetStorerIdFromCookie(Request.HttpContext) ?? new Guid();
+                Guid.TryParse(User.Claims.Single(x => x.Type == "GuestId").Value, out Guid id);
+                guests = _GuestManager.GetGuestsStoredBy(id).ToList();
             }
-            guest.AddedBy = storerId;
-            await _GuestManager.AddGuest(guest);
-            Response.Cookies.Append("storer", guest.AddedBy.ToString());
-            return RedirectToAction("/RSVP");
+
+            return Json(guests);
+        }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> AddGuest(GuestViewModel guest, Guid? storerId = null)
+        //{
+        //    if (storerId == null)
+        //    {
+        //        storerId = Helpers.GetStorerIdFromCookie(Request.HttpContext) ?? new Guid();
+        //    }
+        //    guest.AddedBy = storerId;
+        //    await _GuestManager.AddGuest(guest);
+        //    Response.Cookies.Append("storer", guest.AddedBy.ToString());
+        //    return RedirectToAction("/RSVP");
+        //}
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<JsonResult> AddGuest([FromBody]GuestViewModel guest)
+        {
+            try
+            {
+                Enum.TryParse(User.Claims.Single(x => x.Type == "GuestType").Value, out GuestType guestType);
+                Guid.TryParse(User.Claims.Single(x => x.Type == "GuestId").Value, out Guid id);
+
+                guest.AddedBy = id;
+                guest.GuestType = guestType;
+
+                await _GuestManager.AddGuest(guest);
+            }
+            catch
+            {
+                return Json("Fail");
+            }
+            return Json("Success");
+        }
+
+        [HttpDelete]
+        public async Task<JsonResult> RemoveGuest(Guid guestId)
+        {
+            try
+            {
+                var guest = await _GuestManager.GetGuest(guestId);
+                await _GuestManager.RemoveGuest(guest);
+            }
+            catch (Exception e)
+            {
+                return Json("Fail");
+            }
+            return Json("Success");
         }
 
         public async Task<ActionResult> EditGuest(Guid? guestId)
@@ -82,11 +138,11 @@ namespace WeddingWebsite.Controllers
             return View(new GuestViewModel { IsComing = false });
         }
 
-        public async Task<ActionResult> RemoveGuest(Guid id)
-        {
-            var guest = await _GuestManager.GetGuest(id);
-            await _GuestManager.RemoveGuest(guest);
-            return Redirect("/RSVP/RSVP");
-        }
+        //public async Task<ActionResult> RemoveGuest(Guid id)
+        //{
+        //    var guest = await _GuestManager.GetGuest(id);
+        //    await _GuestManager.RemoveGuest(guest);
+        //    return Redirect("/RSVP/RSVP");
+        //}
     }
 }
