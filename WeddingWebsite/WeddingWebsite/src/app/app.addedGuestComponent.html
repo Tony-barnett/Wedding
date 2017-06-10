@@ -1,0 +1,49 @@
+﻿<new-guest></new-guest>
+
+<table [class.table]="true" [class.table-striped]="true" *ngIf="guests?.length > 0">
+    <thead>
+        <tr>
+            <th> Firstname </th>
+            <th> Lastname </th>
+            <th> Allergies </th>
+            <th> 11 - 18 years old </th>
+            <th> 4 - 10 years old </th>
+            <th> under 4 years old </th>
+            <th> </th>
+            <!--<th> </th>-->
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let guest of guests">
+            <td>
+                <div id="first-name-{{ guest.id }}" (click)="editPart( 'edit-first-name', 'first-name',  guest.id )"> {{ guest.firstName }} </div>
+                <div class="form-group" id="edit-first-name-{{ guest.id }}" style="display:none;">
+                    <span class="fa fa-pencil-square-o"></span>
+                    <input type="text" name="firstName" value="{{guest.firstName}}" #guestChanged (keyup)="update(guest, 'firstName', guestChanged.value)" (blur)="editPart( 'first-name',  'edit-first-name', guest.id )" />
+                </div> 
+            </td>
+
+            <td>
+                <div id="surname-{{ guest.id }}" (click)="editPart( 'edit-surname', 'surname',  guest.id )"> {{ guest.surname }} </div>
+                <div class="form-group" id="edit-surname-{{ guest.id }}" style="display:none;">
+                    <span class="fa fa-pencil-square-o"></span>
+                    <input type="text" name="surname" value="{{guest.surname}}" #guestChanged (keyup)="update(guest, 'surname', guestChanged.value)" (blur)="editPart( 'surname',  'edit-surname', guest.id )" />
+                </div>
+            </td>
+
+            <td>
+                <div id="allergies-{{ guest.id }}" (click)="editPart( 'edit-allergies', 'allergies',  guest.id )"> {{ guest.allergies }} </div>
+                <div class="form-group" id="edit-allergies-{{ guest.id }}" style="display:none;">
+                    <span class="fa fa-pencil-square-o"></span>
+                    <input type="text" name="allergies" value="{{guest.allergies}}" #guestChanged (keyup)="update(guest, 'allergies', guestChanged.value)" (blur)="editPart( 'allergies',  'edit-allergies', guest.id )" />
+                </div> 
+            </td>
+
+            <td> <span *ngIf="guest.isChild" class="fa fa-check"> </span> </td>
+            <td> <span *ngIf="guest.isBaby" class="fa fa-check"> </span> </td>
+            <td> <span *ngIf="guest.isComing" class="fa fa-check"> </span> </td>
+            <!--<td> <button class="btn" [routerLink]="['/editGuest', guest.id]"> <span class="fa fa-pencil-square-o"> Edit </span> </button> </td>-->
+            <td> <button class="btn btn-danger" (click)="onDelete(guest)"> <span class="fa fa-trash"> Delete </span> </button> </td>
+        </tr>
+    </tbody>
+</table>

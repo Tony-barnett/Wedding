@@ -4,37 +4,14 @@ import { Observable } from "rxjs/Observable";
 
 import { GuestService } from "app/GuestService";
 import { Guest } from "app/Guest";
+import { Router } from "@angular/router";
+import 'rxjs/add/operator/debounceTime';
+import { Subject } from "rxjs/Subject";
+import 'rxjs/add/operator/distinctUntilChanged';
 
 @Component({
     selector: 'added-guests',
-    template: `
-    <new-guest></new-guest>
-
-    <table [class.table]="true" [class.table-striped]="true" *ngIf="guests?.length > 0">
-        <thead>
-            <tr>
-                <th> Firstname </th>
-                <th> Lastname </th> 
-                <th> Allergies </th>
-                <th> 11 - 18 years old </th>
-                <th> 4 - 10 years old </th> 
-                <th> under 4 years old </th>
-                <th> </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let guest of guests">
-                <td> {{ guest.firstName }} </td>
-                <td> {{ guest.surname }} </td>
-                <td> {{ guest.allergies }} </td>
-                <td> <span *ngIf="guest.isChild" class="fa fa-check"> </span> </td>
-                <td> <span *ngIf="guest.isBaby" class="fa fa-check"> </span> </td>
-                <td> <span *ngIf="guest.isComing" class="fa fa-check"> </span> </td>
-                <td> <button class="btn btn-danger" (click)="onDelete(guest)"> <span class="fa fa-trash"> Delete </span> </button> </td>
-            </tr>
-        </tbody>
-    </table>
-    `
+    templateUrl: 'app.addedGuestComponent.html'
 })
 export class AddedGuestsComponent {
     constructor(
@@ -43,6 +20,8 @@ export class AddedGuestsComponent {
 
     guests: Array<Guest>;
 
+    private guestChanged = new Subject<Guest>();
+
     ngOnInit(): void {
         this.guestService
             .getGuests()
@@ -50,6 +29,32 @@ export class AddedGuestsComponent {
                 guest => this.guests = guest,
                 error => console.log('bar', error)
             );
+        
+        this.guestChanged
+            .debounceTime(500)
+            .subscribe(
+            g => this.guestService
+                .updateGuest(g)
+                .subscribe(
+                    result => {
+                        if (result) {
+                            this.guests[this.guests.indexOf(g)] = g;
+                        } else {
+                            console.log("whert");
+                        }
+            }));
+        
+    };
+
+    update(guest: Guest, element: string, value: string): void {
+        guest[element] = value.trim();
+        this.guestChanged.next(guest);
+        
+    };
+
+    editPart(showId: string, hideId: string, guestId: AAGUID): void{
+        document.getElementById(hideId + "-" + guestId).style.display = "none";
+        document.getElementById(showId + "-" + guestId).style.display = "block";
     };
 
     onDelete(guest: Guest): void {
