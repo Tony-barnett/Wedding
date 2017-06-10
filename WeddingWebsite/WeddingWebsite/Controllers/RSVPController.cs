@@ -105,15 +105,36 @@ namespace WeddingWebsite.Controllers
             return Json("Success");
         }
 
-        public async Task<ActionResult> EditGuest(Guid? guestId)
+        [HttpPut]
+        public async Task<ActionResult> EditGuest([FromBody]GuestViewModel guest)
         {
-            if (!guestId.HasValue)
+            try
             {
-                return null;
+                Enum.TryParse(User.Claims.Single(x => x.Type == "GuestType").Value, out GuestType guestType);
+                Guid.TryParse(User.Claims.Single(x => x.Type == "GuestId").Value, out Guid id);
+
+                guest.AddedBy = id;
+                guest.GuestType = guestType;
+
+                await _GuestManager.EditGuest(guest);
             }
-            var guest = await _GuestManager.GetGuest(guestId.Value);
-            return PartialView("_Guest", guest as GuestViewModel);
+            catch
+            {
+                return Json("Fail");
+            }
+            return Json("Success");
+            
         }
+
+        //public async Task<ActionResult> EditGuest(Guid? guestId)
+        //{
+        //    if (!guestId.HasValue)
+        //    {
+        //        return null;
+        //    }
+        //    var guest = await _GuestManager.GetGuest(guestId.Value);
+        //    return PartialView("_Guest", guest as GuestViewModel);
+        //}
 
         //GET: Index
         public ActionResult Index()
