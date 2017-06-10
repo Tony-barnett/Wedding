@@ -7,6 +7,7 @@ using WeddingWebsite;
 
 namespace WeddingWebsite.GuestStore
 {
+    using Microsoft.EntityFrameworkCore;
     using Storage;
     using WeddingWebsite.DB;
 
@@ -24,9 +25,9 @@ namespace WeddingWebsite.GuestStore
 
     public class GuestRepostory: IGuestRepository
     {
-        private DbContext _DbContext;
+        private DB.DbContext _DbContext;
 
-        public GuestRepostory(DbContext dbContext)
+        public GuestRepostory(DB.DbContext dbContext)
         {
             _DbContext = dbContext;
         }
@@ -61,7 +62,8 @@ namespace WeddingWebsite.GuestStore
 
         public async Task UpdateAsync(GuestViewModel entity)
         {
-            _DbContext.Guest.Attach(entity);
+            _DbContext.Entry(entity).State = EntityState.Modified;
+            //_DbContext.Guest.Attach(entity);
             await _DbContext.SaveChangesAsync();
         }
     }

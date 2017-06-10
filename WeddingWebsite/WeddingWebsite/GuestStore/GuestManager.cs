@@ -12,6 +12,7 @@ namespace WeddingWebsite.GuestStore
         IEnumerable<GuestViewModel> GetGuestsStoredBy(Guid storedBy);
         Task RemoveGuest(GuestViewModel guest);
         Task<GuestViewModel> GetGuest(Guid guestId);
+        Task EditGuest(GuestViewModel guest);
     }
 
     public class GuestManager : IGuestManager
@@ -41,6 +42,11 @@ namespace WeddingWebsite.GuestStore
         public async Task<GuestViewModel> GetGuest(Guid guestId)
         {
             return await _GuestStore.GetAsync(guestId);
+        }
+
+        public async Task EditGuest(GuestViewModel guest)
+        {
+            await _GuestStore.UpdateAsync(guest);
         }
     }
 }

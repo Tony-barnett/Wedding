@@ -31,6 +31,12 @@ export class GuestService {
             .map(response => response.json() == "Success");
     }
 
+    updateGuest(guest: Guest): Observable<boolean> {
+        return this.http
+            .put("/RSVP/EditGuest", guest)
+            .map(response => response.json() == "Success");
+    }
+
     private extract(response: Response) {
         let body = response.json();
         return body || {};
