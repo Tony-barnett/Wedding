@@ -19,7 +19,10 @@ import { NewGuestComponent } from "app/app.makeGuestComponent";
         AddedGuestsComponent,
         NewGuestComponent
     ],
-  providers: [ GuestService ],
+    providers: [
+        GuestService,
+        AddedGuestsComponent
+    ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

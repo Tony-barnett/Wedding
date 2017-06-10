@@ -19,7 +19,7 @@
                 <div id="first-name-{{ guest.id }}" (click)="editPart( 'edit-first-name', 'first-name',  guest.id )"> {{ guest.firstName }} </div>
                 <div class="form-group" id="edit-first-name-{{ guest.id }}" style="display:none;">
                     <span class="fa fa-pencil-square-o"></span>
-                    <input type="text" name="firstName" value="{{guest.firstName}}" #guestChanged (keyup)="update(guest, 'firstName', guestChanged.value)" (blur)="editPart( 'first-name',  'edit-first-name', guest.id )" />
+                    <input type="text" name="firstName" value="{{guest.firstName}}" #firstNameChanged (keyup)="updateFirstName(guest, firstNameChanged.value)" (blur)="editPart('first-name',  'edit-first-name', guest.id)" />
                 </div> 
             </td>
 
@@ -27,7 +27,7 @@
                 <div id="surname-{{ guest.id }}" (click)="editPart( 'edit-surname', 'surname',  guest.id )"> {{ guest.surname }} </div>
                 <div class="form-group" id="edit-surname-{{ guest.id }}" style="display:none;">
                     <span class="fa fa-pencil-square-o"></span>
-                    <input type="text" name="surname" value="{{guest.surname}}" #guestChanged (keyup)="update(guest, 'surname', guestChanged.value)" (blur)="editPart( 'surname',  'edit-surname', guest.id )" />
+                    <input type="text" name="surname" value="{{guest.surname}}" #surnameChanged (keyup)="updateSurname(guest, surnameChanged.value)" (blur)="editPart('surname',  'edit-surname', guest.id)" />
                 </div>
             </td>
 
@@ -35,7 +35,7 @@
                 <div id="allergies-{{ guest.id }}" (click)="editPart( 'edit-allergies', 'allergies',  guest.id )"> {{ guest.allergies }} </div>
                 <div class="form-group" id="edit-allergies-{{ guest.id }}" style="display:none;">
                     <span class="fa fa-pencil-square-o"></span>
-                    <input type="text" name="allergies" value="{{guest.allergies}}" #guestChanged (keyup)="update(guest, 'allergies', guestChanged.value)" (blur)="editPart( 'allergies',  'edit-allergies', guest.id )" />
+                    <input type="text" name="allergies" value="{{guest.allergies}}" #allergiesChanged (keyup)="updateAllergies(guest, allergiesChanged.value)" (blur)="editPart('allergies',  'edit-allergies', guest.id)" />
                 </div> 
             </td>
 

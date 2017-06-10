@@ -20,7 +20,9 @@ export class AddedGuestsComponent {
 
     guests: Array<Guest>;
 
-    private guestChanged = new Subject<Guest>();
+    private firstNameChanged = new Subject<Guest>();
+    private surnameChanged = new Subject<Guest>();
+    private allergiesChanged = new Subject<Guest>();
 
     ngOnInit(): void {
         this.guestService
@@ -30,7 +32,7 @@ export class AddedGuestsComponent {
                 error => console.log('bar', error)
             );
         
-        this.guestChanged
+        this.firstNameChanged
             .debounceTime(500)
             .subscribe(
             g => this.guestService
@@ -42,14 +44,54 @@ export class AddedGuestsComponent {
                         } else {
                             console.log("whert");
                         }
-            }));
+                }));
+
+        this.surnameChanged
+            .debounceTime(500)
+            .subscribe(
+            g => this.guestService
+                .updateGuest(g)
+                .subscribe(
+                result => {
+                    if (result) {
+                        this.guests[this.guests.indexOf(g)] = g;
+                    } else {
+                        console.log("whert");
+                    }
+                }));
+
+        this.allergiesChanged
+            .debounceTime(500)
+            .subscribe(
+            g => this.guestService
+                .updateGuest(g)
+                .subscribe(
+                result => {
+                    if (result) {
+                        this.guests[this.guests.indexOf(g)] = g;
+                    } else {
+                        console.log("whert");
+                    }
+                }));
         
     };
 
-    update(guest: Guest, element: string, value: string): void {
-        guest[element] = value.trim();
-        this.guestChanged.next(guest);
-        
+    updateFirstName(guest: Guest, value: string): void {
+        guest.firstName = value.trim();
+        this.firstNameChanged.next(guest);
+
+    };
+
+    updateSurname(guest: Guest, value: string): void {
+        guest.surname = value.trim();
+        this.surnameChanged.next(guest);
+
+    };
+
+    updateAllergies(guest: Guest, value: string): void {
+        guest.allergies = value.trim();
+        this.allergiesChanged.next(guest);
+
     };
 
     editPart(showId: string, hideId: string, guestId: AAGUID): void{
