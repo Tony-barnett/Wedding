@@ -18,11 +18,19 @@ export class NewGuestComponent {
 
     @Input() guest: Guest;
 
+    private hideAndShow(hideId: string, showId: string): void {
+        document.getElementById(hideId).style.display = 'none';
+        document.getElementById(showId).style.display = 'block';
+
+    }
+
     onSubmit() {
+        this.hideAndShow('submit-text', 'spinny-span');
+
         this.guestService
             .addGuest(this.guest)
             .subscribe(
-            result => { this.handleAddGuestPost(result) })
+            result => { this.hideAndShow('spinny-span', 'submit-text'); this.handleAddGuestPost(result) })
     };
 
     private handleAddGuestPost(result: NewGuestObject) {

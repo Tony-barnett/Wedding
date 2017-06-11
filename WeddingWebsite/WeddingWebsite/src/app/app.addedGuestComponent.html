@@ -43,7 +43,7 @@
             <td> <div id="young-child-{{guest.id}}"><span *ngIf="guest.isYoungChild" class="fa fa-check"> </span> <span *ngIf="!guest.isYoungChild" class="fa fa-times" style="color: lightgrey;"> </span>  </div></td>
            <td> <div id="baby-{{guest.id}}"><span *ngIf="guest.isBaby" class="fa fa-check">   </span> <span *ngIf="!guest.isBaby"   class="fa fa-times" style="color: lightgrey;">   </span></div> </td>
             <!--<td> <button class="btn" [routerLink]="['/editGuest', guest.id]"> <span class="fa fa-pencil-square-o"> Edit </span> </button> </td>-->
-            <td> <button class="btn btn-danger" (click)="onDelete(guest)"> <span class="fa fa-trash"> Delete </span> </button> </td>
+            <td> <button class="btn btn-danger" (click)="onDelete(guest)"> <div id="delete-text-{{guest.id}}"> <span class="fa fa-trash"> Delete </span> </div> <div id="delete-spin-{{guest.id}}" style="display:none;"><span class="fa fa-circle-o-notch fa-spin"></span></div> </button> </td>
         </tr>
     </tbody>
 </table>

@@ -40,6 +40,12 @@ export class AddedGuestsComponent {
                 }));
     }
 
+    private hideAndShow(hideId: string, showId: string): void {
+        document.getElementById(hideId).style.display = 'none';
+        document.getElementById(showId).style.display = 'block';
+
+    }
+
     ngOnInit(): void {
         this.guestService
             .getGuests()
@@ -53,13 +59,13 @@ export class AddedGuestsComponent {
     };
     
     updateField(guest: Guest, field: string, hasChanged: Subject<Guest>, value: string): void {
-            guest[field] = value.trim();
-            this.firstNameChanged.next(guest);
-    }
+        guest[field] = value.trim();
+        hasChanged.next(guest);
+    };
 
     updateFirstName(guest: Guest, value: string): void {
         if (value != null && !value.match(/^ *$/)) {
-        this.updateField(guest, "firstName", this.firstNameChanged, value);
+            this.updateField(guest, "firstName", this.firstNameChanged, value);
         }
     };
 
@@ -71,7 +77,6 @@ export class AddedGuestsComponent {
 
     updateAllergies(guest: Guest, value: string): void {
         this.updateField(guest, "allergies", this.allergiesChanged, value);
-
     };
 
     showAndHide(showId: string, hideId: string, guestId: AAGUID, focusId: string): void{
@@ -83,15 +88,20 @@ export class AddedGuestsComponent {
     };
 
     onDelete(guest: Guest): void {
+        var buttonText = 'delete-text-' + guest.id;
+        var spinner = 'delete-spin-' + guest.id;
+        this.hideAndShow(buttonText, spinner);
         this.guestService
             .deleteGuest(guest)
             .subscribe(
             result => {
-                console.log(result);
+                this.hideAndShow(spinner, buttonText);
                 this.guestWasDeleted(result, guest);
             },
-            error => console.log("couldn't do it cap'n", error)
-            )
+            error => {
+                this.hideAndShow(spinner, buttonText);
+                console.log("couldn't do it cap'n", error)
+            })
     };
 
     guestWasDeleted(yes: boolean, guest: Guest): void {
@@ -102,5 +112,5 @@ export class AddedGuestsComponent {
             console.log(this.guests);
             this.guests.splice(index, 1);
         }
-    }
+    };
 };
