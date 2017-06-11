@@ -53,19 +53,20 @@ export class AddedGuestsComponent {
     };
     
     updateField(guest: Guest, field: string, hasChanged: Subject<Guest>, value: string): void {
-        if (value != null && !value.match(/^ *$/)) {
             guest[field] = value.trim();
             this.firstNameChanged.next(guest);
-        }
     }
 
     updateFirstName(guest: Guest, value: string): void {
+        if (value != null && !value.match(/^ *$/)) {
         this.updateField(guest, "firstName", this.firstNameChanged, value);
+        }
     };
 
     updateSurname(guest: Guest, value: string): void {
-        this.updateField(guest, "surname", this.surnameChanged, value);
-
+        if (value != null && !value.match(/^ *$/)) {
+            this.updateField(guest, "surname", this.surnameChanged, value);
+        }
     };
 
     updateAllergies(guest: Guest, value: string): void {
