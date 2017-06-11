@@ -10,7 +10,6 @@
             <th> 4 - 10 years old </th>
             <th> under 4 years old </th>
             <th> </th>
-            <!--<th> </th>-->
         </tr>
     </thead>
     <tbody>
@@ -39,10 +38,9 @@
                 </div> 
             </td>
 
-            <td> <div id="child-{{guest.id}}"><span *ngIf="guest.isChild" class="fa fa-check">  </span> <span *ngIf="!guest.isChild"  class="fa fa-times" style="color: lightgrey;">  </span> </div> </td>
-            <td> <div id="young-child-{{guest.id}}"><span *ngIf="guest.isYoungChild" class="fa fa-check"> </span> <span *ngIf="!guest.isYoungChild" class="fa fa-times" style="color: lightgrey;"> </span>  </div></td>
-           <td> <div id="baby-{{guest.id}}"><span *ngIf="guest.isBaby" class="fa fa-check">   </span> <span *ngIf="!guest.isBaby"   class="fa fa-times" style="color: lightgrey;">   </span></div> </td>
-            <!--<td> <button class="btn" [routerLink]="['/editGuest', guest.id]"> <span class="fa fa-pencil-square-o"> Edit </span> </button> </td>-->
+            <td> <div id="child-{{guest.id}}" (click)="updateAge(guest, child)"><span *ngIf="guest.isChild" class="fa fa-check">  </span> <span *ngIf="!guest.isChild"  class="fa fa-times" style="color: lightgrey;">  </span> </div> </td>
+            <td> <div id="young-child-{{guest.id}}" (click)="updateAge(guest, youngChild)"><span *ngIf="guest.isYoungChild" class="fa fa-check"> </span> <span *ngIf="!guest.isYoungChild" class="fa fa-times" style="color: lightgrey;"> </span>  </div></td>
+           <td> <div id="baby-{{guest.id}}" (click)="updateAge(guest, baby)"><span *ngIf="guest.isBaby" class="fa fa-check">   </span> <span *ngIf="!guest.isBaby"   class="fa fa-times" style="color: lightgrey;">   </span></div> </td>
             <td> <button class="btn btn-danger" (click)="onDelete(guest)"> <div id="delete-text-{{guest.id}}"> <span class="fa fa-trash"> Delete </span> </div> <div id="delete-spin-{{guest.id}}" style="display:none;"><span class="fa fa-circle-o-notch fa-spin"></span></div> </button> </td>
         </tr>
     </tbody>

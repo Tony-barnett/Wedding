@@ -18,11 +18,16 @@ export class AddedGuestsComponent {
         private guestService: GuestService
     ){}
 
+    child: string = "isChild";
+    youngChild: string = "isYoungChild";
+    baby: string = "isBaby";
+
     guests: Array<Guest>;
 
     private firstNameChanged = new Subject<Guest>();
     private surnameChanged = new Subject<Guest>();
     private allergiesChanged = new Subject<Guest>();
+
 
     private setupEdit(hasChanged: Subject<Guest>): void {
         hasChanged
@@ -79,6 +84,28 @@ export class AddedGuestsComponent {
         this.updateField(guest, "allergies", this.allergiesChanged, value);
     };
 
+    updateAge(guest: Guest, ageGroup: string): void {
+        switch (ageGroup) {
+            case this.child:
+                guest.isChild = !guest.isChild;
+                guest.isYoungChild = false;
+                guest.isBaby = false;
+                break;
+            case this.youngChild:
+                guest.isChild = false;
+                guest.isYoungChild = !guest.isYoungChild;
+                guest.isBaby = false;
+                break;
+            case this.baby:
+                guest.isChild = false;
+                guest.isYoungChild = false;
+                guest.isBaby = !guest.isBaby;
+                break;
+        }
+
+        this.firstNameChanged.next(guest);
+    }
+
     showAndHide(showId: string, hideId: string, guestId: AAGUID, focusId: string): void{
         document.getElementById(hideId + "-" + guestId).style.display = "none";
         document.getElementById(showId + "-" + guestId).style.display = "block";
@@ -107,9 +134,6 @@ export class AddedGuestsComponent {
     guestWasDeleted(yes: boolean, guest: Guest): void {
         if (yes) {
             var index = this.guests.indexOf(guest);
-            console.log(index);
-            console.log(guest);
-            console.log(this.guests);
             this.guests.splice(index, 1);
         }
     };
