@@ -24,6 +24,22 @@ export class AddedGuestsComponent {
     private surnameChanged = new Subject<Guest>();
     private allergiesChanged = new Subject<Guest>();
 
+    private setupEdit(hasChanged: Subject<Guest>): void {
+        hasChanged
+            .debounceTime(500)
+            .subscribe(
+            g => this.guestService
+                .updateGuest(g)
+                .subscribe(
+                result => {
+                    if (result) {
+                        this.guests[this.guests.indexOf(g)] = g;
+                    } else {
+                        console.log("whert");
+                    }
+                }));
+    }
+
     ngOnInit(): void {
         this.guestService
             .getGuests()
@@ -31,72 +47,38 @@ export class AddedGuestsComponent {
                 guest => this.guests = guest,
                 error => console.log('bar', error)
             );
-        
-        this.firstNameChanged
-            .debounceTime(500)
-            .subscribe(
-            g => this.guestService
-                .updateGuest(g)
-                .subscribe(
-                    result => {
-                        if (result) {
-                            this.guests[this.guests.indexOf(g)] = g;
-                        } else {
-                            console.log("whert");
-                        }
-                }));
-
-        this.surnameChanged
-            .debounceTime(500)
-            .subscribe(
-            g => this.guestService
-                .updateGuest(g)
-                .subscribe(
-                result => {
-                    if (result) {
-                        this.guests[this.guests.indexOf(g)] = g;
-                    } else {
-                        console.log("whert");
-                    }
-                }));
-
-        this.allergiesChanged
-            .debounceTime(500)
-            .subscribe(
-            g => this.guestService
-                .updateGuest(g)
-                .subscribe(
-                result => {
-                    if (result) {
-                        this.guests[this.guests.indexOf(g)] = g;
-                    } else {
-                        console.log("whert");
-                    }
-                }));
-        
+        this.setupEdit(this.firstNameChanged);
+        this.setupEdit(this.surnameChanged);
+        this.setupEdit(this.allergiesChanged);
     };
+    
+    updateField(guest: Guest, field: string, hasChanged: Subject<Guest>, value: string): void {
+        if (value != null && !value.match(/^ *$/)) {
+            guest[field] = value.trim();
+            this.firstNameChanged.next(guest);
+        }
+    }
 
     updateFirstName(guest: Guest, value: string): void {
-        guest.firstName = value.trim();
-        this.firstNameChanged.next(guest);
-
+        this.updateField(guest, "firstName", this.firstNameChanged, value);
     };
 
     updateSurname(guest: Guest, value: string): void {
-        guest.surname = value.trim();
-        this.surnameChanged.next(guest);
+        this.updateField(guest, "surname", this.surnameChanged, value);
 
     };
 
     updateAllergies(guest: Guest, value: string): void {
-        guest.allergies = value.trim();
-        this.allergiesChanged.next(guest);
+        this.updateField(guest, "allergies", this.allergiesChanged, value);
 
     };
 
-    editPart(showId: string, hideId: string, guestId: AAGUID): void{
+    showAndHide(showId: string, hideId: string, guestId: AAGUID, focusId: string): void{
         document.getElementById(hideId + "-" + guestId).style.display = "none";
         document.getElementById(showId + "-" + guestId).style.display = "block";
+        if (focusId) {
+            document.getElementById(focusId + "-" + guestId).focus();
+        }
     };
 
     onDelete(guest: Guest): void {

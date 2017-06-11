@@ -16,26 +16,26 @@
     <tbody>
         <tr *ngFor="let guest of guests">
             <td>
-                <div id="first-name-{{ guest.id }}" (click)="editPart( 'edit-first-name', 'first-name',  guest.id )"> {{ guest.firstName }} </div>
+                <div id="first-name-{{ guest.id }}" (click)="showAndHide( 'edit-first-name', 'first-name',  guest.id, 'first-name-input')"> {{ guest.firstName }} </div>
                 <div class="form-group" id="edit-first-name-{{ guest.id }}" style="display:none;">
                     <span class="fa fa-pencil-square-o"></span>
-                    <input type="text" name="firstName" value="{{guest.firstName}}" #firstNameChanged (keyup)="updateFirstName(guest, firstNameChanged.value)" (blur)="editPart('first-name',  'edit-first-name', guest.id)" />
+                    <input id="first-name-input-{{guest.id}}" type="text" name="firstName" value="{{guest.firstName}}" #firstNameChanged (blur)="updateFirstName(guest, firstNameChanged.value); showAndHide('first-name',  'edit-first-name', guest.id)" />
                 </div> 
             </td>
 
             <td>
-                <div id="surname-{{ guest.id }}" (click)="editPart( 'edit-surname', 'surname',  guest.id )"> {{ guest.surname }} </div>
+                <div id="surname-{{ guest.id }}" (click)="showAndHide( 'edit-surname', 'surname',  guest.id,  'surname-input' )"> {{ guest.surname }} </div>
                 <div class="form-group" id="edit-surname-{{ guest.id }}" style="display:none;">
                     <span class="fa fa-pencil-square-o"></span>
-                    <input type="text" name="surname" value="{{guest.surname}}" #surnameChanged (keyup)="updateSurname(guest, surnameChanged.value)" (blur)="editPart('surname',  'edit-surname', guest.id)" />
+                    <input id="surname-input-{{guest.id}}" type="text" name="surname" value="{{guest.surname}}" #surnameChanged (blur)="updateSurname(guest, surnameChanged.value); showAndHide('surname',  'edit-surname', guest.id)" />
                 </div>
             </td>
 
             <td>
-                <div id="allergies-{{ guest.id }}" (click)="editPart( 'edit-allergies', 'allergies',  guest.id )"> {{ guest.allergies }} </div>
+                <div id="allergies-{{ guest.id }}" (click)="showAndHide( 'edit-allergies', 'allergies',  guest.id,  'allergies-input')"> {{ guest.allergies }} </div>
                 <div class="form-group" id="edit-allergies-{{ guest.id }}" style="display:none;">
                     <span class="fa fa-pencil-square-o"></span>
-                    <input type="text" name="allergies" value="{{guest.allergies}}" #allergiesChanged (keyup)="updateAllergies(guest, allergiesChanged.value)" (blur)="editPart('allergies',  'edit-allergies', guest.id)" />
+                    <input id="allergies-input-{{guest.id}}" type="text" class="textarea" name="allergies" value="{{guest.allergies}}" #allergiesChanged  (blur)="updateAllergies(guest, allergiesChanged.value); showAndHide('allergies',  'edit-allergies', guest.id)" />
                 </div> 
             </td>
 
