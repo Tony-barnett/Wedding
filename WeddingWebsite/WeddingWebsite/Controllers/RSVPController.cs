@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,6 +70,12 @@ namespace WeddingWebsite.Controllers
         //    return RedirectToAction("/RSVP");
         //}
 
+        private struct NewGuestRespnse
+        {
+            public string Result { get; set; }
+            public Guid GuestId { get; set; }
+        }
+
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public async Task<JsonResult> AddGuest([FromBody]GuestViewModel guest)
@@ -87,7 +94,11 @@ namespace WeddingWebsite.Controllers
             {
                 return Json("Fail");
             }
-            return Json("Success");
+            return Json(
+                new NewGuestRespnse {
+                    Result = "Success",
+                    GuestId = guest.Id.Value
+                });
         }
 
         [HttpDelete]

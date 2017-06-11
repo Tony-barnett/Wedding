@@ -1,6 +1,6 @@
 ﻿import { Component, Input } from "@angular/core";
 
-import { GuestService } from "app/GuestService";
+import { GuestService, NewGuestObject } from "app/GuestService";
 import { Guest } from "app/Guest";
 import { AddedGuestsComponent } from "app/app.addedGuestComponent";
 
@@ -22,12 +22,13 @@ export class NewGuestComponent {
         this.guestService
             .addGuest(this.guest)
             .subscribe(
-            result => this.handleAddGuestPost(result))
+            result => { this.handleAddGuestPost(result) })
     };
 
-    private handleAddGuestPost(result: boolean) {
-        if (result == true) {
-            this.updateTable()
+    private handleAddGuestPost(result: NewGuestObject) {
+        if (result.success == true) {
+            this.guest.id = result.newId;
+            this.updateTable();
         } else {
             this.errorOut();
         }

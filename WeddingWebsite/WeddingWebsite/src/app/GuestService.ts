@@ -7,7 +7,10 @@ import 'rxjs/add/operator/map';
 
 import { Guest } from "app/Guest";
 
-
+export class NewGuestObject {
+    success: boolean;
+    newId: AAGUID;
+}
 
 @Injectable()
 export class GuestService {
@@ -19,10 +22,17 @@ export class GuestService {
             .map(this.extract);
     }
 
-    addGuest(guest: Guest): Observable<boolean> {
+    addGuest(guest: Guest): Observable<NewGuestObject> {
         return this.http
             .post("/RSVP/AddGuest", guest)
-            .map(response => response.json() == "Success");
+            .map(response => {
+                guest.id == response.json().guestId;
+                var ngo = new NewGuestObject();
+                ngo.newId = response.json().guestId;
+                ngo.success = response.json().result == "Success";
+
+                return  ngo;
+            });
     }
 
     deleteGuest(guest: Guest): Observable<boolean> {
