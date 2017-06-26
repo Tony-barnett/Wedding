@@ -20,6 +20,7 @@ bundleConfig.json
 dist/
 tmp/
 out-tsc/
+wwwroot/
 
 # IDEs and editors
 .idea/
