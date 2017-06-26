@@ -1,0 +1,8 @@
+﻿<div>
+    <div *ngFor="let alert of alerts"
+         [@thingState] ="alert.state">
+        <div class="alert {{ alert.type }}">
+            <h6>{{ alert.message }}</h6>
+        </div>
+    </div>
+</div>

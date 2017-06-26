@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, ViewChild } from '@angular/core';
 
 import { Observable } from "rxjs/Observable";
 
@@ -8,6 +8,7 @@ import { Router } from "@angular/router";
 import 'rxjs/add/operator/debounceTime';
 import { Subject } from "rxjs/Subject";
 import 'rxjs/add/operator/distinctUntilChanged';
+import { AlertMessageComponent } from "app/app.alert";
 
 @Component({
     selector: 'added-guests',
@@ -15,9 +16,10 @@ import 'rxjs/add/operator/distinctUntilChanged';
 })
 export class AddedGuestsComponent {
     constructor(
-        private guestService: GuestService
+        private guestService: GuestService//,
+        //private alertMessage: AlertMessageComponent
     ){}
-
+    @ViewChild('alertMessage') alertMessage;
     child: string = "isChild";
     youngChild: string = "isYoungChild";
     baby: string = "isBaby";
@@ -135,6 +137,8 @@ export class AddedGuestsComponent {
         if (yes) {
             var index = this.guests.indexOf(guest);
             this.guests.splice(index, 1);
+            this.alertMessage.success(guest.firstName + " " + guest.surname + " was successfully removed.")
         }
     };
+    
 };
