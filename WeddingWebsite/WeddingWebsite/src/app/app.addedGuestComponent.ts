@@ -68,6 +68,7 @@ export class AddedGuestsComponent {
     updateField(guest: Guest, field: string, hasChanged: Subject<Guest>, value: string): void {
         guest[field] = value.trim();
         hasChanged.next(guest);
+        this.alertMessage.success(guest.firstName + " " + guest.surname + " was successfully updated.");
     };
 
     updateFirstName(guest: Guest, value: string): void {
