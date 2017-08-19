@@ -46,6 +46,7 @@ export class NewGuestComponent {
 
     private updateTable(): void {
         this.guestTable.guests.push(this.guest);
+        this.guestTable.alertMessage.success(this.guest.firstName + " " + this.guest.surname + " was successfully added.");
     };
 
     private errorOut(): void {
