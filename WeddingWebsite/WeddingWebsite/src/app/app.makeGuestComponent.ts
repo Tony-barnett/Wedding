@@ -51,5 +51,6 @@ export class NewGuestComponent {
 
     private errorOut(): void {
         console.log("shit gone sour");
+        this.guestTable.alertMessage.error("Error, please try again");
     };
 };
