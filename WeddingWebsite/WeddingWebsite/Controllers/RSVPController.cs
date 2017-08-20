@@ -169,11 +169,11 @@ namespace WeddingWebsite.Controllers
             return View();
         }
 
-        public ActionResult CannotCome()
-        {
-            ViewBag.ReturnUrl = "#";
-            return View(new GuestViewModel { IsComing = false });
-        }
+        //public ActionResult CannotCome()
+        //{
+        //    ViewBag.ReturnUrl = "#";
+        //    return View(new GuestViewModel { IsComing = false });
+        //}
 
         //public async Task<ActionResult> RemoveGuest(Guid id)
         //{
