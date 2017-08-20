@@ -3,7 +3,6 @@
 
 <new-guest [justName]="false" (onGuestAdded)="addGuestToList($event)" (onAlert)="setSuccess($event)"></new-guest>
 
-
 <table [class.table]="true" [class.table-striped]="true" *ngIf="guests?.length > 0">
     <thead>
         <tr>

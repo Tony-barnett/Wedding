@@ -1,7 +1,6 @@
 ﻿
 <alert-message #alertMessage></alert-message>
 
-
 <new-guest [justName]="true" (onGuestAdded)="addGuestToList($event)" (onAlert)="setSuccess($event)"></new-guest>
 
 <table [class.table]="true" [class.table-striped]="true" *ngIf="guests?.length > 0">
@@ -19,7 +18,7 @@
             </td>
 
             <td>
-                <div id="surname-{{ guest.id }}" (click)="showAndHide( 'edit-surname', 'surname',  guest.id,  'surname-input' )"> <span class="fa fa-pencil-square-o"></span> {{ guest.surname }} </div>
+                <div id="surname-{{ guest.id }}" (click)="showAndHide( 'edit-surname', 'surname',  guest.id,  'surname-input' )"> {{ guest.surname }} </div>
             </td>
 
             <td> 
