@@ -25,21 +25,21 @@ export class CannotComeComponent {
 
     guests: Array<Guest>;
     
-    private setupEdit(hasChanged: Subject<Guest>): void {
-        hasChanged
-            .debounceTime(500)
-            .subscribe(
-            g => this.guestService
-                .updateGuest(g)
-                .subscribe(
-                result => {
-                    if (result) {
-                        this.guests[this.guests.indexOf(g)] = g;
-                    } else {
-                        console.log("whert");
-                    }
-                }));
-    }
+    //private setupEdit(hasChanged: Subject<Guest>): void {
+    //    hasChanged
+    //        .debounceTime(500)
+    //        .subscribe(
+    //        g => this.guestService
+    //            .updateGuest(g)
+    //            .subscribe(
+    //            result => {
+    //                if (result) {
+    //                    this.guests[this.guests.indexOf(g)] = g;
+    //                } else {
+    //                    console.log("whert");
+    //                }
+    //            }));
+    //}
 
     private hideAndShow(hideId: string, showId: string): void {
         document.getElementById(hideId).style.display = 'none';
@@ -60,7 +60,7 @@ export class CannotComeComponent {
     updateField(guest: Guest, field: string, hasChanged: Subject<Guest>, value: string): void {
         guest[field] = value.trim();
         hasChanged.next(guest);
-        this.alertMessage.success(guest.firstName + " " + guest.surname + " was successfully updated.");
+        this.setSuccess(guest.firstName + " " + guest.surname + " was successfully updated.");
     };
 
     onDelete(guest: Guest): void {
@@ -84,8 +84,15 @@ export class CannotComeComponent {
         if (yes) {
             var index = this.guests.indexOf(guest);
             this.guests.splice(index, 1);
-            this.alertMessage.success(guest.firstName + " " + guest.surname + " was successfully removed.")
+            this.setSuccess(guest.firstName + " " + guest.surname + " was successfully removed.")
         }
     };
-    
+
+    addGuestToList(guest: Guest): void {
+        this.guests.push(guest);
+    };
+
+    setSuccess(message: string): void {
+        this.alertMessage.success(message);
+    }
 };

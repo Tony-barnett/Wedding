@@ -1,4 +1,4 @@
-﻿import { Component, Input } from "@angular/core";
+﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
 
 import { GuestService, NewGuestObject } from "app/GuestService";
 import { Guest } from "app/Guest";
@@ -17,6 +17,9 @@ export class NewGuestComponent {
     }
 
     @Input() guest: Guest;
+    @Input() justName: boolean;
+    @Output() onAlert: EventEmitter<string> = new EventEmitter();
+    @Output() onGuestAdded: EventEmitter<Guest> = new EventEmitter();
 
     private hideAndShow(hideId: string, showId: string): void {
         document.getElementById(hideId).style.display = 'none';
@@ -26,6 +29,8 @@ export class NewGuestComponent {
 
     onSubmit() {
         this.hideAndShow('submit-text', 'spinny-span');
+
+        this.guest.isComing = !this.justName;
 
         this.guestService
             .addGuest(this.guest)
@@ -45,12 +50,14 @@ export class NewGuestComponent {
     };
 
     private updateTable(): void {
-        this.guestTable.guests.push(this.guest);
-        this.guestTable.alertMessage.success(this.guest.firstName + " " + this.guest.surname + " was successfully added.");
+        this.onGuestAdded.emit(this.guest);
+        this.onAlert.emit(this.guest.firstName + " " + this.guest.surname + " was successfully added.");
+        //this.guestTable.guests.push(this.guest);
+        //this.guestTable.alertMessage.success(this.guest.firstName + " " + this.guest.surname + " was successfully added.");
     };
 
     private errorOut(): void {
         console.log("shit gone sour");
-        this.guestTable.alertMessage.error("Error, please try again");
+        this.guestTable.alertMessage.error("Error, please try again.");
     };
 };

@@ -141,5 +141,12 @@ export class AddedGuestsComponent {
             this.alertMessage.success(guest.firstName + " " + guest.surname + " was successfully removed.")
         }
     };
-    
+
+    addGuestToList(guest: Guest): void {
+        this.guests.push(guest);
+    };
+
+    setSuccess(message: string): void {
+        this.alertMessage.success(message);
+    }
 };

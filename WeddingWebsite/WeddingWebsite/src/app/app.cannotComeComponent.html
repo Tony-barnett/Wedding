@@ -2,6 +2,7 @@
 <alert-message #alertMessage></alert-message>
 
 
+<new-guest [justName]="true" (onGuestAdded)="addGuestToList($event)" (onAlert)="setSuccess($event)"></new-guest>
 
 <table [class.table]="true" [class.table-striped]="true" *ngIf="guests?.length > 0">
     <thead>
@@ -21,7 +22,16 @@
                 <div id="surname-{{ guest.id }}" (click)="showAndHide( 'edit-surname', 'surname',  guest.id,  'surname-input' )"> <span class="fa fa-pencil-square-o"></span> {{ guest.surname }} </div>
             </td>
 
-            <td> <button class="btn btn-danger" (click)="onDelete(guest)"> <div id="delete-text-{{guest.id}}"> <span class="fa fa-trash"> Delete </span> </div> <div id="delete-spin-{{guest.id}}" style="display:none;"><span class="fa fa-circle-o-notch fa-spin"></span></div> </button> </td>
+            <td> 
+                <button class="btn btn-danger" (click)="onDelete(guest)"> 
+                    <div id="delete-text-{{guest.id}}"> 
+                        <span class="fa fa-trash"> Delete </span> 
+                    </div> 
+                    <div id="delete-spin-{{guest.id}}" style="display:none;">
+                        <span class="fa fa-circle-o-notch fa-spin"></span>
+                    </div> 
+                </button> 
+            </td>
         </tr>
     </tbody>
 </table>
