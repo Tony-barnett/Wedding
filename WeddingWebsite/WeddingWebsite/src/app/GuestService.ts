@@ -23,6 +23,7 @@ export class GuestService {
     }
 
     addGuest(guest: Guest): Observable<NewGuestObject> {
+        this.tidyUpAge(guest);
         return this.http
             .post("/RSVP/AddGuest", guest)
             .map(response => {
@@ -42,6 +43,7 @@ export class GuestService {
     }
 
     updateGuest(guest: Guest): Observable<boolean> {
+        this.tidyUpAge(guest);
         return this.http
             .put("/RSVP/EditGuest", guest)
             .map(response => response.json() == "Success");
@@ -52,5 +54,8 @@ export class GuestService {
         return body || {};
     }
 
-
+    private tidyUpAge(guest: Guest) {
+        guest.isChild = guest.isChild && !guest.isYoungChild && !guest.isBaby;
+        guest.isYoungChild = guest.isYoungChild && !guest.isBaby;
+    }
 }
