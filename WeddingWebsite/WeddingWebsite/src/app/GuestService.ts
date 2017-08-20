@@ -16,9 +16,9 @@ export class NewGuestObject {
 export class GuestService {
     constructor(private http: Http) { }
 
-    getGuests(): Observable<Guest[]> {
+    getGuests(isComing: boolean): Observable<Guest[]> {
         return this.http
-            .get("/RSVP/GetStoredGuests")
+            .get("/RSVP/GetStoredGuests?isComing=" + isComing)
             .map(this.extract);
     }
 

@@ -8,21 +8,38 @@ import { HttpModule } from "@angular/http";
 import { GuestService } from "app/GuestService";
 import { NewGuestComponent } from "app/app.makeGuestComponent";
 import { AlertMessageComponent } from "app/app.alert";
+import { ChooseGuestsComponent } from "app/app.rsvpChoiceComponent";
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Routes, RouterModule } from "@angular/router";
+import { CannotComeComponent } from "app/app.cannotComeComponent";
+
+
+const appRoutes: Routes = [
+    {
+        path:'canCome',
+        component:AddedGuestsComponent
+    },
+    {
+        path: 'cannotCome',
+        component: CannotComeComponent
+        }];
 
 @NgModule({
     imports: [
         BrowserModule,
         HttpModule,
         FormsModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        RouterModule.forRoot(appRoutes)
     ],
     declarations: [
         AlertMessageComponent,
         AppComponent,
         AddedGuestsComponent,
-        NewGuestComponent
+        NewGuestComponent,
+        ChooseGuestsComponent,
+        CannotComeComponent
     ],
     providers: [
         AlertMessageComponent,

@@ -11,13 +11,12 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import { AlertMessageComponent } from "app/app.alert";
 
 @Component({
-    selector: 'added-guests',
-    templateUrl: 'app.addedGuestComponent.html'
+    selector: 'cannot-come',
+    templateUrl: 'app.cannotComeComponent.html'
 })
-export class AddedGuestsComponent {
+export class CannotComeComponent {
     constructor(
-        private guestService: GuestService//,
-        //private alertMessage: AlertMessageComponent
+        private guestService: GuestService
     ){}
     @ViewChild('alertMessage') alertMessage;
     child: string = "isChild";
@@ -25,12 +24,7 @@ export class AddedGuestsComponent {
     baby: string = "isBaby";
 
     guests: Array<Guest>;
-
-    private firstNameChanged = new Subject<Guest>();
-    private surnameChanged = new Subject<Guest>();
-    private allergiesChanged = new Subject<Guest>();
-
-
+    
     private setupEdit(hasChanged: Subject<Guest>): void {
         hasChanged
             .debounceTime(500)
@@ -55,66 +49,18 @@ export class AddedGuestsComponent {
 
     ngOnInit(): void {
         this.guestService
-            .getGuests(true)
+            .getGuests(false)
             .subscribe(
                 guest => this.guests = guest,
                 error => console.log('bar', error)
             );
-        this.setupEdit(this.firstNameChanged);
-        this.setupEdit(this.surnameChanged);
-        this.setupEdit(this.allergiesChanged);
+
     };
     
     updateField(guest: Guest, field: string, hasChanged: Subject<Guest>, value: string): void {
         guest[field] = value.trim();
         hasChanged.next(guest);
         this.alertMessage.success(guest.firstName + " " + guest.surname + " was successfully updated.");
-    };
-
-    updateFirstName(guest: Guest, value: string): void {
-        if (value != null && !value.match(/^ *$/)) {
-            this.updateField(guest, "firstName", this.firstNameChanged, value);
-        }
-    };
-
-    updateSurname(guest: Guest, value: string): void {
-        if (value != null && !value.match(/^ *$/)) {
-            this.updateField(guest, "surname", this.surnameChanged, value);
-        }
-    };
-
-    updateAllergies(guest: Guest, value: string): void {
-        this.updateField(guest, "allergies", this.allergiesChanged, value);
-    };
-
-    updateAge(guest: Guest, ageGroup: string): void {
-        switch (ageGroup) {
-            case this.child:
-                guest.isChild = !guest.isChild;
-                guest.isYoungChild = false;
-                guest.isBaby = false;
-                break;
-            case this.youngChild:
-                guest.isChild = false;
-                guest.isYoungChild = !guest.isYoungChild;
-                guest.isBaby = false;
-                break;
-            case this.baby:
-                guest.isChild = false;
-                guest.isYoungChild = false;
-                guest.isBaby = !guest.isBaby;
-                break;
-        }
-
-        this.firstNameChanged.next(guest);
-    }
-
-    showAndHide(showId: string, hideId: string, guestId: AAGUID, focusId: string): void{
-        document.getElementById(hideId + "-" + guestId).style.display = "none";
-        document.getElementById(showId + "-" + guestId).style.display = "block";
-        if (focusId) {
-            document.getElementById(focusId + "-" + guestId).focus();
-        }
     };
 
     onDelete(guest: Guest): void {

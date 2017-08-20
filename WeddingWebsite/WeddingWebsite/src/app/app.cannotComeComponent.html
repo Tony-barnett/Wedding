@@ -1,0 +1,27 @@
+﻿
+<alert-message #alertMessage></alert-message>
+
+
+
+<table [class.table]="true" [class.table-striped]="true" *ngIf="guests?.length > 0">
+    <thead>
+        <tr>
+            <th> Firstname </th>
+            <th> Lastname </th>
+            <th> </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let guest of guests">
+            <td>
+                <div id="first-name-{{ guest.id }}" (click)="showAndHide( 'edit-first-name', 'first-name',  guest.id, 'first-name-input')">{{ guest.firstName }} </div>
+            </td>
+
+            <td>
+                <div id="surname-{{ guest.id }}" (click)="showAndHide( 'edit-surname', 'surname',  guest.id,  'surname-input' )"> <span class="fa fa-pencil-square-o"></span> {{ guest.surname }} </div>
+            </td>
+
+            <td> <button class="btn btn-danger" (click)="onDelete(guest)"> <div id="delete-text-{{guest.id}}"> <span class="fa fa-trash"> Delete </span> </div> <div id="delete-spin-{{guest.id}}" style="display:none;"><span class="fa fa-circle-o-notch fa-spin"></span></div> </button> </td>
+        </tr>
+    </tbody>
+</table>

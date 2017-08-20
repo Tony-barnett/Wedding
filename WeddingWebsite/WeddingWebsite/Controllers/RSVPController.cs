@@ -42,7 +42,7 @@ namespace WeddingWebsite.Controllers
             return View();
         }
 
-        public async Task<JsonResult> GetStoredGuests()
+        public async Task<JsonResult> GetStoredGuests(bool? isComing = null)
         {
             var guests = new List<GuestViewModel>();
 
@@ -50,7 +50,12 @@ namespace WeddingWebsite.Controllers
             if (User.Claims.Any(x => x.Type == "GuestId"))
             {
                 Guid.TryParse(User.Claims.Single(x => x.Type == "GuestId").Value, out Guid id);
-                guests = _GuestManager.GetGuestsStoredBy(id).ToList();
+                var g = _GuestManager.GetGuestsStoredBy(id);
+                if(isComing != null)
+                {
+                    g = g.Where(x => x.IsComing == isComing);
+                }
+                guests = g.ToList();
             }
 
             return Json(guests);
@@ -70,7 +75,7 @@ namespace WeddingWebsite.Controllers
         //    return RedirectToAction("/RSVP");
         //}
 
-        private struct NewGuestRespnse
+        private struct NewGuestResponse
         {
             public string Result { get; set; }
             public Guid GuestId { get; set; }
@@ -95,7 +100,7 @@ namespace WeddingWebsite.Controllers
                 return Json("Fail");
             }
             return Json(
-                new NewGuestRespnse {
+                new NewGuestResponse {
                     Result = "Success",
                     GuestId = guest.Id.Value
                 });
@@ -150,17 +155,17 @@ namespace WeddingWebsite.Controllers
         //GET: Index
         public ActionResult Index()
         {
-            if (Request.Cookies.Any(x => string.Compare("isComing", x.Key, true) == 0))
-            {
-                var value = Request.Cookies["isComing"];
-                value = value.Substring(0, value.IndexOf(','));
-                switch (value.ToLower()){
-                    case "true":
-                        return RedirectToAction("RSVP");
-                    case "false":
-                        return RedirectToAction("CannotCome");
-                }
-            }
+            //if (Request.Cookies.Any(x => string.Compare("isComing", x.Key, true) == 0))
+            //{
+            //    var value = Request.Cookies["isComing"];
+            //    value = value.Substring(0, value.IndexOf(','));
+            //    switch (value.ToLower()){
+            //        case "true":
+            //            return RedirectToAction("RSVP");
+            //        case "false":
+            //            return RedirectToAction("CannotCome");
+            //    }
+            //}
             return View();
         }
 
