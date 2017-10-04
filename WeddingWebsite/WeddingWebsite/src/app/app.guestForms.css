@@ -1,0 +1,28 @@
+﻿.form-group {
+    overflow: hidden;
+	max-width: 800px;
+}
+
+form {
+    padding-top: 40px;
+	padding-bottom: 40px;
+}
+
+.age-checkbox{
+    padding-top: 1px;
+    padding-left:6%
+}
+
+.age-checkbox .form-control{
+    height: 15px;
+	width: 15px;
+}
+.age-checkbox div{
+    width:5%
+}
+.age-checkbox label{
+    width:12%;
+}
+input.big-textbox{
+    height: 100px;
+}

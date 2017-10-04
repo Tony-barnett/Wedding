@@ -12,7 +12,8 @@ import { AlertMessageComponent } from "app/app.alert";
 
 @Component({
     selector: 'cannot-come',
-    templateUrl: 'app.cannotComeComponent.html'
+    templateUrl: 'app.cannotComeComponent.html',
+    styleUrls: ['app.guestForms.css']
 })
 export class CannotComeComponent {
     constructor(

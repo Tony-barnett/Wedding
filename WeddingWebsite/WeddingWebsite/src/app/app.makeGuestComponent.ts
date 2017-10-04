@@ -6,7 +6,8 @@ import { AddedGuestsComponent } from "app/app.addedGuestComponent";
 
 @Component({
     selector: 'new-guest',
-    templateUrl: 'app.makeGuestComponent.html'
+    templateUrl: 'app.makeGuestComponent.html',
+    styleUrls: ['app.guestForms.css']
 })
 export class NewGuestComponent {
     constructor(
