@@ -7,5 +7,10 @@ namespace WeddingWebsite.Controllers
 {
     public class ItineraryController : Controller
     {
+        //GET: Index
+        public ActionResult Index()
+        {
+            return View();
+        }
     }
 }
