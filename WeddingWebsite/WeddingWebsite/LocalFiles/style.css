@@ -1,11 +1,26 @@
-﻿body {
-    background-color: #d9f1e8;
+﻿html {
+    height: 100%;
+}
+
+body {
+    background-color: #eff9f5;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+p, div, span {
+    font-size: 16px;
 }
 
 footer {
     bottom: 0;
     height: 20px;
     color: white
+}
+
+.navbar {
+    z-index: 1;
 }
 
 .navbar, footer {
@@ -46,12 +61,11 @@ h2 {
 }
 
 .q-and-a-question {
-    font-size: 18px;
+    font-size: 20px;
     margin-bottom: 5px;
 }
 
 .q-and-a-answer {
-    font-size: 14px;
     margin-left: 25px;
 }
 
