@@ -11,7 +11,21 @@
 
   <PropertyGroup>
     <UserSecretsId>aspnet-WeddingWebsite-4ac7a01e-841f-46e0-a932-796420357898</UserSecretsId>
+    <PreBuildEvent></PreBuildEvent>
+    <PostBuildEvent></PostBuildEvent>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="LocalFiles\QAndAFilter.js" />
+    <None Remove="LocalFiles\style.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\css\RSVP.css" />
+    <Content Include="wwwroot\css\style.css" />
+    <Content Include="wwwroot\LocalJS\QAndAFilter.js" />
+    <Content Include="wwwroot\RSVP.css" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
@@ -37,8 +51,18 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="LocalFiles\QAndAFilter.js" />
+    <EmbeddedResource Include="LocalFiles\style.css" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Views\Itinerary\" />
     <Folder Include="Views\QAndA\" />
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Local files\QAndAFilter.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
