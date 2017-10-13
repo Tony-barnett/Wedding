@@ -3,7 +3,7 @@
 }
 
 body {
-    background-color: #eff9f5;
+    background-color: #f7f7f7;
     min-height: 100%;
     display: flex;
     flex-direction: column;
@@ -24,9 +24,17 @@ footer {
 }
 
 .navbar, footer {
-    background-color: #0E32A3;
+    background-color: #4487e9;
     position: fixed;
     width: 100%;
+}
+
+.navbar-inverse .navbar-nav > li > a,
+.navbar-inverse .navbar-brand {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    margin-left: 25px;
 }
 
 .white-background {
@@ -36,6 +44,13 @@ footer {
 
 h2 {
     text-align: center;
+    margin-top: 50px;
+}
+
+h2, h3, h4, h5, h6,
+.uk-card-default .uk-card-title {
+    color: #767676;
+    font-weight: bold;
 }
 
 .white-background p,
@@ -69,6 +84,10 @@ h2 {
     margin-left: 25px;
 }
 
+.uk-search-default {
+    width: auto;
+}
+
 .uk-list-striped > li:nth-of-type(even) {
     background: #e5e5e5;
 }
@@ -78,6 +97,7 @@ h2 {
     border-bottom: 1px solid #e5e5e5;
 }
 
-.uk-search-default .uk-search-input {
+.uk-search-default .uk-search-input,
+.uk-search-default .uk-search-input:focus {
     background: #fff;
 }
