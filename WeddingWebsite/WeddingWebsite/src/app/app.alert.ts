@@ -1,6 +1,8 @@
 ﻿import { Component } from "@angular/core";
 import { animate, state, style, transition, trigger } from "@angular/animations";
 
+import UIkit from 'uikit'
+
 @Component({
     selector: "alert-message",
     templateUrl: "app.alert.html",
@@ -25,20 +27,20 @@ export class AlertMessageComponent {
     }
 
     showMessage(type, message): void {
-        var alert = new Alert ()
-        alert.type = type;
-        alert.message = message
-        this.alerts.push(alert);
-        // wait for 10 seconds, then get rid of it.
-        setTimeout(() => { this.alerts.splice(this.alerts.indexOf(alert), 1); }, 10000);
+        UIkit.notification({
+            message: message,
+            status: type,
+            pos: 'top-center',
+            timeout: 10000
+        });
 
     }
     error(message: string): void {
-        this.showMessage("alert-danger", message);
+        this.showMessage("danger", message);
     }
 
     success(message: string): void {
-        this.showMessage("alert-success", message);
+        this.showMessage("success", message);
     }
 }
 
