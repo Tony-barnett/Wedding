@@ -1,51 +1,65 @@
 ﻿<div class="container">
-    <form #guestForm="ngForm">
+    <form #guestForm="ngForm" class="uk-form-horizontal">
 
-        <div  class="form-group">
-            <label class="col-md-2" for="first-name">First name </label>
-            <div class="col-md-10">
-                <input class="form-control" [(ngModel)]="guest.firstName" name="first-name" placeholder="First Name" required />
-            </div>
+        <div  class="uk-margin">
+            <label class="uk-form-label" for="first-name">First name </label>
+                <input class="uk-input uk-width-1-2" [(ngModel)]="guest.firstName" name="first-name" placeholder="First Name" required />
         </div>
 
-        <div class="form-group">
-            <label class="col-md-2" for="surname">Surname </label>
-            <div class="col-md-10">
-                <input class="form-control" [(ngModel)]="guest.surname" name="surname" placeholder="Surame" required />
-            </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="surname">Surname </label>
+                <input class="uk-input uk-width-1-2" [(ngModel)]="guest.surname" name="surname" placeholder="Surame" required />
         </div>
 
-        <div class="form-group" [class.hidden]="justName">
-            <label class="col-md-2" for="allergies">Dietary Requirements </label>
-            <div class="col-md-10">
-                <input class="big-textbox form-control" [(ngModel)]="guest.allergies" name="allergies" placeholder="Any dietary requirements" />
+        <div class="uk-margin" [class.hidden]="justName">
+            <label class="uk-form-label" for="allergies">Dietary Requirements </label>
+            <textarea class="uk-textarea uk-width-1-2" rows="5" [(ngModel)]="guest.allergies" name="allergies" placeholder="Any dietary requirements"></textarea>
+        </div>
+
+        <div class="uk-margin" [class.hidden]="justName">
+            <div class="uk-form-controls uk-form-controls-text">
+                <label>
+                    <input class="uk-checkbox" type="checkbox" name="child" [(ngModel)]="guest.isChild" />
+                    18 or under?
+                </label>
+                <br />
+                <label>
+                    <input class="uk-checkbox" type="checkbox" name="youngChild" [(ngModel)]="guest.isYoungChild" />
+                    12 or under?
+                </label>
+                <br />
+                <label>
+                    <input class="uk-checkbox" type="checkbox" name="baby" [(ngModel)]="guest.isBaby" />
+                    3 or under?
+                </label>
             </div>
         </div>
         
-        <div class="form-group age-checkbox" [class.hidden]="justName">
-            <label class="col-md-2">18 or under</label>
-            <div class="col-md-10">
-                <input class="form-control" type="checkbox" name="child" [(ngModel)]="guest.isChild" />
-            </div>
+        <!--<div class="uk-margin" [class.hidden]="justName">
+            <label class="uk-form-label" for="child">
+                <input class="uk-checkbox" type="checkbox" name="child" [(ngModel)]="guest.isChild" />
+                18 or under
+            </label>
         </div>
         
-        <div class="form-group age-checkbox" [class.hidden]="justName">
-            <label class="col-md-2">12 or under</label>
-            <div class="col-md-10">
-                <input class="form-control" type="checkbox" name="youngChild" [(ngModel)]="guest.isYoungChild" />
+        <div class="uk-margin" [class.hidden]="justName">
+            <span class="uk-form-label">12 or under</span>
+            <div class="uk-form-controls uk-form-controls-text">
+                <label>
+                    <input class="uk-checkbox" type="checkbox" name="youngChild" [(ngModel)]="guest.isYoungChild" />
 
-            </div>
+                </label>
+                </div>
         </div>
         
-        <div class="form-group age-checkbox" [class.hidden]="justName">
-            <label class="col-md-2">3 or under</label>
-            <div class="col-md-10">
-                <input class="form-control" type="checkbox" name="baby" [(ngModel)]="guest.isBaby" />
+        <div class="uk-margin" [class.hidden]="justName">
+            <label class="uk-form-label" for="baby">
+                <input class="uk-checkbox" type="checkbox" name="baby" [(ngModel)]="guest.isBaby" />
+                3 or under
+            </label>
+        </div>-->
 
-            </div>
-        </div>
-
-        <button type="submit" (click)="onSubmit()" class="btn btn-success" [disabled]="!guestForm.form.valid">
+        <button type="submit" (click)="onSubmit()" class="uk-button uk-button-primary" [disabled]="!guestForm.form.valid">
             <span id="submit-text">Submit</span>
             <span class="fa fa-circle-o-notch fa-spin" id="spinny-span" style="display:none;"></span>
         </button>
