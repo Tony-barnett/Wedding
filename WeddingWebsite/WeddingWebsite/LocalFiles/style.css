@@ -88,16 +88,30 @@ h2, h3, h4, h5, h6,
     width: auto;
 }
 
+    .uk-search-default .uk-search-input,
+    .uk-search-default .uk-search-input:focus {
+        background: #fff;
+    }
+
+.uk-button {
+    text-transform: none;
+}
+
+    .uk-button.uk-button-primary {
+        background-color: #5cb85c;
+        color: #fff;
+    }
+
 .uk-list-striped > li:nth-of-type(even) {
-    background: #e5e5e5;
+    background: #989898;
+    color: #ffffff;
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
 }
 
-.uk-list-striped > li:nth-of-type(odd) {
-    border-top: 1px solid #e5e5e5;
-    border-bottom: 1px solid #e5e5e5;
-}
-
-.uk-search-default .uk-search-input,
-.uk-search-default .uk-search-input:focus {
-    background: #fff;
+.uk-button[disabled] {
+    cursor: no-drop;
+    background-color: transparent;
+    color: #999;
+    border-color: #e5e5e5;
 }
