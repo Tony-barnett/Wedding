@@ -40,7 +40,7 @@ export class AlertMessageComponent {
     }
 
     success(message: string): void {
-        this.showMessage("success", message);
+        this.showMessage("success", "<span class='fa fa-check'> </span>" + message);
     }
 }
 
