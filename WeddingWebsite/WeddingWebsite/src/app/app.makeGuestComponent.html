@@ -35,33 +35,9 @@
             </div>
         </div>
         
-        <!--<div class="uk-margin" [class.hidden]="justName">
-            <label class="uk-form-label" for="child">
-                <input class="uk-checkbox" type="checkbox" name="child" [(ngModel)]="guest.isChild" />
-                18 or under
-            </label>
-        </div>
-        
-        <div class="uk-margin" [class.hidden]="justName">
-            <span class="uk-form-label">12 or under</span>
-            <div class="uk-form-controls uk-form-controls-text">
-                <label>
-                    <input class="uk-checkbox" type="checkbox" name="youngChild" [(ngModel)]="guest.isYoungChild" />
-
-                </label>
-                </div>
-        </div>
-        
-        <div class="uk-margin" [class.hidden]="justName">
-            <label class="uk-form-label" for="baby">
-                <input class="uk-checkbox" type="checkbox" name="baby" [(ngModel)]="guest.isBaby" />
-                3 or under
-            </label>
-        </div>-->
-
         <button type="submit" (click)="onSubmit()" class="uk-button uk-button-primary" [disabled]="!guestForm.form.valid">
             <span id="submit-text">Submit</span>
-            <span class="fa fa-circle-o-notch fa-spin" id="spinny-span" style="display:none;"></span>
+            <span class="fa fa-circle-o-notch fa-spin" id="spinny-span" style="display:none;padding:10px;"></span>
         </button>
     </form>
 </div>
