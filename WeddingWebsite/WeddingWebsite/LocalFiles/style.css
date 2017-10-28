@@ -13,6 +13,10 @@ p, div, span {
     font-size: 16px;
 }
 
+    span.fa {
+        margin-left: 5px;
+    }
+
 footer {
     bottom: 0;
     color: white
@@ -26,6 +30,8 @@ footer {
     background-color: #4487e9;
     position: fixed;
     width: 100%;
+    border-style: none;
+    border-radius: 0;
 }
 
 .navbar-inverse .navbar-nav > li > a,
@@ -40,6 +46,10 @@ footer {
     background-color: white;
     opacity: 0.9;
 }
+
+    .white-background > * {
+        padding: 0 20px 0 20px;
+    }
 
 h2 {
     text-align: center;
@@ -108,6 +118,10 @@ h2, h3, h4, h5, h6,
     border-top: 1px solid #ffffff;
     border-bottom: 1px solid #ffffff;
 }
+
+    .uk-list-striped > li:nth-of-type(even) a {
+        color: #0066ce;
+    }
 
 .uk-button[disabled] {
     cursor: no-drop;
