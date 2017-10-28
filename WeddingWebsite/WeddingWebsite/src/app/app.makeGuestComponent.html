@@ -3,17 +3,17 @@
 
         <div  class="uk-margin">
             <label class="uk-form-label" for="first-name">First name </label>
-                <input class="uk-input uk-width-1-2" [(ngModel)]="guest.firstName" name="first-name" placeholder="First Name" required />
+                <input class="uk-input uk-width-2-3@s uk-width-1-2@l" [(ngModel)]="guest.firstName" name="first-name" placeholder="First Name" required />
         </div>
 
         <div class="uk-margin">
             <label class="uk-form-label" for="surname">Surname </label>
-                <input class="uk-input uk-width-1-2" [(ngModel)]="guest.surname" name="surname" placeholder="Surame" required />
+                <input class="uk-input uk-width-2-3@s uk-width-1-2@l" [(ngModel)]="guest.surname" name="surname" placeholder="Surame" required />
         </div>
 
         <div class="uk-margin" [class.hidden]="justName">
             <label class="uk-form-label" for="allergies">Dietary Requirements </label>
-            <textarea class="uk-textarea uk-width-1-2" rows="5" [(ngModel)]="guest.allergies" name="allergies" placeholder="Any dietary requirements"></textarea>
+            <textarea class="uk-textarea uk-width-2-3@s uk-width-1-2@l" rows="5" [(ngModel)]="guest.allergies" name="allergies" placeholder="Any dietary requirements"></textarea>
         </div>
 
         <div class="uk-margin" [class.hidden]="justName">
