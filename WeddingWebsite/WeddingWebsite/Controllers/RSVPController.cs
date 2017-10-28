@@ -87,7 +87,7 @@ namespace WeddingWebsite.Controllers
         {
             try
             {
-                Enum.TryParse(User.Claims.Single(x => x.Type == "GuestType").Value, out GuestType guestType);
+                var guestType = GuestHelpers.GetGuestType(User);
                 Guid.TryParse(User.Claims.Single(x => x.Type == "GuestId").Value, out Guid id);
 
                 guest.AddedBy = id;
@@ -126,7 +126,7 @@ namespace WeddingWebsite.Controllers
         {
             try
             {
-                Enum.TryParse(User.Claims.Single(x => x.Type == "GuestType").Value, out GuestType guestType);
+                var guestType = GuestHelpers.GetGuestType(User);
                 Guid.TryParse(User.Claims.Single(x => x.Type == "GuestId").Value, out Guid id);
 
                 guest.AddedBy = id;
